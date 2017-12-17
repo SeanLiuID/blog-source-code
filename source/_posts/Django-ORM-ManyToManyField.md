@@ -5,7 +5,13 @@ categories:
 - Django
 - ORM
 tags:
+- Django
+- ORM
 ---
+
+ManyToManyField是一种多对多关系,默认在数据库中生成关系表,也可以指定一个表作为关系表
+
+<!--- more -->
 
 ## 创建models
 ``` python

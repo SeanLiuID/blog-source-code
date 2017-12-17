@@ -4,7 +4,15 @@ date: 2017-12-14 22:17:31
 categories:
 - Hexo
 tags:
+- Hexo
+- Github
+- Blog
 ---
+
+搭建博客后的首篇文章自然是要总结一下搭建流程啦!后续还会记录优化博客的相关事宜
+
+<!--- more -->
+
 [Hexo中文文档](https://hexo.io/zh-cn/docs/)
 
 ## Install Hexo
