@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Django,Model,Field," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="所有字段都可以通过选项进行约束和控制models.py1234567891011class Content(models.Model):    title = models.CharField(_(&apos;Title&apos;), max_length=500)    description = models.TextField(_(&apos;Description&apos;), blank=True)    created_">
+<meta name="keywords" content="Django,Model,Field">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django-Model-Field-Options">
+<meta property="og:url" content="http://yoursite.com/2018/01/02/Django-Model-Field-Options/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="所有字段都可以通过选项进行约束和控制models.py1234567891011class Content(models.Model):    title = models.CharField(_(&apos;Title&apos;), max_length=500)    description = models.TextField(_(&apos;Description&apos;), blank=True)    created_">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-02T08:49:18.306Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django-Model-Field-Options">
+<meta name="twitter:description" content="所有字段都可以通过选项进行约束和控制models.py1234567891011class Content(models.Model):    title = models.CharField(_(&apos;Title&apos;), max_length=500)    description = models.TextField(_(&apos;Description&apos;), blank=True)    created_">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/02/Django-Model-Field-Options/"/>
+
+
+
+
+
+  <title>Django-Model-Field-Options | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/Django-Model-Field-Options/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Django-Model-Field-Options</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T15:44:26+08:00">
+                2018-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/" itemprop="url" rel="index">
+                    <span itemprop="name">Django</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
+                    <span itemprop="name">Model</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>所有字段都可以通过选项进行约束和控制<br><figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Content</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    title = models.CharField(_(<span class="string">'Title'</span>), max_length=<span class="number">500</span>)</span><br><span class="line">    description = models.TextField(_(<span class="string">'Description'</span>), blank=<span class="keyword">True</span>)</span><br><span class="line">    created_at = models.DateTimeField(_(<span class="string">'Created At'</span>), null=<span class="keyword">True</span>, editable=<span class="keyword">False</span>, default=timezone.now)</span><br><span class="line">    author = models.ForeignKey(User, verbose_name=_(<span class="string">'Author'</span>), related_name=<span class="string">'posted_articles'</span>, null=<span class="keyword">True</span>)</span><br><span class="line">    source_name = models.CharField(_(<span class="string">'Article Source'</span>), null=<span class="keyword">True</span>, blank=<span class="keyword">True</span>, default=<span class="string">''</span>, max_length=<span class="number">100</span>,</span><br><span class="line">                                   help_text=_(<span class="string">'Input source of the article, e.g. 39health, for App showcasing.'</span>))</span><br><span class="line">    review_status = models.IntegerField(_(<span class="string">'Review Status'</span>),</span><br><span class="line">                                        choices=REVIEW_STATUS_CHOICES, default=REVIEW_STATUS.NOT_YET)</span><br><span class="line">    reviewer = models.ForeignKey(User, verbose_name=_(<span class="string">'Reviewer'</span>), related_name=<span class="string">'reviewed_articles'</span>, null=<span class="keyword">True</span>)</span><br><span class="line">    reviewed_at = models.DateTimeField(_(<span class="string">'Reviewed At'</span>), null=<span class="keyword">True</span>, editable=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h2 id="null"><a href="#null" class="headerlink" title="null"></a>null</h2><p>默认为False，如果为True，则允许将数据库中字段存储为NULL。<br>尤其是当CharField同时具有unique=True和blank=True时，设置null=True可以避免唯一约束。</p>
+<h2 id="blank"><a href="#blank" class="headerlink" title="blank"></a>blank</h2><p>默认为Flase，如果为True，则允许为空白</p>
+<h2 id="choices"><a href="#choices" class="headerlink" title="choices"></a>choices</h2><p>定义字段的可选值，一般使用二维元组或数组，第一个元素是值，第二个元素是显示的描述<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">YEAR_IN_SCHOOL_CHOICES = (</span><br><span class="line">    (<span class="string">'FR'</span>, <span class="string">'Freshman'</span>),</span><br><span class="line">    (<span class="string">'SO'</span>, <span class="string">'Sophomore'</span>),</span><br><span class="line">    (<span class="string">'JR'</span>, <span class="string">'Junior'</span>),</span><br><span class="line">    (<span class="string">'SR'</span>, <span class="string">'Senior'</span>),</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<h2 id="db-column"><a href="#db-column" class="headerlink" title="db_column"></a>db_column</h2><p>指定字段在数据库中的列名称</p>
+<h2 id="db-index"><a href="#db-index" class="headerlink" title="db_index"></a>db_index</h2><p>如果为True，为该字段创建一个数据库索引</p>
+<h2 id="db-tablespace"><a href="#db-tablespace" class="headerlink" title="db_tablespace"></a>db_tablespace</h2><p>如果该字段有索引的话，数据库database tablespace的名称将作为该字段的索引名。 如果DEFAULT_INDEX_TABLESPACE 已经设置，则默认值是由DEFAULT_INDEX_TABLESPACE指定, 如果没有设置则由 db_tablespace 指定。</p>
+<h2 id="default"><a href="#default" class="headerlink" title="default"></a>default</h2><p>该字段的默认值，可以是一个值，也可以是一个可调用对象<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">contact_default</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">"email"</span>: <span class="string">"to1@example.com"</span>&#125;</span><br><span class="line"></span><br><span class="line">contact_info = JSONField(<span class="string">"ContactInfo"</span>, default=contact_default)</span><br></pre></td></tr></table></figure></p>
+<h2 id="editable"><a href="#editable" class="headerlink" title="editable"></a>editable</h2><p>默认为True，如果设为False，则这个字段不会出现在admin或者替他ModelForm中</p>
+<h2 id="error-messages"><a href="#error-messages" class="headerlink" title="error_messages"></a>error_messages</h2><p>可以重写抛出的默认错误信息，通过如下key值匹配要重写的错误信息：<br>unique,unique_for_date,invalid,blank,null,invalid_choice</p>
+<h2 id="help-text"><a href="#help-text" class="headerlink" title="help_text"></a>help_text</h2><p>在表单控件form中显示帮助文案，可以写html语句</p>
+<h2 id="primary-key"><a href="#primary-key" class="headerlink" title="primary_key"></a>primary_key</h2><ul>
+<li>默认为False，如果设为True，则该字段成为模型的主键字段；</li>
+<li>如果没有指定任何字段的primary_kwy，Django会自动添加一个AutoField字段来充当主键；</li>
+<li>primary_key=True暗含着null=False和unique=True</li>
+<li>主键字段是只读的，如果改变一个对象的主键，则会创建一个新对象，不会覆盖旧对象；</li>
+</ul>
+<h2 id="unique"><a href="#unique" class="headerlink" title="unique"></a>unique</h2><ul>
+<li>如果设为True，这个字段在表中必须是唯一值</li>
+<li>此选项对除ManyToManyField和OneToOneField之外的所有字段都有效；</li>
+<li>当unique=True时，该字段自动生成索引；</li>
+</ul>
+<h2 id="unique-for-date，unique-for-month，unique-for-yesr"><a href="#unique-for-date，unique-for-month，unique-for-yesr" class="headerlink" title="unique_for_date，unique_for_month，unique_for_yesr"></a>unique_for_date，unique_for_month，unique_for_yesr</h2><p>类似联合约束，要求该字段值相同的情况下，时间（月份，年）必须不同</p>
+<h2 id="verbose-name"><a href="#verbose-name" class="headerlink" title="verbose_name"></a>verbose_name</h2><p>该字段的自述名，默认将下划线转换为空格自动创建</p>
+<h2 id="validators"><a href="#validators" class="headerlink" title="validators"></a>validators</h2><p>该字段将要运行的一个Validator的列表</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Django/" rel="tag"># Django</a>
+          
+            <a href="/tags/Model/" rel="tag"># Model</a>
+          
+            <a href="/tags/Field/" rel="tag"># Field</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/" rel="next" title="Notes《系统架构设计师-希赛》（一）计算机组成与体系结构">
+                <i class="fa fa-chevron-left"></i> Notes《系统架构设计师-希赛》（一）计算机组成与体系结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/02/Django-Model-Field-Types/" rel="prev" title="Django-Model-Field-Types">
+                Django-Model-Field-Types <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#null"><span class="nav-number">1.</span> <span class="nav-text"><a href="#null" class="headerlink" title="null"></a>null</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#blank"><span class="nav-number">2.</span> <span class="nav-text"><a href="#blank" class="headerlink" title="blank"></a>blank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#choices"><span class="nav-number">3.</span> <span class="nav-text"><a href="#choices" class="headerlink" title="choices"></a>choices</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#db-column"><span class="nav-number">4.</span> <span class="nav-text"><a href="#db-column" class="headerlink" title="db_column"></a>db_column</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#db-index"><span class="nav-number">5.</span> <span class="nav-text"><a href="#db-index" class="headerlink" title="db_index"></a>db_index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#db-tablespace"><span class="nav-number">6.</span> <span class="nav-text"><a href="#db-tablespace" class="headerlink" title="db_tablespace"></a>db_tablespace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#default"><span class="nav-number">7.</span> <span class="nav-text"><a href="#default" class="headerlink" title="default"></a>default</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#editable"><span class="nav-number">8.</span> <span class="nav-text"><a href="#editable" class="headerlink" title="editable"></a>editable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#error-messages"><span class="nav-number">9.</span> <span class="nav-text"><a href="#error-messages" class="headerlink" title="error_messages"></a>error_messages</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#help-text"><span class="nav-number">10.</span> <span class="nav-text"><a href="#help-text" class="headerlink" title="help_text"></a>help_text</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#primary-key"><span class="nav-number">11.</span> <span class="nav-text"><a href="#primary-key" class="headerlink" title="primary_key"></a>primary_key</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique"><span class="nav-number">12.</span> <span class="nav-text"><a href="#unique" class="headerlink" title="unique"></a>unique</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-for-date，unique-for-month，unique-for-yesr"><span class="nav-number">13.</span> <span class="nav-text"><a href="#unique-for-date&#xFF0C;unique-for-month&#xFF0C;unique-for-yesr" class="headerlink" title="unique_for_date&#xFF0C;unique_for_month&#xFF0C;unique_for_yesr"></a>unique_for_date&#xFF0C;unique_for_month&#xFF0C;unique_for_yesr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#verbose-name"><span class="nav-number">14.</span> <span class="nav-text"><a href="#verbose-name" class="headerlink" title="verbose_name"></a>verbose_name</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#validators"><span class="nav-number">15.</span> <span class="nav-text"><a href="#validators" class="headerlink" title="validators"></a>validators</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

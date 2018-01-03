@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Notes,架构," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第一章 计算机组成与体系结构1.1 计算机系统组成计算机系统是一个硬件和软件的综合体。 1.1.1 计算机硬件的组成以运算器为中心 -&amp;gt; 以存储器为中心  控制器：分析和执行指令 程序计数器PC：存储下一条执行指令的地址 指令寄存器IR：存储即将执行的指令 指令译码器ID：对指令中的操作码字段进行分析解释 时序部件：提供时序控制信号   运算器： 算术逻辑单元ALU：数据的算术运算和逻辑运算">
+<meta name="keywords" content="Notes,架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Notes《系统架构设计师-希赛》（一）计算机组成与体系结构">
+<meta property="og:url" content="http://yoursite.com/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="第一章 计算机组成与体系结构1.1 计算机系统组成计算机系统是一个硬件和软件的综合体。 1.1.1 计算机硬件的组成以运算器为中心 -&amp;gt; 以存储器为中心  控制器：分析和执行指令 程序计数器PC：存储下一条执行指令的地址 指令寄存器IR：存储即将执行的指令 指令译码器ID：对指令中的操作码字段进行分析解释 时序部件：提供时序控制信号   运算器： 算术逻辑单元ALU：数据的算术运算和逻辑运算">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-02T07:40:07.089Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Notes《系统架构设计师-希赛》（一）计算机组成与体系结构">
+<meta name="twitter:description" content="第一章 计算机组成与体系结构1.1 计算机系统组成计算机系统是一个硬件和软件的综合体。 1.1.1 计算机硬件的组成以运算器为中心 -&amp;gt; 以存储器为中心  控制器：分析和执行指令 程序计数器PC：存储下一条执行指令的地址 指令寄存器IR：存储即将执行的指令 指令译码器ID：对指令中的操作码字段进行分析解释 时序部件：提供时序控制信号   运算器： 算术逻辑单元ALU：数据的算术运算和逻辑运算">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/"/>
+
+
+
+
+
+  <title>Notes《系统架构设计师-希赛》（一）计算机组成与体系结构 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Notes《系统架构设计师-希赛》（一）计算机组成与体系结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-01T18:02:34+08:00">
+                2018-01-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/《系统架构设计师》（希赛）/" itemprop="url" rel="index">
+                    <span itemprop="name">《系统架构设计师》（希赛）</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="第一章-计算机组成与体系结构"><a href="#第一章-计算机组成与体系结构" class="headerlink" title="第一章 计算机组成与体系结构"></a>第一章 计算机组成与体系结构</h1><h2 id="1-1-计算机系统组成"><a href="#1-1-计算机系统组成" class="headerlink" title="1.1 计算机系统组成"></a>1.1 计算机系统组成</h2><p>计算机系统是一个硬件和软件的综合体。</p>
+<h3 id="1-1-1-计算机硬件的组成"><a href="#1-1-1-计算机硬件的组成" class="headerlink" title="1.1.1 计算机硬件的组成"></a>1.1.1 计算机硬件的组成</h3><p>以运算器为中心 -&gt; 以存储器为中心</p>
+<ol>
+<li>控制器：分析和执行指令<ul>
+<li>程序计数器PC：存储下一条执行指令的地址</li>
+<li>指令寄存器IR：存储即将执行的指令</li>
+<li>指令译码器ID：对指令中的操作码字段进行分析解释</li>
+<li>时序部件：提供时序控制信号</li>
+</ul>
+</li>
+<li>运算器：<ul>
+<li>算术逻辑单元ALU：数据的算术运算和逻辑运算</li>
+<li>累加寄存器AC：通用寄存器，为ALU提供一个工作区暂存数据</li>
+<li>数据缓冲寄存器DR：写内存时，暂存指令或数据</li>
+<li>状态条件寄存器PSW：存状态标志和控制标志</li>
+</ul>
+</li>
+<li>主存储器（内存）：存储现场操作的信息与中间结果</li>
+<li>辅助存储器（外存）</li>
+<li>输入设备</li>
+<li>输出设备</li>
+</ol>
+<a id="more"></a>
+<h3 id="1-1-2-计算机系统结构的分类"><a href="#1-1-2-计算机系统结构的分类" class="headerlink" title="1.1.2 计算机系统结构的分类"></a>1.1.2 计算机系统结构的分类</h3><p>电子管 -&gt; 晶体管 -&gt; 集成电路时代<br><strong>存储程序</strong>：计算机应由运算器、存储器、控制器、输入设备和输出设备五大部件组成、内部采用二进制来表示指令和数据；将编号的程序和袁术数据实现存入存储器中，然后启动计算机工作。<br>Flynn按<strong>指令流</strong>（机器执行的指令序列）和<strong>数据流</strong>（有指令流调用的数据序列，包括输入数据和中间结果，但不包括输出）进行分类：</p>
+<ul>
+<li>单指令流单数据流SISD：单处理器计算机</li>
+<li>单指令流多数据流SIMD：矩阵处理器</li>
+<li>多指令流单数据流MISD：很少见</li>
+<li>多指令流多数据流MIMD：多核处理器，多处理器</li>
+</ul>
+<h3 id="1-1-3-复杂指令集系统和精简指令集系统"><a href="#1-1-3-复杂指令集系统和精简指令集系统" class="headerlink" title="1.1.3 复杂指令集系统和精简指令集系统"></a>1.1.3 复杂指令集系统和精简指令集系统</h3><table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left">复杂指令集系统CISC</th>
+<th style="text-align:left">精简指令集系统RISC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">指令数量</td>
+<td style="text-align:left">多，100-250种</td>
+<td style="text-align:left">少，只有两条指令用户存储器，其余都在CPU的寄存器之间进行</td>
+</tr>
+<tr>
+<td style="text-align:left">寻址方式</td>
+<td style="text-align:left">多，5-20种</td>
+<td style="text-align:left">通常只支持寄存器寻址方式，立即数寻址方式和相对寻址方式</td>
+</tr>
+<tr>
+<td style="text-align:left">指令长度</td>
+<td style="text-align:left">变长、增加指令译码电路的复杂性</td>
+<td style="text-align:left">固定，格式少，相对简单，译码容易</td>
+</tr>
+<tr>
+<td style="text-align:left">直接处理主存数据</td>
+<td style="text-align:left">可以，执行慢</td>
+<td style="text-align:left">无，只有LOAD和STORE两条指令存取数据</td>
+</tr>
+<tr>
+<td style="text-align:left">控制方式</td>
+<td style="text-align:left">微程序</td>
+<td style="text-align:left">硬布线逻辑（组合逻辑）</td>
+</tr>
+<tr>
+<td style="text-align:left">其他</td>
+<td style="text-align:left">指令使用频率差异大</td>
+<td style="text-align:left">几乎单周期执行、编译器易于优化、通用寄存器数量多，使用Cache方案</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-1-4-总线"><a href="#1-1-4-总线" class="headerlink" title="1.1.4 总线"></a>1.1.4 总线</h3><p>总线是一组能为多个部件分时共享的公共信息传送线路。</p>
+<ul>
+<li>共享：总线上可以挂接多个部件；</li>
+<li>分时：同一时刻只允许一个部向总线发送信息，可以多个部件接收相同的信息；<br>按位置分类：</li>
+<li>内部总线：寄存器、ALU、控制部件之间</li>
+<li>CPU和存储、输入、输出设备<br>按功能分类：地址总线、数据总线、控制总线</li>
+</ul>
+<h2 id="1-2-存储器系统"><a href="#1-2-存储器系统" class="headerlink" title="1.2 存储器系统"></a>1.2 存储器系统</h2><p>程序局部性：</p>
+<ul>
+<li>时间局部性：某条指令一旦执行，不久后可能再次执行。</li>
+<li>空间局部性：一旦程序访问了某个存储单元，不久后其附近的存储单元也将被访问。<br>存储器中数据常用的存取方式：</li>
+<li>顺序存取：线性顺序，磁带存储器</li>
+<li>直接存取：使用一个共享的读写装置对数据块进行寻址访问，，磁盘存储器</li>
+<li>随机存取：每一个可寻址单元都具有自己唯一的地址和读写装置，主存</li>
+<li>相联存取：也是一种随机存取形式，但读写选择取决于内容而不是地址，Cache</li>
+</ul>
+<h3 id="1-2-1-主存储器"><a href="#1-2-1-主存储器" class="headerlink" title="1.2.1 主存储器"></a>1.2.1 主存储器</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>动态RAM</th>
+<th>静态RAM</th>
+<th>ROM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>存取</td>
+<td>读写</td>
+<td>读写</td>
+<td>只读</td>
+</tr>
+<tr>
+<td>持久性</td>
+<td>随时间逐渐消失，断电消失</td>
+<td>一直保持，断电消失</td>
+<td>不消失</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>较快</td>
+<td>快</td>
+<td>慢</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1-2-2-辅助存储器"><a href="#1-2-2-辅助存储器" class="headerlink" title="1.2.2 辅助存储器"></a>1.2.2 辅助存储器</h3><ol>
+<li>磁带存储器：存取时间长、容量大、便于携带、便宜、用于归档保存；</li>
+<li>磁盘存储器：</li>
+</ol>
+<ul>
+<li>记录面和磁头一一对应；</li>
+<li>所有磁头移动一致；</li>
+<li>每个记录面含多个磁道，最外圈是磁道0，最内圈是磁道n；</li>
+<li>每个记录面有多个扇区，由操作系统决定，编号从1开始；</li>
+<li>所有记录面的同一磁道构成一个圆柱面；</li>
+<li><strong>文件存储位置顺序</strong>：扇区 -&gt; 同磁道扇区 -&gt; 同柱面磁道 -&gt; 相邻柱面</li>
+<li>磁盘访问时间（存取时间） = 寻道时间+旋转延迟时间</li>
+</ul>
+<h3 id="1-2-3-Cache存储器"><a href="#1-2-3-Cache存储器" class="headerlink" title="1.2.3 Cache存储器"></a>1.2.3 Cache存储器</h3><p>Cache的功能是提高CPU数据输入输出的速率，容量小但速度快。<br>Cache通常采用相联存储器CAM ContentAddressable Memory。基于数据内容访问，速度比基于地址要快很多。</p>
+<h4 id="Cache的基本原理"><a href="#Cache的基本原理" class="headerlink" title="Cache的基本原理"></a>Cache的基本原理</h4><p>程序的局限性原理。cache中能找到直接返回，不能找到则从内存中读取，同时返回CPU和Cache。<br>平均存取周期t3 = cache周期t1 <em> cache访问命中率h + 内存周期t2 </em> （1-h）</p>
+<h4 id="映射机制"><a href="#映射机制" class="headerlink" title="映射机制"></a>映射机制</h4><ol>
+<li>直接映像</li>
+</ol>
+<ul>
+<li>主存地址被分成三个部分：区号、页号、页内地址（数据部分）</li>
+<li>内存容量按Cache容量分区，一个区的大小就是Cache容量的大小</li>
+<li>每个区按页面大小再分页，Cache也分页</li>
+<li><strong>每个区的n号页，只能固定存入Cache对应的n号页中</strong>，缺点是不灵活，Cache空间不能得到充分利用</li>
+</ul>
+<ol>
+<li>全相联映像</li>
+</ol>
+<ul>
+<li>主存地址被分成两个部分：页号（地址部分）、页内地址（数据部分）</li>
+<li><strong>主存的每一页可以映射到Cache的任一页中</strong>，需要将主存页标记与Cache各页标记逐个比较。成本太高，只适用于小容量Cache</li>
+</ul>
+<ol>
+<li>组相联映像</li>
+</ol>
+<ul>
+<li>主存地址被分成四个部分：区号、组号、组内页号、页内地址</li>
+<li>每个区和Cache先分组再分页</li>
+<li>折中方案，组之间按直接映像，组内页按全相联映像。<strong>每个组对应固定存入Cache相同的组，但组内的页可以任意映射</strong></li>
+</ul>
+<h4 id="替换算法"><a href="#替换算法" class="headerlink" title="替换算法"></a>替换算法</h4><p>淘汰Cache中的旧数据，存入新数据</p>
+<ol>
+<li>随机算法：随机选一个Cache块替换</li>
+<li>先进先出FIFO：记录时间，最老的Cache块被替换</li>
+<li>近期使用最少LRU：记录使用情况，最不常使用的Cache块被替换</li>
+</ol>
+<h4 id="写操作"><a href="#写操作" class="headerlink" title="写操作"></a>写操作</h4><p>保持Cache和内存的数据同步</p>
+<ol>
+<li>写直达 write through：当要写Cache是，数据同时写会内存。降低存取速度</li>
+<li>写回 write back：修改Cache后，不立即写内存，并设修改标志位。只有Cache要淘汰时，标志位为1的被写入内存</li>
+<li>标记法：设有效标记位，当修改Cache时，标记位置0，并写回内存。读Cache时，若标记位为0，则从内存读取</li>
+</ol>
+<h2 id="1-3-流水线"><a href="#1-3-流水线" class="headerlink" title="1.3 流水线"></a>1.3 流水线</h2><p>流水线技术吧一个任务分解为若干顺序执行的子任务，并行执行，提高效率。</p>
+<h3 id="1-3-1-流水线周期"><a href="#1-3-1-流水线周期" class="headerlink" title="1.3.1 流水线周期"></a>1.3.1 流水线周期</h3><p>最耗时的那一段任务消耗的时间</p>
+<h3 id="1-3-2-计算流水线执行时间"><a href="#1-3-2-计算流水线执行时间" class="headerlink" title="1.3.2 计算流水线执行时间"></a>1.3.2 计算流水线执行时间</h3><p><strong>理论时间</strong> = 第一条指令每个阶段执行的总时间+（n-1）*流水线周期<br><strong>实际时间</strong> = 流水线周期*阶段数 + （n-1）*流水线周期<br>每个阶段消耗的时间统一为流水线周期</p>
+<h3 id="1-3-3-流水线的吞吐率"><a href="#1-3-3-流水线的吞吐率" class="headerlink" title="1.3.3 流水线的吞吐率"></a>1.3.3 流水线的吞吐率</h3><p>$TP=\frac{n}{T_k}$</p>
+<span>$TP_{max}=\lim_{n\to\infty}\frac{n}{(k+n-1)\Delta t}=\frac{1}{\Delta t}$</span><!-- Has MathJax -->
+<p>$\Delta t$是流水线周期</p>
+<h3 id="1-3-4-流水线的加速比"><a href="#1-3-4-流水线的加速比" class="headerlink" title="1.3.4 流水线的加速比"></a>1.3.4 流水线的加速比</h3><p>$S = \frac{不使用流水线顺序执行的时间T_O}{使用流水线的执行时间T_k}$</p>
+<p>$S=\frac{nk\Delta t}{(k+n-1)\Delta t}=\frac{nk}{k+n-1}$</p>
+<span>$S_{max}=\lim_{n\to\infty}\frac{nk}{k+n-1}=k$</span><!-- Has MathJax -->
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Notes/" rel="tag"># Notes</a>
+          
+            <a href="/tags/架构/" rel="tag"># 架构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/28/Django-Model-Inheritance/" rel="next" title="Django-Model-Inheritance(模型继承)">
+                <i class="fa fa-chevron-left"></i> Django-Model-Inheritance(模型继承)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/02/Django-Model-Field-Options/" rel="prev" title="Django-Model-Field-Options">
+                Django-Model-Field-Options <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#第一章-计算机组成与体系结构"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E00;&#x7AE0;-&#x8BA1;&#x7B97;&#x673A;&#x7EC4;&#x6210;&#x4E0E;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;" class="headerlink" title="&#x7B2C;&#x4E00;&#x7AE0; &#x8BA1;&#x7B97;&#x673A;&#x7EC4;&#x6210;&#x4E0E;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;"></a>&#x7B2C;&#x4E00;&#x7AE0; &#x8BA1;&#x7B97;&#x673A;&#x7EC4;&#x6210;&#x4E0E;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-计算机系统组成"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1-1-&#x8BA1;&#x7B97;&#x673A;&#x7CFB;&#x7EDF;&#x7EC4;&#x6210;" class="headerlink" title="1.1 &#x8BA1;&#x7B97;&#x673A;&#x7CFB;&#x7EDF;&#x7EC4;&#x6210;"></a>1.1 &#x8BA1;&#x7B97;&#x673A;&#x7CFB;&#x7EDF;&#x7EC4;&#x6210;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-计算机硬件的组成"><span class="nav-number">1.1.1.</span> <span class="nav-text"><a href="#1-1-1-&#x8BA1;&#x7B97;&#x673A;&#x786C;&#x4EF6;&#x7684;&#x7EC4;&#x6210;" class="headerlink" title="1.1.1 &#x8BA1;&#x7B97;&#x673A;&#x786C;&#x4EF6;&#x7684;&#x7EC4;&#x6210;"></a>1.1.1 &#x8BA1;&#x7B97;&#x673A;&#x786C;&#x4EF6;&#x7684;&#x7EC4;&#x6210;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-计算机系统结构的分类"><span class="nav-number">1.1.2.</span> <span class="nav-text"><a href="#1-1-2-&#x8BA1;&#x7B97;&#x673A;&#x7CFB;&#x7EDF;&#x7ED3;&#x6784;&#x7684;&#x5206;&#x7C7B;" class="headerlink" title="1.1.2 &#x8BA1;&#x7B97;&#x673A;&#x7CFB;&#x7EDF;&#x7ED3;&#x6784;&#x7684;&#x5206;&#x7C7B;"></a>1.1.2 &#x8BA1;&#x7B97;&#x673A;&#x7CFB;&#x7EDF;&#x7ED3;&#x6784;&#x7684;&#x5206;&#x7C7B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-复杂指令集系统和精简指令集系统"><span class="nav-number">1.1.3.</span> <span class="nav-text"><a href="#1-1-3-&#x590D;&#x6742;&#x6307;&#x4EE4;&#x96C6;&#x7CFB;&#x7EDF;&#x548C;&#x7CBE;&#x7B80;&#x6307;&#x4EE4;&#x96C6;&#x7CFB;&#x7EDF;" class="headerlink" title="1.1.3 &#x590D;&#x6742;&#x6307;&#x4EE4;&#x96C6;&#x7CFB;&#x7EDF;&#x548C;&#x7CBE;&#x7B80;&#x6307;&#x4EE4;&#x96C6;&#x7CFB;&#x7EDF;"></a>1.1.3 &#x590D;&#x6742;&#x6307;&#x4EE4;&#x96C6;&#x7CFB;&#x7EDF;&#x548C;&#x7CBE;&#x7B80;&#x6307;&#x4EE4;&#x96C6;&#x7CFB;&#x7EDF;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-总线"><span class="nav-number">1.1.4.</span> <span class="nav-text"><a href="#1-1-4-&#x603B;&#x7EBF;" class="headerlink" title="1.1.4 &#x603B;&#x7EBF;"></a>1.1.4 &#x603B;&#x7EBF;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-存储器系统"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#1-2-&#x5B58;&#x50A8;&#x5668;&#x7CFB;&#x7EDF;" class="headerlink" title="1.2 &#x5B58;&#x50A8;&#x5668;&#x7CFB;&#x7EDF;"></a>1.2 &#x5B58;&#x50A8;&#x5668;&#x7CFB;&#x7EDF;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-1-主存储器"><span class="nav-number">1.2.1.</span> <span class="nav-text"><a href="#1-2-1-&#x4E3B;&#x5B58;&#x50A8;&#x5668;" class="headerlink" title="1.2.1 &#x4E3B;&#x5B58;&#x50A8;&#x5668;"></a>1.2.1 &#x4E3B;&#x5B58;&#x50A8;&#x5668;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-2-辅助存储器"><span class="nav-number">1.2.2.</span> <span class="nav-text"><a href="#1-2-2-&#x8F85;&#x52A9;&#x5B58;&#x50A8;&#x5668;" class="headerlink" title="1.2.2 &#x8F85;&#x52A9;&#x5B58;&#x50A8;&#x5668;"></a>1.2.2 &#x8F85;&#x52A9;&#x5B58;&#x50A8;&#x5668;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-3-Cache存储器"><span class="nav-number">1.2.3.</span> <span class="nav-text"><a href="#1-2-3-Cache&#x5B58;&#x50A8;&#x5668;" class="headerlink" title="1.2.3 Cache&#x5B58;&#x50A8;&#x5668;"></a>1.2.3 Cache&#x5B58;&#x50A8;&#x5668;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Cache的基本原理"><span class="nav-number">1.2.3.1.</span> <span class="nav-text"><a href="#Cache&#x7684;&#x57FA;&#x672C;&#x539F;&#x7406;" class="headerlink" title="Cache&#x7684;&#x57FA;&#x672C;&#x539F;&#x7406;"></a>Cache&#x7684;&#x57FA;&#x672C;&#x539F;&#x7406;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#映射机制"><span class="nav-number">1.2.3.2.</span> <span class="nav-text"><a href="#&#x6620;&#x5C04;&#x673A;&#x5236;" class="headerlink" title="&#x6620;&#x5C04;&#x673A;&#x5236;"></a>&#x6620;&#x5C04;&#x673A;&#x5236;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#替换算法"><span class="nav-number">1.2.3.3.</span> <span class="nav-text"><a href="#&#x66FF;&#x6362;&#x7B97;&#x6CD5;" class="headerlink" title="&#x66FF;&#x6362;&#x7B97;&#x6CD5;"></a>&#x66FF;&#x6362;&#x7B97;&#x6CD5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#写操作"><span class="nav-number">1.2.3.4.</span> <span class="nav-text"><a href="#&#x5199;&#x64CD;&#x4F5C;" class="headerlink" title="&#x5199;&#x64CD;&#x4F5C;"></a>&#x5199;&#x64CD;&#x4F5C;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-流水线"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#1-3-&#x6D41;&#x6C34;&#x7EBF;" class="headerlink" title="1.3 &#x6D41;&#x6C34;&#x7EBF;"></a>1.3 &#x6D41;&#x6C34;&#x7EBF;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-流水线周期"><span class="nav-number">1.3.1.</span> <span class="nav-text"><a href="#1-3-1-&#x6D41;&#x6C34;&#x7EBF;&#x5468;&#x671F;" class="headerlink" title="1.3.1 &#x6D41;&#x6C34;&#x7EBF;&#x5468;&#x671F;"></a>1.3.1 &#x6D41;&#x6C34;&#x7EBF;&#x5468;&#x671F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-计算流水线执行时间"><span class="nav-number">1.3.2.</span> <span class="nav-text"><a href="#1-3-2-&#x8BA1;&#x7B97;&#x6D41;&#x6C34;&#x7EBF;&#x6267;&#x884C;&#x65F6;&#x95F4;" class="headerlink" title="1.3.2 &#x8BA1;&#x7B97;&#x6D41;&#x6C34;&#x7EBF;&#x6267;&#x884C;&#x65F6;&#x95F4;"></a>1.3.2 &#x8BA1;&#x7B97;&#x6D41;&#x6C34;&#x7EBF;&#x6267;&#x884C;&#x65F6;&#x95F4;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-流水线的吞吐率"><span class="nav-number">1.3.3.</span> <span class="nav-text"><a href="#1-3-3-&#x6D41;&#x6C34;&#x7EBF;&#x7684;&#x541E;&#x5410;&#x7387;" class="headerlink" title="1.3.3 &#x6D41;&#x6C34;&#x7EBF;&#x7684;&#x541E;&#x5410;&#x7387;"></a>1.3.3 &#x6D41;&#x6C34;&#x7EBF;&#x7684;&#x541E;&#x5410;&#x7387;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-4-流水线的加速比"><span class="nav-number">1.3.4.</span> <span class="nav-text"><a href="#1-3-4-&#x6D41;&#x6C34;&#x7EBF;&#x7684;&#x52A0;&#x901F;&#x6BD4;" class="headerlink" title="1.3.4 &#x6D41;&#x6C34;&#x7EBF;&#x7684;&#x52A0;&#x901F;&#x6BD4;"></a>1.3.4 &#x6D41;&#x6C34;&#x7EBF;&#x7684;&#x52A0;&#x901F;&#x6BD4;</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

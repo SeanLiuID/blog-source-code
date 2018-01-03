@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PostgreSQL,Hstore,KeyValue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Hstore 数据类型可以把键值对集合存储在PGSQL的一个单独的值中  键值对无序存储 每个键是唯一的 值可以为NULL，例如：key=&amp;gt;NULL  安装12postgres-$ create extension hstore;CREATE EXTENSION">
+<meta name="keywords" content="PostgreSQL,Hstore,KeyValue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PostgreSQL中使用hstore存储键值对数据">
+<meta property="og:url" content="http://yoursite.com/2017/12/26/PostgreSQL中使用hstore存储键值对数据/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="Hstore 数据类型可以把键值对集合存储在PGSQL的一个单独的值中  键值对无序存储 每个键是唯一的 值可以为NULL，例如：key=&amp;gt;NULL  安装12postgres-$ create extension hstore;CREATE EXTENSION">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-27T05:52:48.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PostgreSQL中使用hstore存储键值对数据">
+<meta name="twitter:description" content="Hstore 数据类型可以把键值对集合存储在PGSQL的一个单独的值中  键值对无序存储 每个键是唯一的 值可以为NULL，例如：key=&amp;gt;NULL  安装12postgres-$ create extension hstore;CREATE EXTENSION">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/26/PostgreSQL中使用hstore存储键值对数据/"/>
+
+
+
+
+
+  <title>PostgreSQL中使用hstore存储键值对数据 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/PostgreSQL中使用hstore存储键值对数据/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PostgreSQL中使用hstore存储键值对数据</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T18:59:03+08:00">
+                2017-12-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/Extension/" itemprop="url" rel="index">
+                    <span itemprop="name">Extension</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Hstore 数据类型可以把键值对集合存储在PGSQL的一个单独的值中</p>
+<ul>
+<li>键值对无序存储</li>
+<li>每个键是唯一的</li>
+<li>值可以为NULL，例如：key=&gt;NULL</li>
+</ul>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">postgres-$ <span class="keyword">create</span> extension hstore;</span><br><span class="line"><span class="keyword">CREATE</span> EXTENSION</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="建表"><a href="#建表" class="headerlink" title="建表"></a>建表</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">postgres=# create table hstore_test(item_id serial, data hstore);</span><br><span class="line">NOTICE:  <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> will <span class="keyword">create</span> implicit <span class="keyword">sequence</span> <span class="string">"hstore_test_item_id_seq"</span> <span class="keyword">for</span> <span class="built_in">serial</span> <span class="keyword">column</span> <span class="string">"hstore_test.item_id"</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span></span><br></pre></td></tr></table></figure>
+<h2 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h2><table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>描述</th>
+<th>举例</th>
+<th style="text-align:right">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hstore -&gt; text</td>
+<td>取某个key对用的值，没有则返回NULL</td>
+<td>‘a=&gt;x, b=&gt;y’::hstore -&gt; ‘a’</td>
+<td style="text-align:right">x</td>
+</tr>
+<tr>
+<td>hstore -&gt; text[]</td>
+<td>取一组keys对应的值，没有则返回NULL</td>
+<td>‘a=&gt;x, b=&gt;y, c=&gt;z’::hstore -&gt; ARRAY[‘c’,’a’]</td>
+<td style="text-align:right">{“z”,”x”}</td>
+</tr>
+<tr>
+<td>text =&gt; text</td>
+<td>生成键值对</td>
+<td>‘a’ =&gt; ‘b’</td>
+<td style="text-align:right">“a”=&gt;”b”</td>
+</tr>
+<tr>
+<td>hstore || hstore</td>
+<td>hstore取并集</td>
+<td>'a=>b, c=>d'::hstore || 'c=>x, d=>q'::hstore</td>
+<td style="text-align:right">“a”=&gt;”b”, “c”=&gt;”x”, “d”=&gt;”q”</td>
+</tr>
+<tr>
+<td>hstore ? text</td>
+<td>是否包含key</td>
+<td>‘a=&gt;1’::hstore ? ‘a’</td>
+<td style="text-align:right">t</td>
+</tr>
+<tr>
+<td>hstore ?&amp; text[]</td>
+<td>是否包含所有key</td>
+<td>‘a=&gt;1,b=&gt;2’::hstore ?&amp; ARRAY[‘a’,’b’]</td>
+<td style="text-align:right">t</td>
+</tr>
+<tr>
+<td>hstore ?| text[]</td>
+<td>是否包含其中一个key</td>
+<td>'a=>1,b=>2'::hstore ?| ARRAY['b','c']</td>
+<td style="text-align:right">t</td>
+</tr>
+<tr>
+<td>hstore @&gt; hstore</td>
+<td>左侧hstore是否包含右侧hstore</td>
+<td>‘a=&gt;b, b=&gt;1, c=&gt;NULL’::hstore @&gt; ‘b=&gt;1’</td>
+<td style="text-align:right">t</td>
+</tr>
+<tr>
+<td>hstore &lt;@ hstore</td>
+<td>同上，反向</td>
+<td>‘a=&gt;c’::hstore &lt;@ ‘a=&gt;b, b=&gt;1, c=&gt;NULL’</td>
+<td style="text-align:right">f</td>
+</tr>
+<tr>
+<td>hstore - text</td>
+<td>根据key删除一个键值对</td>
+<td>‘a=&gt;1, b=&gt;2, c=&gt;3’::hstore - ‘b’::text</td>
+<td style="text-align:right">“a”=&gt;”1”, “c”=&gt;”3”</td>
+</tr>
+<tr>
+<td>hstore - text[]</td>
+<td>根据key删除一组键值对</td>
+<td>‘a=&gt;1, b=&gt;2, c=&gt;3’::hstore - ARRAY[‘a’,’b’]</td>
+<td style="text-align:right">“c”=&gt;”3”</td>
+</tr>
+<tr>
+<td>hstore - hstore</td>
+<td>根据key/value删除一组键值对</td>
+<td>‘a=&gt;1, b=&gt;2, c=&gt;3’::hstore - ‘a=&gt;4, b=&gt;2’::hstore</td>
+<td style="text-align:right">“a”=&gt;”1”, “c”=&gt;”3”</td>
+</tr>
+<tr>
+<td>record #= hstore</td>
+<td>全局替换replace</td>
+<td>see Examples section</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>%% hstore</td>
+<td>键值对转换成数组</td>
+<td>%% ‘a=&gt;foo, b=&gt;bar’::hstore</td>
+<td style="text-align:right">{a,foo,b,bar}</td>
+</tr>
+<tr>
+<td>%# hstore</td>
+<td>键值对转换成二维数组</td>
+<td>%# ‘a=&gt;foo, b=&gt;bar’::hstore</td>
+<td style="text-align:right">{{a,foo},{b,bar}}</td>
+</tr>
+</tbody>
+</table>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><table>
+<thead>
+<tr>
+<th>函数</th>
+<th style="text-align:right">返回类型</th>
+<th>描述</th>
+<th>举例</th>
+<th style="text-align:right">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hstore(record)</td>
+<td style="text-align:right">hstore</td>
+<td>根据一行结构化数据构建键值对</td>
+<td>hstore(ROW(1,2))</td>
+<td style="text-align:right">f1=&gt;1,f2=&gt;2</td>
+</tr>
+<tr>
+<td>hstore(text[])</td>
+<td style="text-align:right">hstore</td>
+<td>基于key:value一个数组构建hstore</td>
+<td>hstore(ARRAY['a','1','b','2']) || hstore(ARRAY[['c','3'],['d','4']])</td>
+<td style="text-align:right">a=&gt;1, b=&gt;2, c=&gt;3, d=&gt;4</td>
+</tr>
+<tr>
+<td>hstore(text[], text[])</td>
+<td style="text-align:right">hstore</td>
+<td>基于keys和values两个数组构建hstore</td>
+<td>hstore(ARRAY[‘a’,’b’], ARRAY[‘1’,’2’])</td>
+<td style="text-align:right">“a”=&gt;”1”,”b”=&gt;”2”</td>
+</tr>
+<tr>
+<td>hstore(text, text)</td>
+<td style="text-align:right">hstore</td>
+<td>构建一个键值对</td>
+<td>hstore(‘a’, ‘b’)</td>
+<td style="text-align:right">“a”=&gt;”b”</td>
+</tr>
+<tr>
+<td>akeys(hstore)</td>
+<td style="text-align:right">text[]</td>
+<td>以数组形式输出hstore的所有keys</td>
+<td>akeys(‘a=&gt;1,b=&gt;2’)</td>
+<td style="text-align:right">{a,b}</td>
+</tr>
+<tr>
+<td>skeys(hstore)</td>
+<td style="text-align:right">setof text</td>
+<td>以集合形式输入hstore的所有keys</td>
+<td>skeys(‘a=&gt;1,b=&gt;2’)</td>
+<td style="text-align:right">(a,b)</td>
+</tr>
+<tr>
+<td>avals(hstore)</td>
+<td style="text-align:right">text[]</td>
+<td>以数组形式输出hstore的所有values</td>
+<td>avals(‘a=&gt;1,b=&gt;2’)</td>
+<td style="text-align:right">{1,2}</td>
+</tr>
+<tr>
+<td>svals(hstore)</td>
+<td style="text-align:right">setof text</td>
+<td>以集合形式输入hstore的所有values</td>
+<td>svals(‘a=&gt;1,b=&gt;2’)</td>
+<td style="text-align:right">(1,2)</td>
+</tr>
+<tr>
+<td>hstore_to_array(hstore)</td>
+<td style="text-align:right"><br>text[]</td>
+<td>以数组形式输出hstore的所有key/values</td>
+<td>hstore_to_array(‘a=&gt;1,b=&gt;2’)</td>
+<td style="text-align:right"><br>{a,1,b,2}</td>
+</tr>
+<tr>
+<td>hstore_to_matrix(hstore)</td>
+<td style="text-align:right"><br>text[]</td>
+<td>以二维数组形式输出hstore的所有key/values</td>
+<td>hstore_to_matrix(‘a=&gt;1,b=&gt;2’)</td>
+<td style="text-align:right"><br>{{a,1},{b,2}}</td>
+</tr>
+<tr>
+<td>slice(hstore, text[])</td>
+<td style="text-align:right">hstore</td>
+<td>抽取hstore的子集</td>
+<td>slice(‘a=&gt;1,b=&gt;2,c=&gt;3’::hstore, ARRAY[‘b’,’c’,’x’])</td>
+<td style="text-align:right">“b”=&gt;”2”, “c”=&gt;”3”</td>
+</tr>
+<tr>
+<td>each(hstore)</td>
+<td style="text-align:right">setof(key text, value text)</td>
+<td>展开hstore的key/values为多行</td>
+<td>select * from each(‘a=&gt;1,b=&gt;2’)</td>
+<td style="text-align:right"></td>
+</tr>
+<tr>
+<td>exist(hstore,text)</td>
+<td style="text-align:right">boolean</td>
+<td>是否存在一个key</td>
+<td>exist(‘a=&gt;1’,’a’)</td>
+<td style="text-align:right">t</td>
+</tr>
+<tr>
+<td>defined(hstore,text)</td>
+<td style="text-align:right">boolean</td>
+<td>是否存在一个value not null的key</td>
+<td>defined(‘a=&gt;NULL’,’a’)</td>
+<td style="text-align:right">f</td>
+</tr>
+<tr>
+<td>delete(hstore,text)</td>
+<td style="text-align:right">hstore</td>
+<td>根据key删除键值对</td>
+<td>delete(‘a=&gt;1,b=&gt;2’,’b’)</td>
+<td style="text-align:right">“a”=&gt;”1”</td>
+</tr>
+<tr>
+<td>delete(hstore,text[])</td>
+<td style="text-align:right">hstore</td>
+<td>根据一组keys删除键值对</td>
+<td>delete(‘a=&gt;1,b=&gt;2,c=&gt;3’,ARRAY[‘a’,’b’])</td>
+<td style="text-align:right">“c”=&gt;”3”</td>
+</tr>
+<tr>
+<td>delete(hstore,hstore)</td>
+<td style="text-align:right">hstore</td>
+<td>根据确切的键值对删除</td>
+<td>delete(‘a=&gt;1,b=&gt;2’,’a=&gt;4,b=&gt;2’::hstore)</td>
+<td style="text-align:right">“a”=&gt;”1”</td>
+</tr>
+<tr>
+<td>populate_record(record,hstore)</td>
+<td style="text-align:right">record</td>
+<td>全局替换</td>
+<td>see Examples section</td>
+</tr>
+</tbody>
+</table>
+<h2 id="插入"><a href="#插入" class="headerlink" title="插入"></a>插入</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">postgres=# INSERT INTO hstore_test (data) VALUES ('"key1"=&gt;"value1", "key2"=&gt;"value2", "key3"=&gt;"value3"');</span><br><span class="line"><span class="keyword">INSERT</span> <span class="number">0</span> <span class="number">1</span></span><br><span class="line">postgres=# <span class="keyword">select</span> * <span class="keyword">from</span> hstore_test;</span><br><span class="line"> item_id |                         data                         </span><br><span class="line"> <span class="comment">---------+------------------------------------------------------</span></span><br><span class="line">        1 | "key1"=&gt;"value1", "key2"=&gt;"value2", "key3"=&gt;"value3"</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除一个键值对</span></span><br><span class="line">postgres=# UPDATE hstore_test SET data = delete(data, 'key2')</span><br><span class="line">postgres-# ;</span><br><span class="line"><span class="keyword">UPDATE</span> <span class="number">1</span></span><br><span class="line">postgres=# <span class="keyword">select</span> * <span class="keyword">from</span> hstore_test;</span><br><span class="line"> item_id |                data                </span><br><span class="line"> <span class="comment">---------+------------------------------------</span></span><br><span class="line">        1 | "key1"=&gt;"value1", "key3"=&gt;"value3"</span><br><span class="line">(1 row)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 增加一个键值对或修改一个已存在键的值</span></span><br><span class="line">postgres=# UPDATE hstore_test SET data = data || '"key4"=&gt;"some value"'::hstore;</span><br><span class="line"><span class="keyword">UPDATE</span> <span class="number">1</span></span><br><span class="line">postgres=# <span class="keyword">select</span> * <span class="keyword">from</span> hstore_test;</span><br><span class="line"> item_id |                           data                           </span><br><span class="line"> <span class="comment">---------+----------------------------------------------------------</span></span><br><span class="line">        1 | "key1"=&gt;"value1", "key3"=&gt;"value3", "key4"=&gt;"some value"</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 包含某个键</span></span><br><span class="line">postgres=# SELECT * FROM hstore_test WHERE data ? 'key4';</span><br><span class="line"> item_id |                           data                           </span><br><span class="line"> <span class="comment">---------+----------------------------------------------------------</span></span><br><span class="line">        1 | "key1"=&gt;"value1", "key3"=&gt;"value3", "key4"=&gt;"some value"</span><br><span class="line">				(1 row)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 不包含某个键</span></span><br><span class="line">postgres=# SELECT * FROM hstore_test WHERE NOT data ? 'key5';</span><br><span class="line"> item_id |                           data                           </span><br><span class="line"> <span class="comment">---------+----------------------------------------------------------</span></span><br><span class="line">        1 | "key1"=&gt;"value1", "key3"=&gt;"value3", "key4"=&gt;"some value"</span><br><span class="line">				(1 row)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 包含某个键值对</span></span><br><span class="line">postgres=# SELECT * FROM hstore_test WHERE data @&gt; '"key4"=&gt;"some value"'::hstore;</span><br><span class="line"> item_id |                           data                           </span><br><span class="line"> <span class="comment">---------+----------------------------------------------------------</span></span><br><span class="line">        1 | "key1"=&gt;"value1", "key3"=&gt;"value3", "key4"=&gt;"some value"</span><br><span class="line">				(1 row)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询某个键的值</span></span><br><span class="line">postgres=# SELECT data -&gt; 'key4' FROM hstore_test;</span><br><span class="line"> ?column?  </span><br><span class="line"><span class="comment">------------</span></span><br><span class="line"> some value</span><br><span class="line"> (1 row)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 将键值对展开成多条</span></span><br><span class="line">postgres=# SELECT item_id, (each(data)).* FROM hstore_test WHERE item_id = 1;</span><br><span class="line"> item_id | key  |   value    </span><br><span class="line"> <span class="comment">---------+------+------------</span></span><br><span class="line">       1 | key1 | value1</span><br><span class="line">       1 | key3 | value3</span><br><span class="line">       1 | key4 | some value</span><br><span class="line">(3 rows)</span><br></pre></td></tr></table></figure>
+<h2 id="与结构化数据结构相互转化"><a href="#与结构化数据结构相互转化" class="headerlink" title="与结构化数据结构相互转化"></a>与结构化数据结构相互转化</h2><ul>
+<li><p>结构化 -&gt; Hstore</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">test</span> (col1 <span class="built_in">integer</span>, col2 <span class="built_in">text</span>, col3 <span class="built_in">text</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">test</span> <span class="keyword">VALUES</span> (<span class="number">123</span>, <span class="string">'foo'</span>, <span class="string">'bar'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> hstore(t) <span class="keyword">FROM</span> <span class="keyword">test</span> <span class="keyword">AS</span> t;</span><br><span class="line">store                    </span><br><span class="line"><span class="comment">--------------------------------------------</span></span><br><span class="line">"col1"=&gt;"123", "col2"=&gt;"foo", "col3"=&gt;"bar"</span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Hstore -&gt; 结构化</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">test</span> (col1 <span class="built_in">integer</span>, col2 <span class="built_in">text</span>, col3 <span class="built_in">text</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> populate_record(<span class="literal">null</span>::<span class="keyword">test</span>,<span class="string">'"col1"=&gt;"456", "col2"=&gt;"zzz"'</span>);</span><br><span class="line"> col1 | col2 | col3 </span><br><span class="line"> <span class="comment">------+------+------</span></span><br><span class="line">  456 | zzz  | </span><br><span class="line"> (1 row)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="统计"><a href="#统计" class="headerlink" title="统计"></a>统计</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">key</span>, <span class="keyword">count</span>(*) <span class="keyword">FROM</span></span><br><span class="line">  (<span class="keyword">SELECT</span> (<span class="keyword">each</span>(h)).key <span class="keyword">FROM</span> testhstore) <span class="keyword">AS</span> stat</span><br><span class="line">	  <span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">key</span></span><br><span class="line">		  <span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="keyword">count</span> <span class="keyword">DESC</span>, <span class="keyword">key</span>;</span><br><span class="line">key    | count</span><br><span class="line"><span class="comment">-----------+-------</span></span><br><span class="line"> line      |   883</span><br><span class="line"> query     |   207</span><br><span class="line"> pos       |   203</span><br><span class="line"> node      |   202</span><br><span class="line"> space     |   197</span><br><span class="line"> status    |   195</span><br><span class="line"> public    |   194</span><br><span class="line"> title     |   190</span><br><span class="line"> org       |   189</span><br><span class="line"> ...................</span><br></pre></td></tr></table></figure>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><ul>
+<li><p>使用GIST或GIN索引来支持 @&gt;,?,?&amp;,?/等查询操作符</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> hidx <span class="keyword">ON</span> testhstore <span class="keyword">USING</span> GIST (h);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> hidx <span class="keyword">ON</span> testhstore <span class="keyword">USING</span> GIN (h);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>也可以使用BTREE或HASH索引，用来支持=，groupby,orderby,distinct查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> hidx <span class="keyword">ON</span> testhstore <span class="keyword">USING</span> BTREE (h);</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> hidx <span class="keyword">ON</span> testhstore <span class="keyword">USING</span> <span class="keyword">HASH</span> (h);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PostgreSQL/" rel="tag"># PostgreSQL</a>
+          
+            <a href="/tags/Hstore/" rel="tag"># Hstore</a>
+          
+            <a href="/tags/KeyValue/" rel="tag"># KeyValue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/24/Django-Permissions/" rel="next" title="Django-Permissions">
+                <i class="fa fa-chevron-left"></i> Django-Permissions
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/27/Django-Web-调试工具debug-toolbar/" rel="prev" title="Django-Web-调试工具debug-toolbar">
+                Django-Web-调试工具debug-toolbar <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#建表"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x5EFA;&#x8868;" class="headerlink" title="&#x5EFA;&#x8868;"></a>&#x5EFA;&#x8868;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作符"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x64CD;&#x4F5C;&#x7B26;" class="headerlink" title="&#x64CD;&#x4F5C;&#x7B26;"></a>&#x64CD;&#x4F5C;&#x7B26;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x51FD;&#x6570;" class="headerlink" title="&#x51FD;&#x6570;"></a>&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x63D2;&#x5165;" class="headerlink" title="&#x63D2;&#x5165;"></a>&#x63D2;&#x5165;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x66F4;&#x65B0;" class="headerlink" title="&#x66F4;&#x65B0;"></a>&#x66F4;&#x65B0;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x67E5;&#x8BE2;" class="headerlink" title="&#x67E5;&#x8BE2;"></a>&#x67E5;&#x8BE2;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与结构化数据结构相互转化"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x4E0E;&#x7ED3;&#x6784;&#x5316;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x76F8;&#x4E92;&#x8F6C;&#x5316;" class="headerlink" title="&#x4E0E;&#x7ED3;&#x6784;&#x5316;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x76F8;&#x4E92;&#x8F6C;&#x5316;"></a>&#x4E0E;&#x7ED3;&#x6784;&#x5316;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x76F8;&#x4E92;&#x8F6C;&#x5316;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#统计"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x7EDF;&#x8BA1;" class="headerlink" title="&#x7EDF;&#x8BA1;"></a>&#x7EDF;&#x8BA1;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">10.</span> <span class="nav-text"><a href="#&#x7D22;&#x5F15;" class="headerlink" title="&#x7D22;&#x5F15;"></a>&#x7D22;&#x5F15;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Django,Field," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Django默认提供多种字段类型，如CharField，BooleanField等，也可以扩展字段类型；">
+<meta name="keywords" content="Django,Field">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django-Model-Field-Types">
+<meta property="og:url" content="http://yoursite.com/2018/01/02/Django-Model-Field-Types/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="Django默认提供多种字段类型，如CharField，BooleanField等，也可以扩展字段类型；">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-02T10:20:50.210Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django-Model-Field-Types">
+<meta name="twitter:description" content="Django默认提供多种字段类型，如CharField，BooleanField等，也可以扩展字段类型；">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/02/Django-Model-Field-Types/"/>
+
+
+
+
+
+  <title>Django-Model-Field-Types | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/Django-Model-Field-Types/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Django-Model-Field-Types</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T16:52:25+08:00">
+                2018-01-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/" itemprop="url" rel="index">
+                    <span itemprop="name">Django</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
+                    <span itemprop="name">Model</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Django默认提供多种字段类型，如CharField，BooleanField等，也可以扩展字段类型；</p>
+<a id="more"></a>
+<h2 id="AutoField"><a href="#AutoField" class="headerlink" title="AutoField"></a>AutoField</h2><p>根据实际ID自动增长的IntegerField，通常不需要直接使用，用于系统为model自动添加主键字段。</p>
+<h2 id="BigAutoField"><a href="#BigAutoField" class="headerlink" title="BigAutoField"></a>BigAutoField</h2><p>同上 <strong><em>Django 1.10新增</em></strong> 扩展只64位的整数</p>
+<h3 id="BigIntegerField"><a href="#BigIntegerField" class="headerlink" title="BigIntegerField"></a>BigIntegerField</h3><p>64位整数</p>
+<h3 id="BinaryField"><a href="#BinaryField" class="headerlink" title="BinaryField"></a>BinaryField</h3><p>存储原始二进制码，只支持bytes复制，功能有限。不大可能查询，也不能在ModelForm里包含，尽量使用static files存文件；</p>
+<h2 id="BooleanField"><a href="#BooleanField" class="headerlink" title="BooleanField"></a>BooleanField</h2><p>default没有指定时，默认为False</p>
+<h2 id="NullBooleanField"><a href="#NullBooleanField" class="headerlink" title="NullBooleanField"></a>NullBooleanField</h2><p>允许空值，default没有指定的话，默认为None</p>
+<h2 id="CharField"><a href="#CharField" class="headerlink" title="CharField"></a>CharField</h2><p>存字符串，也必须指定参数max_length来限制字段长度</p>
+<h2 id="DateField"><a href="#DateField" class="headerlink" title="DateField"></a>DateField</h2><ul>
+<li>使用python的datetime.date实例标识日期</li>
+<li>设置参数auto_now=True后，每次执行model.save()时自动更新该字段为当前时间，用其他方式修改则不会更新；</li>
+<li>设置参数auto_now_add=True后，当对象第一次被创建是自动设置当前时间，且直接设置会被忽略；</li>
+</ul>
+<h2 id="TimeField"><a href="#TimeField" class="headerlink" title="TimeField"></a>TimeField</h2><h2 id="DateTimeField"><a href="#DateTimeField" class="headerlink" title="DateTimeField"></a>DateTimeField</h2><p>同上</p>
+<h2 id="DecimalField"><a href="#DecimalField" class="headerlink" title="DecimalField"></a>DecimalField</h2><p>十进制浮点数，有两个必须得参数</p>
+<ul>
+<li>max_digits：位数总数</li>
+<li>decimal_places：小数点后的位数</li>
+</ul>
+<h2 id="DurationField"><a href="#DurationField" class="headerlink" title="DurationField"></a>DurationField</h2><p>存储一段时间的interval字段类型，类似python中的timedelta</p>
+<h2 id="EmailField"><a href="#EmailField" class="headerlink" title="EmailField"></a>EmailField</h2><p>使用EmailValidator来验证输入的合法性</p>
+<h2 id="FileField"><a href="#FileField" class="headerlink" title="FileField"></a>FileField</h2><p>上传文件字段，不支持primary_key参数，有两个可选参数：</p>
+<ul>
+<li>upload_to：</li>
+</ul>
+<h2 id="ImageField"><a href="#ImageField" class="headerlink" title="ImageField"></a>ImageField</h2><h2 id="IntegerField"><a href="#IntegerField" class="headerlink" title="IntegerField"></a>IntegerField</h2><p>32位整数</p>
+<h2 id="GenericIPAddressField"><a href="#GenericIPAddressField" class="headerlink" title="GenericIPAddressField"></a>GenericIPAddressField</h2><p>存储IPv4或IPv6地址</p>
+<h2 id="SmallIntegerField"><a href="#SmallIntegerField" class="headerlink" title="SmallIntegerField"></a>SmallIntegerField</h2><h2 id="PositiveIntegerField"><a href="#PositiveIntegerField" class="headerlink" title="PositiveIntegerField"></a>PositiveIntegerField</h2><h2 id="PositiveSmalLIntegerField"><a href="#PositiveSmalLIntegerField" class="headerlink" title="PositiveSmalLIntegerField"></a>PositiveSmalLIntegerField</h2><h2 id="SlugField"><a href="#SlugField" class="headerlink" title="SlugField"></a>SlugField</h2><p>一个slug只能包含字母、数字、下划线或者是连字符，通常用来作为短标签。 通常它们是用来放在URL里的</p>
+<h2 id="TextField"><a href="#TextField" class="headerlink" title="TextField"></a>TextField</h2><p>文本存储</p>
+<h2 id="URLField"><a href="#URLField" class="headerlink" title="URLField"></a>URLField</h2><h2 id="UUIDField"><a href="#UUIDField" class="headerlink" title="UUIDField"></a>UUIDField</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyUUIDModel</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    id = models.UUIDField(primary_key=<span class="keyword">True</span>, default=uuid.uuid4, editable=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Django/" rel="tag"># Django</a>
+          
+            <a href="/tags/Field/" rel="tag"># Field</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/02/Django-Model-Field-Options/" rel="next" title="Django-Model-Field-Options">
+                <i class="fa fa-chevron-left"></i> Django-Model-Field-Options
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/03/Django-DB-Migration-Operations/" rel="prev" title="Django-DB-Migration-Operations">
+                Django-DB-Migration-Operations <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AutoField"><span class="nav-number">1.</span> <span class="nav-text"><a href="#AutoField" class="headerlink" title="AutoField"></a>AutoField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BigAutoField"><span class="nav-number">2.</span> <span class="nav-text"><a href="#BigAutoField" class="headerlink" title="BigAutoField"></a>BigAutoField</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BigIntegerField"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#BigIntegerField" class="headerlink" title="BigIntegerField"></a>BigIntegerField</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BinaryField"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#BinaryField" class="headerlink" title="BinaryField"></a>BinaryField</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BooleanField"><span class="nav-number">3.</span> <span class="nav-text"><a href="#BooleanField" class="headerlink" title="BooleanField"></a>BooleanField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NullBooleanField"><span class="nav-number">4.</span> <span class="nav-text"><a href="#NullBooleanField" class="headerlink" title="NullBooleanField"></a>NullBooleanField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CharField"><span class="nav-number">5.</span> <span class="nav-text"><a href="#CharField" class="headerlink" title="CharField"></a>CharField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DateField"><span class="nav-number">6.</span> <span class="nav-text"><a href="#DateField" class="headerlink" title="DateField"></a>DateField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TimeField"><span class="nav-number">7.</span> <span class="nav-text"><a href="#TimeField" class="headerlink" title="TimeField"></a>TimeField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DateTimeField"><span class="nav-number">8.</span> <span class="nav-text"><a href="#DateTimeField" class="headerlink" title="DateTimeField"></a>DateTimeField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DecimalField"><span class="nav-number">9.</span> <span class="nav-text"><a href="#DecimalField" class="headerlink" title="DecimalField"></a>DecimalField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DurationField"><span class="nav-number">10.</span> <span class="nav-text"><a href="#DurationField" class="headerlink" title="DurationField"></a>DurationField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EmailField"><span class="nav-number">11.</span> <span class="nav-text"><a href="#EmailField" class="headerlink" title="EmailField"></a>EmailField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FileField"><span class="nav-number">12.</span> <span class="nav-text"><a href="#FileField" class="headerlink" title="FileField"></a>FileField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ImageField"><span class="nav-number">13.</span> <span class="nav-text"><a href="#ImageField" class="headerlink" title="ImageField"></a>ImageField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IntegerField"><span class="nav-number">14.</span> <span class="nav-text"><a href="#IntegerField" class="headerlink" title="IntegerField"></a>IntegerField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GenericIPAddressField"><span class="nav-number">15.</span> <span class="nav-text"><a href="#GenericIPAddressField" class="headerlink" title="GenericIPAddressField"></a>GenericIPAddressField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SmallIntegerField"><span class="nav-number">16.</span> <span class="nav-text"><a href="#SmallIntegerField" class="headerlink" title="SmallIntegerField"></a>SmallIntegerField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PositiveIntegerField"><span class="nav-number">17.</span> <span class="nav-text"><a href="#PositiveIntegerField" class="headerlink" title="PositiveIntegerField"></a>PositiveIntegerField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PositiveSmalLIntegerField"><span class="nav-number">18.</span> <span class="nav-text"><a href="#PositiveSmalLIntegerField" class="headerlink" title="PositiveSmalLIntegerField"></a>PositiveSmalLIntegerField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SlugField"><span class="nav-number">19.</span> <span class="nav-text"><a href="#SlugField" class="headerlink" title="SlugField"></a>SlugField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TextField"><span class="nav-number">20.</span> <span class="nav-text"><a href="#TextField" class="headerlink" title="TextField"></a>TextField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URLField"><span class="nav-number">21.</span> <span class="nav-text"><a href="#URLField" class="headerlink" title="URLField"></a>URLField</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UUIDField"><span class="nav-number">22.</span> <span class="nav-text"><a href="#UUIDField" class="headerlink" title="UUIDField"></a>UUIDField</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
