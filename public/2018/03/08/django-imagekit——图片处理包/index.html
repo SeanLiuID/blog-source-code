@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Django,Package," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="django-imagekit英文原文地址 使用的原因是需要在django的admin changeform页面中显示ImageField中的图片。上述链接是官方的readme，没找到中文版本的，只能自己慢慢啃了，顺便记录下来吧。 ImageKit是Django的一个用于处理图片的app。它可以帮你生成一个已上传图片的缩略图或黑白图。如果你需要通过程序化的根据一张图片生成另一张图片，那么你肯定需要">
+<meta name="keywords" content="Django,Package">
+<meta property="og:type" content="article">
+<meta property="og:title" content="django-imagekit——图片处理包">
+<meta property="og:url" content="http://yoursite.com/2018/03/08/django-imagekit——图片处理包/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="django-imagekit英文原文地址 使用的原因是需要在django的admin changeform页面中显示ImageField中的图片。上述链接是官方的readme，没找到中文版本的，只能自己慢慢啃了，顺便记录下来吧。 ImageKit是Django的一个用于处理图片的app。它可以帮你生成一个已上传图片的缩略图或黑白图。如果你需要通过程序化的根据一张图片生成另一张图片，那么你肯定需要">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-09T16:58:08.793Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="django-imagekit——图片处理包">
+<meta name="twitter:description" content="django-imagekit英文原文地址 使用的原因是需要在django的admin changeform页面中显示ImageField中的图片。上述链接是官方的readme，没找到中文版本的，只能自己慢慢啃了，顺便记录下来吧。 ImageKit是Django的一个用于处理图片的app。它可以帮你生成一个已上传图片的缩略图或黑白图。如果你需要通过程序化的根据一张图片生成另一张图片，那么你肯定需要">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/08/django-imagekit——图片处理包/"/>
+
+
+
+
+
+  <title>django-imagekit——图片处理包 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/08/django-imagekit——图片处理包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">django-imagekit——图片处理包</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T13:45:13+08:00">
+                2018-03-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/" itemprop="url" rel="index">
+                    <span itemprop="name">Django</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/Package/" itemprop="url" rel="index">
+                    <span itemprop="name">Package</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="http://django-imagekit.readthedocs.io/en/latest/" target="_blank" rel="noopener">django-imagekit英文原文地址</a></p>
+<p>使用的原因是需要在django的admin changeform页面中显示ImageField中的图片。上述链接是官方的readme，没找到中文版本的，只能自己慢慢啃了，顺便记录下来吧。</p>
+<p>ImageKit是Django的一个用于处理图片的app。它可以帮你生成一个已上传图片的缩略图或黑白图。如果你需要通过程序化的根据一张图片生成另一张图片，那么你肯定需要它。<br>ImageKit包含了一组图片处理器，可以满足一些通用简单的任务，比如调整大小和剪裁。当然你也可以自定义一些处理器，可以参考<a href="https://github.com/fish2000/instakit" target="_blank" rel="noopener">Instakit</a>项目。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ol>
+<li>安装PIL或Pillow。（如果已经在项目中使用了ImageField，说明已经安装过了）</li>
+<li>pip install django-imagekit</li>
+<li>在项目settings.py配置文件的INSTALLED_APPS中添加’imagekit’</li>
+</ol>
+<h1 id="用法概览"><a href="#用法概览" class="headerlink" title="用法概览"></a>用法概览</h1><h2 id="Specs"><a href="#Specs" class="headerlink" title="Specs"></a>Specs</h2><p>如果想基于已有的图片来创造另一张图片时，可以定义一个Image Spec来通知ImageKit来实现。<br>Image Spec是一种从源图片生成新图片的生成器。</p>
+<h2 id="在Model中定义Specs"><a href="#在Model中定义Specs" class="headerlink" title="在Model中定义Specs"></a>在Model中定义Specs</h2><p>定义Image spec最简单的方式是在model类中定义一个ImageSpecField：<br><figure class="highlight python"><figcaption><span>model.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> imagekit.models <span class="keyword">import</span> ImageSpecField</span><br><span class="line"><span class="keyword">from</span> imagekit.processors <span class="keyword">import</span> ResizeToFill</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Profile</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    avatar = models.ImageField(upload_to=<span class="string">'avatars'</span>)</span><br><span class="line">    avatar_thumbnail = ImageSpecField(source=<span class="string">'avatar'</span>,</span><br><span class="line">                                      processors=[ResizeToFill(<span class="number">100</span>, <span class="number">50</span>)],</span><br><span class="line">                                      format=<span class="string">'JPEG'</span>,</span><br><span class="line">                                      options=&#123;<span class="string">'quality'</span>: <span class="number">60</span>&#125;)</span><br><span class="line"></span><br><span class="line">profile = Profile.objects.all()[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">print</span> profile.avatar_thumbnail.url    <span class="comment"># &gt; /media/CACHE/images/982d5af84cddddfd0fbf70892b4431e4.jpg</span></span><br><span class="line"><span class="keyword">print</span> profile.avatar_thumbnail.width  <span class="comment"># &gt; 100</span></span><br></pre></td></tr></table></figure></p>
+<p>你可能会说，ImageSpecFields和Django中的ImageFields很像。不同之处是，ImageSpecFields是基于你给出的指令通过ImageKit自动生成的。在上面的示例中，avatar thumbnail是avatar图片重新调整大小的版本，并按60质量JPEG格式保存。</p>
+<p>有些时候，可能不需要报错原图（avatar图片），当用户上传一张图片时，只想保存处理后的结果，这时可以使用ProcessedImageField类：<br><figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> imagekit.models <span class="keyword">import</span> ProcessedImageField</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Profile</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    avatar_thumbnail = ProcessedImageField(upload_to=<span class="string">'avatars'</span>,</span><br><span class="line">                                           processors=[ResizeToFill(<span class="number">100</span>, <span class="number">50</span>)],</span><br><span class="line">                                           format=<span class="string">'JPEG'</span>,</span><br><span class="line">                                           options=&#123;<span class="string">'quality'</span>: <span class="number">60</span>&#125;)</span><br><span class="line"></span><br><span class="line">profile = Profile.objects.all()[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">print</span> profile.avatar_thumbnail.url    <span class="comment"># &gt; /media/avatars/MY-avatar.jpg</span></span><br><span class="line"><span class="keyword">print</span> profile.avatar_thumbnail.width  <span class="comment"># &gt; 100</span></span><br></pre></td></tr></table></figure></p>
+<p>这段代码看起来和上面的示例很相似。因为我们不需要处理另一个ImageField，也就不需要指定’source’。但是我们需要指定’upload_to’参数，这看起来更像Django中ImageField做的事情。</p>
+<p><strong><em>注意</em></strong><br><strong><em>你可能想知道，为什么ImageSpecField不需要’upload_to’参数。原因是ProcessedImageFields更像ImageFields，它们需要在数据库中保存文件路径，并且在修改完model后需要进行migration</em></strong><br><strong><em>另一方面，ImageSpecFields是虚拟的字段，即它不会在数据库中创建字段，甚至都不需要数据库。这在很多方面都很方便，但也意味着图片文件的路径需要基于源图片和处理器程序化的构建。</em></strong></p>
+<h2 id="在Models之外定义Specs"><a href="#在Models之外定义Specs" class="headerlink" title="在Models之外定义Specs"></a>在Models之外定义Specs</h2><p>在models的字段中定义specs是处理图片最简便的方法，但并不是唯一的。有时候你不能或不想在models中添加字段，那么你可以定义image spec类并直接使用它们。这在views中最图片处理将会特别有用，尤其是在用户输入后就处理图片的情况下。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> imagekit <span class="keyword">import</span> ImageSpec</span><br><span class="line"><span class="keyword">from</span> imagekit.processors <span class="keyword">import</span> ResizeToFill</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thumbnail</span><span class="params">(ImageSpec)</span>:</span></span><br><span class="line">    processors = [ResizeToFill(<span class="number">100</span>, <span class="number">50</span>)]</span><br><span class="line">    format = <span class="string">'JPEG'</span></span><br><span class="line">    options = &#123;<span class="string">'quality'</span>: <span class="number">60</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个雷能够像上面的ImageSpecField一样处理图片。但与在model中使用字段定义不同的是，这个类不能定义spec执行的source，或者应该如何处理结果，这将取决于你。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source_file = open(<span class="string">'/path/to/myimage.jpg'</span>)</span><br><span class="line">image_generator = Thumbnail(source=source_file)</span><br><span class="line">result = image_generator.generate()</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>注意</em></strong><br><strong><em>并不是必须使用open函数，你可以使用任何类文件的对象，包括model中的ImageField。</em></strong><br>在Image Spec上调用generate()函数后的结果，是一个类文件对象，它包括我们调整大小或做其他处理后的图片，如果你想存到磁盘上：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dest = open(<span class="string">'/path/to/dest.jpg'</span>, <span class="string">'w'</span>)</span><br><span class="line">dest.write(result.read())</span><br><span class="line">dest.close()</span><br></pre></td></tr></table></figure></p>
+<h2 id="在Templates模板中使用Specs"><a href="#在Templates模板中使用Specs" class="headerlink" title="在Templates模板中使用Specs"></a>在Templates模板中使用Specs</h2><p>如果你已经在model中定义了一个ImageSpecField或者ProcessedImageFIeld，你可以想使用一个普通的image field一样简单的使用这些处理过的图片。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"&#123;&#123; profile.avatar_thumbnail.url &#125;&#125;"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong><em>（这里假设你已经有了一个view，并将上下文的Profile model实例变量命名为‘profile’）</em></strong></p>
+<p>但是你也可以不在model中添加任何代码的情况下，直接在template中生成任意图片处理后的图片。为了做到这一点，你需要像上一节所述的那样，先在你的app中某个文职定义一个图片生成器类（记住，specs 是一类生成器）。你同样需要一种方式在template中引用这个生成器，那么就register注册它。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> imagekit <span class="keyword">import</span> ImageSpec, register</span><br><span class="line"><span class="keyword">from</span> imagekit.processors <span class="keyword">import</span> ResizeToFill</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thumbnail</span><span class="params">(ImageSpec)</span>:</span></span><br><span class="line">    processors = [ResizeToFill(<span class="number">100</span>, <span class="number">50</span>)]</span><br><span class="line">    format = <span class="string">'JPEG'</span></span><br><span class="line">    options = &#123;<span class="string">'quality'</span>: <span class="number">60</span>&#125;</span><br><span class="line"></span><br><span class="line">register.generator(<span class="string">'myapp:thumbnail'</span>, Thumbnail)</span><br></pre></td></tr></table></figure>
+<p><strong><em>注意</em></strong><br><strong><em>你可以使用任意的id注册生成器，但还是要明智一点。如果你选择了太普通的id，可能会与你使用的其他第三方app冲突。因此，最好为id增加一个与自己app同名的前缀。同样的，在做模式识别是ImageKit会将冒号识别为分隔符</em></strong></p>
+<p><strong><em>警告</em></strong><br><strong><em>这个代码可以在任意文件中运行，只要你确保它已经被加载。为了保持简单，ImageKit将会自动尝试加载你已经安装的每一个app中名称为‘imagegenerators’的模型。因此，可以把你的image specs放在这里</em></strong></p>
+<p>现在我们已经创建了图片生成器类并使用Imagekit注册了它，已经可以在templates中使用了。</p>
+<h3 id="generateimage"><a href="#generateimage" class="headerlink" title="generateimage"></a>generateimage</h3><p>ImageKit给你的最通用模板标签叫做“generateimage”。它需要至少一个参数：注册的图片生成器id。额外的关键字样式的参数传递给注册的生成器类。正如我们上面看到的，image spec构造函数需要一个源关键字参数，因此我们需要通过这个来使用我们的缩略图spec。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% generateimage 'myapp:thumbnail' source=source_file %&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这将会输出如下的HTML<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/media/CACHE/images/982d5af84cddddfd0fbf70892b4431e4.jpg"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"50"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>你也可以添加额外的HTML属性，只需要通过两个横线分开<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% generateimage 'myapp:thumbnail' source=source_file -- alt="A picture of Me" id="mypicture" %&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还可以使用一个赋值标记，生成HTML的img标签，提供对底层文件对象的访问<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% generateimage 'myapp:thumbnail' source=source_file as th %&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;&#123; th.url &#125;&#125;"</span>&gt;</span>Click to download a cool &#123;&#123; th.width &#125;&#125; x &#123;&#123; th.height &#125;&#125; image!<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="thumbnail"><a href="#thumbnail" class="headerlink" title="thumbnail"></a>thumbnail</h3><p>因为很常用，ImageKit还提供了一个缩略图模板标签<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% thumbnail '100x50' source_file %&#125;</span><br></pre></td></tr></table></figure></p>
+<p>和generateimage标签类似，thumbnail标签输出一个img标签<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/media/CACHE/images/982d5af84cddddfd0fbf70892b4431e4.jpg"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"50"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>和上述的generateimage标签相比，还是可以注意到一些区别的。</p>
+<ol>
+<li>我们没有指定图片生成器的id；除非我们指定，否则thumbnail标签将使用id为“imagekit:thumbnail”注册的生成器（imagekit.generatorlibrary.Thumbnail）。<strong>重点注意的是，这个标签没有使用我们之前定义的缩略图spec类</strong>。</li>
+<li>我们传递了两个位置参数（维度和源图片），而不是我们在generateimage标签中使用参数；</li>
+</ol>
+<p>和generateimage标签一样，我们也可以指定额外的HTML属性，或者指定标记：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% thumbnail '100x50' source_file -- alt="A picture of Me" id="mypicture" %&#125;</span><br><span class="line">&#123;% thumbnail '100x50' source_file as th %&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="在Forms中使用Specs"><a href="#在Forms中使用Specs" class="headerlink" title="在Forms中使用Specs"></a>在Forms中使用Specs</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Django/" rel="tag"># Django</a>
+          
+            <a href="/tags/Package/" rel="tag"># Package</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/06/数据仓库建模——数据路径/" rel="next" title="数据仓库建模——数据路径">
+                <i class="fa fa-chevron-left"></i> 数据仓库建模——数据路径
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/10/《大家的日语》初级1-第1课/" rel="prev" title="《大家的日语》初级1-第1课">
+                《大家的日语》初级1-第1课 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x5B89;&#x88C5;" class="headerlink" title="&#x5B89;&#x88C5;"></a>&#x5B89;&#x88C5;</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用法概览"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x7528;&#x6CD5;&#x6982;&#x89C8;" class="headerlink" title="&#x7528;&#x6CD5;&#x6982;&#x89C8;"></a>&#x7528;&#x6CD5;&#x6982;&#x89C8;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Specs"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#Specs" class="headerlink" title="Specs"></a>Specs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Model中定义Specs"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x5728;Model&#x4E2D;&#x5B9A;&#x4E49;Specs" class="headerlink" title="&#x5728;Model&#x4E2D;&#x5B9A;&#x4E49;Specs"></a>&#x5728;Model&#x4E2D;&#x5B9A;&#x4E49;Specs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Models之外定义Specs"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x5728;Models&#x4E4B;&#x5916;&#x5B9A;&#x4E49;Specs" class="headerlink" title="&#x5728;Models&#x4E4B;&#x5916;&#x5B9A;&#x4E49;Specs"></a>&#x5728;Models&#x4E4B;&#x5916;&#x5B9A;&#x4E49;Specs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Templates模板中使用Specs"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#&#x5728;Templates&#x6A21;&#x677F;&#x4E2D;&#x4F7F;&#x7528;Specs" class="headerlink" title="&#x5728;Templates&#x6A21;&#x677F;&#x4E2D;&#x4F7F;&#x7528;Specs"></a>&#x5728;Templates&#x6A21;&#x677F;&#x4E2D;&#x4F7F;&#x7528;Specs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#generateimage"><span class="nav-number">2.4.1.</span> <span class="nav-text"><a href="#generateimage" class="headerlink" title="generateimage"></a>generateimage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#thumbnail"><span class="nav-number">2.4.2.</span> <span class="nav-text"><a href="#thumbnail" class="headerlink" title="thumbnail"></a>thumbnail</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在Forms中使用Specs"><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#&#x5728;Forms&#x4E2D;&#x4F7F;&#x7528;Specs" class="headerlink" title="&#x5728;Forms&#x4E2D;&#x4F7F;&#x7528;Specs"></a>&#x5728;Forms&#x4E2D;&#x4F7F;&#x7528;Specs</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

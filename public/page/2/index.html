@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/20/Django-Model-Meta/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/SQL-MED/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/20/Django-Model-Meta/" itemprop="url">Django-Model-Meta</a></h1>
+                <a class="post-title-link" href="/2018/02/28/SQL-MED/" itemprop="url">SQL/MED</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-20T17:25:20+08:00">
-                2017-12-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T10:02:44+08:00">
+                2018-02-28
               </time>
             
 
@@ -303,8 +303,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
                   </a>
                 </span>
 
@@ -314,8 +314,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
-                    <span itemprop="name">Model</span>
+                  <a href="/categories/PostgreSQL/Extension/" itemprop="url" rel="index">
+                    <span itemprop="name">Extension</span>
                   </a>
                 </span>
 
@@ -352,11 +352,16 @@
 
       
         
-          <p>Django模型类的Meta是一个内部类，它用于定义一些Django模型类的行为特性。可以通过配置属性来辅助model定义</p>
-<figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Keyword</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    title = models.CharField(_(<span class="string">'Keyword'</span>), blank=<span class="keyword">True</span>, unique=<span class="keyword">True</span>, max_length=<span class="number">500</span>)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">        verbose_name = _(<span class="string">'Keyword'</span>)</span><br><span class="line">        verbose_name_plural = _(<span class="string">'Keyword'</span>)</span><br></pre></td></tr></table></figure>
+          <p>SQL/MED是SQL语言中管理外部数据的一个扩展标准，MED=‘Management of External Data’。PgSQL可以通过SQL/MED访问其他各种异构数据库或其他PgSQL。</p>
+<h2 id="SQL-MED标准中的四类数据库对象"><a href="#SQL-MED标准中的四类数据库对象" class="headerlink" title="SQL/MED标准中的四类数据库对象"></a>SQL/MED标准中的四类数据库对象</h2><ol>
+<li>Foreign Data Wrapper：外部数据包装器（FDW），相当于定义外部数据驱动；</li>
+<li>Server：外部数据服务器，相当于定义一个外部数据源，需要指定它的FDW；</li>
+<li>User Mapping：用户映射，把Server的用户映射到本地用户，用户控制权限；</li>
+<li>Foreign Table：外部表，把外部数据源应设成数据库中的一张外部表；</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/20/Django-Model-Meta/#more" rel="contents">
+            <a class="btn" href="/2018/02/28/SQL-MED/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -407,7 +412,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/20/Django-ORM-F-Q/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/pgSQL集群工具PLproxy——部署/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -426,7 +431,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/20/Django-ORM-F-Q/" itemprop="url">Django-ORM-F()&Q()</a></h1>
+                <a class="post-title-link" href="/2018/02/27/pgSQL集群工具PLproxy——部署/" itemprop="url">pgSQL集群工具PLproxy——部署</a></h1>
         
 
         <div class="post-meta">
@@ -438,8 +443,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-20T10:50:46+08:00">
-                2017-12-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T17:00:48+08:00">
+                2018-02-27
               </time>
             
 
@@ -461,8 +466,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
                   </a>
                 </span>
 
@@ -472,8 +477,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/ORM/" itemprop="url" rel="index">
-                    <span itemprop="name">ORM</span>
+                  <a href="/categories/PostgreSQL/Extension/" itemprop="url" rel="index">
+                    <span itemprop="name">Extension</span>
                   </a>
                 </span>
 
@@ -510,20 +515,10 @@
 
       
         
-          <p>Django的ORM提供了一些高级函数来操作一些复杂SQL</p>
-<ol>
-<li>当查询是需要基于原属性动态调整，怎么办？</li>
-<li>当查询是需要实时计算多属性，怎么办？</li>
-</ol>
-<p><strong>用F()来解决</strong></p>
-<ol>
-<li>当查询出现一堆filter().exclude().filter()…时是不是太冗长了，怎么办？</li>
-<li>当查询条件出现一堆取并集的或操作，怎么办？</li>
-</ol>
-<p><strong>用Q()来解决</strong></p>
+          <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="下载安装pgsql-9-6"><a href="#下载安装pgsql-9-6" class="headerlink" title="下载安装pgsql-9.6"></a>下载安装pgsql-9.6</h3><p>(可根据需要版本替换命令中的版本号)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm</span><br><span class="line">yum install postgresql96</span><br><span class="line">yum install postgresql96-server</span><br></pre></td></tr></table></figure></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/20/Django-ORM-F-Q/#more" rel="contents">
+            <a class="btn" href="/2018/02/27/pgSQL集群工具PLproxy——部署/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -574,7 +569,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/19/Mathjax用法小结/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/PL-pgSQL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -593,7 +588,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/19/Mathjax用法小结/" itemprop="url">Mathjax用法小结</a></h1>
+                <a class="post-title-link" href="/2018/02/26/PL-pgSQL/" itemprop="url">PL/pgSQL</a></h1>
         
 
         <div class="post-meta">
@@ -605,8 +600,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-19T17:30:19+08:00">
-                2017-12-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-26T14:05:09+08:00">
+                2018-02-26
               </time>
             
 
@@ -628,8 +623,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
                   </a>
                 </span>
 
@@ -639,8 +634,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Tips</span>
+                  <a href="/categories/PostgreSQL/Usage/" itemprop="url" rel="index">
+                    <span itemprop="name">Usage</span>
                   </a>
                 </span>
 
@@ -677,14 +672,17 @@
 
       
         
-          <p><img src="/images/mathjax_logo.png" alt="logo"><br>在Markdown中输入数学公式使用的是LaTeX语法</p>
-<h2 id="显示位置"><a href="#显示位置" class="headerlink" title="显示位置"></a>显示位置</h2><ul>
-<li>inline: 正文中显示使用\$...\$定义</li>
-<li>display: 单独显示用\$\$...\$\$定义</li>
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>PL/pgSQL是PstgreSQL数据库系统的一个可加载的过程语言，可以：</p>
+<ul>
+<li>用于创建函数和触发器过程</li>
+<li>为SQL语言增加控制结构</li>
+<li>执行复杂的计算</li>
+<li>继承所有用户定义类型、函数、操作符</li>
+<li>定义为被服务器信任的语言</li>
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/19/Mathjax用法小结/#more" rel="contents">
+            <a class="btn" href="/2018/02/26/PL-pgSQL/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -735,7 +733,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/18/Hexo全局配置笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/23/《数据仓库》第三章-设计数据仓库2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -754,7 +752,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/18/Hexo全局配置笔记/" itemprop="url">Hexo的_config.yml全局配置笔记</a></h1>
+                <a class="post-title-link" href="/2018/02/23/《数据仓库》第三章-设计数据仓库2/" itemprop="url">《数据仓库》第三章-设计数据仓库2</a></h1>
         
 
         <div class="post-meta">
@@ -766,8 +764,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T17:01:58+08:00">
-                2017-12-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-23T17:06:27+08:00">
+                2018-02-23
               </time>
             
 
@@ -789,154 +787,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">Hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>积攒一些Hexo配置相关的内容备用，主要是修改<strong><em>_config.yml</em></strong>文件</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/18/Hexo全局配置笔记/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/18/Hexo中Mathjax配置的踩坑记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/18/Hexo中Mathjax配置的踩坑记录/" itemprop="url">Hexo中Mathjax配置的踩坑记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T16:50:33+08:00">
-                2017-12-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
                   </a>
                 </span>
 
@@ -946,8 +798,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/Tips/" itemprop="url" rel="index">
-                    <span itemprop="name">Tips</span>
+                  <a href="/categories/Notes/《数据仓库》/" itemprop="url" rel="index">
+                    <span itemprop="name">《数据仓库》</span>
                   </a>
                 </span>
 
@@ -984,10 +836,22 @@
 
       
         
-          <p>博客算是搭起来了，以前用过wordpress，感觉就挺方便了。这次用了hexo，几行命令就搞定了，然后找了找主题，发现next还真的符合我简约不简单的风格，果断使用，也是几行命令搞定。<br>不过话说回来，简单是简单，还是有一些坑的，比如本文要讲的mathjax配置，坑了我1个小时，最后还是看官方文档才趟过去</p>
+          <h2 id="转换和集成的复杂性"><a href="#转换和集成的复杂性" class="headerlink" title="转换和集成的复杂性"></a>转换和集成的复杂性</h2><p>在数据从操作型环境到数据仓库环境的转换和集成中需要完成的一些功能（ETL）：</p>
+<ol>
+<li>操作型数据库数据查询，数据仓库的数据写入</li>
+<li>操作型数据库多表联合查询</li>
+<li>加入时间成分</li>
+<li>非关键字数据格式化</li>
+<li>数据清理：取值范围检查、交叉记录验证、格式验证</li>
+<li>多数据源合并</li>
+<li>多数据源的关键字解析、排序</li>
+<li>多个输出结果（因为产生不同的综合层次）</li>
+<li>提供默认值</li>
+<li>…</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/18/Hexo中Mathjax配置的踩坑记录/#more" rel="contents">
+            <a class="btn" href="/2018/02/23/《数据仓库》第三章-设计数据仓库2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1038,7 +902,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/Django-ORM-ManyToManyField/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/11/《数据仓库》第三章-设计数据仓库1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -1057,7 +921,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/14/Django-ORM-ManyToManyField/" itemprop="url">Django-ORM-ManyToManyField</a></h1>
+                <a class="post-title-link" href="/2018/02/11/《数据仓库》第三章-设计数据仓库1/" itemprop="url">《数据仓库》第三章-设计数据仓库1</a></h1>
         
 
         <div class="post-meta">
@@ -1069,8 +933,608 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T22:34:54+08:00">
-                2017-12-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T23:41:26+08:00">
+                2018-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/《数据仓库》/" itemprop="url" rel="index">
+                    <span itemprop="name">《数据仓库》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>建造数据仓库主要包括两个部分的工作:</p>
+<ol>
+<li>与操作型系统结构的设计</li>
+<li>数据仓库本身的设计</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/11/《数据仓库》第三章-设计数据仓库1/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/《数据仓库》第二章-数据仓库环境/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/09/《数据仓库》第二章-数据仓库环境/" itemprop="url">《数据仓库》第二章-数据仓库环境</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T16:24:10+08:00">
+                2018-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/《数据仓库》/" itemprop="url" rel="index">
+                    <span itemprop="name">《数据仓库》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>数据仓库不是一次建成的，因为用户是在发现模式下，只有通过开发迭代，才能确定数据仓库应该包含什么，怎么处理数据。</p>
+<h2 id="数据仓库的特性"><a href="#数据仓库的特性" class="headerlink" title="数据仓库的特性"></a>数据仓库的特性</h2><ul>
+<li>面向主题</li>
+<li>数据集成，从操作型环境传输进来时对数据进行集成（统一编码，统一单位，统一关键字类型，多数据源等）</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/09/《数据仓库》第二章-数据仓库环境/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/Postgresql-WAL日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/09/Postgresql-WAL日志/" itemprop="url">Postgresql-WAL日志</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T11:23:18+08:00">
+                2018-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/Configure/" itemprop="url" rel="index">
+                    <span itemprop="name">Configure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>WAL(Write Ahead Log)，类似oracle中的redo log，作用是保证数据的一致性和事务的完整性，防止系统崩溃时最近的事务无法恢复；不同点是，可以关闭WAL来提高保存性能，但可用性会降低。</p>
+<p>WAL信息一般记录在pg_xlog文件中，默认大小是16M，源码安装时可以更改其大小。这些信息通常是名字类似’000000010000000000000013’这样的文件。</p>
+<h2 id="WAL相关的参数："><a href="#WAL相关的参数：" class="headerlink" title="WAL相关的参数："></a>WAL相关的参数：</h2>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/09/Postgresql-WAL日志/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/Django-QuerySet-API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/25/Django-QuerySet-API/" itemprop="url">Django-QuerySet-API</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-25T15:11:21+08:00">
+                2018-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/24/Django-QuerySet-查询/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/24/Django-QuerySet-查询/" itemprop="url">Django-QuerySet-查询</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-24T18:14:03+08:00">
+                2018-01-24
               </time>
             
 
@@ -1103,8 +1567,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/ORM/" itemprop="url" rel="index">
-                    <span itemprop="name">ORM</span>
+                  <a href="/categories/Django/QuerySet/" itemprop="url" rel="index">
+                    <span itemprop="name">QuerySet</span>
                   </a>
                 </span>
 
@@ -1141,14 +1605,49 @@
 
       
         
-          <p>ManyToManyField是一种多对多关系,默认在数据库中生成关系表,也可以指定一个表作为关系表</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/14/Django-ORM-ManyToManyField/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>一旦建立好Models，Django会自动生成一套数据库抽象的API用于增删改查对象。<br>假设Model建立如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Blog</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line">    tagline = models.TextField()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>              <span class="comment"># __unicode__ on Python 2</span></span><br><span class="line">        <span class="keyword">return</span> self.name</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Author</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">    email = models.EmailField()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>              <span class="comment"># __unicode__ on Python 2</span></span><br><span class="line">        <span class="keyword">return</span> self.name</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Entry</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    blog = models.ForeignKey(Blog)</span><br><span class="line">    headline = models.CharField(max_length=<span class="number">255</span>)</span><br><span class="line">    body_text = models.TextField()</span><br><span class="line">    pub_date = models.DateField()</span><br><span class="line">    mod_date = models.DateField()</span><br><span class="line">    authors = models.ManyToManyField(Author)</span><br><span class="line">    n_comments = models.IntegerField()</span><br><span class="line">    n_pingbacks = models.IntegerField()</span><br><span class="line">    rating = models.IntegerField()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>              <span class="comment"># __unicode__ on Python 2</span></span><br><span class="line">        <span class="keyword">return</span> self.headline</span><br></pre></td></tr></table></figure></p>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> blog.models <span class="keyword">import</span> Blog</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = Blog(name=<span class="string">'Beatles Blog'</span>, tagline=<span class="string">'All the latest Beatles news.'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b.save()</span><br></pre></td></tr></table></figure>
+<h2 id="修改对象"><a href="#修改对象" class="headerlink" title="修改对象"></a>修改对象</h2><h4 id="修改字段"><a href="#修改字段" class="headerlink" title="修改字段"></a>修改字段</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>b.name = <span class="string">'New name'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b.save()</span><br></pre></td></tr></table></figure>
+<h4 id="修改ForeignKey字段"><a href="#修改ForeignKey字段" class="headerlink" title="修改ForeignKey字段"></a>修改ForeignKey字段</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> blog.models <span class="keyword">import</span> Blog, Entry</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry = Entry.objects.get(pk=<span class="number">1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>cheese_blog = Blog.objects.get(name=<span class="string">"Cheddar Talk"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry.blog = cheese_blog</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry.save()</span><br></pre></td></tr></table></figure>
+<h4 id="修改ManyToManyField字段"><a href="#修改ManyToManyField字段" class="headerlink" title="修改ManyToManyField字段"></a>修改ManyToManyField字段</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> blog.models <span class="keyword">import</span> Author</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>joe = Author.objects.create(name=<span class="string">"Joe"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry.authors.add(joe)</span><br><span class="line"><span class="comment"># 可以同时传入多条记录</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry.authors.add(john, paul, george, ringo)</span><br></pre></td></tr></table></figure>
+<h2 id="检索对象"><a href="#检索对象" class="headerlink" title="检索对象"></a>检索对象</h2><p>通过manager构造QuerySet<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>all_entries = Entry.objects.all()</span><br><span class="line"><span class="comment"># 检索满足条件的对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(pub_date__year=<span class="number">2006</span>)</span><br><span class="line"><span class="comment"># 检索不满足条件的对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.exclude(id=<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="链式过滤器"><a href="#链式过滤器" class="headerlink" title="链式过滤器"></a>链式过滤器</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(</span><br><span class="line"><span class="meta">... </span>    headline__startswith=<span class="string">'What'</span></span><br><span class="line"><span class="meta">... </span>).exclude(</span><br><span class="line"><span class="meta">... </span>    pub_date__gte=datetime.date.today()</span><br><span class="line"><span class="meta">... </span>).filter(</span><br><span class="line"><span class="meta">... </span>    pub_date__gte=datetime(<span class="number">2005</span>, <span class="number">1</span>, <span class="number">30</span>)</span><br><span class="line"><span class="meta">... </span>)</span><br></pre></td></tr></table></figure>
+<h3 id="QuerySet是惰性的"><a href="#QuerySet是惰性的" class="headerlink" title="QuerySet是惰性的"></a>QuerySet是惰性的</h3><p>只有需要求值时才会被执行</p>
+<h3 id="使用get-检索单个对象"><a href="#使用get-检索单个对象" class="headerlink" title="使用get()检索单个对象"></a>使用get()检索单个对象</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>one_entry = Entry.objects.get(pk=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>get()只会返回一个对象，查询不到或查询到多个对象时都会报错</p>
+<h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><p>[:5]或[2:5]，不支持负索引</p>
+<h3 id="字段查找"><a href="#字段查找" class="headerlink" title="字段查找"></a>字段查找</h3><p>使用双下划线加关键字，如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(pub_date__lte=<span class="string">'2006-01-01'</span>)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>lt,lte,gt,gte 大小比较</li>
+<li>exact 精确匹配字符串</li>
+<li>iexact 精确匹配，大小写不敏感</li>
+<li>contains 模糊匹配，包含字符串</li>
+<li>icontains 模糊匹配，大小写不敏感</li>
+<li>startswith 以…开头</li>
+<li>endswith 以…结尾</li>
+<li>istartswith,iendswith</li>
+</ul>
+<h2 id="跨关联关系的查询"><a href="#跨关联关系的查询" class="headerlink" title="跨关联关系的查询"></a>跨关联关系的查询</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Blog.objects.filter(entry__authors__isnull=<span class="keyword">False</span>, entry__authors__name__isnull=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<p><strong> 注意 </strong> 当机遇ManyToManyField时，以下两个查询是不同的<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Blog.objects.filter(entry__headline__contains=<span class="string">'Lennon'</span>, entry__pub_date__year=<span class="number">2008</span>)</span><br><span class="line">Blog.objects.filter(entry__headline__contains=<span class="string">'Lennon'</span>).filter(entry__pub_date__year=<span class="number">2008</span>)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>第一个查询结果要求同时同一个entry满足两个条件</li>
+<li>第二个查询中的两个entry可以不是同一个</li>
+</ul>
+<p><strong> 还要注意 </strong> exclude和filter可能不是补集：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Blog.objects.exclude(</span><br><span class="line">    entry__headline__contains=<span class="string">'Lennon'</span>,</span><br><span class="line">    entry__pub_date__year=<span class="number">2008</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">Blog.objects.exclude(</span><br><span class="line">    entry__in=Entry.objects.filter(</span><br><span class="line">        headline__contains=<span class="string">'Lennon'</span>,</span><br><span class="line">        pub_date__year=<span class="number">2008</span>,</span><br><span class="line">    ),</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<h2 id="过滤器可以引用模型的字段"><a href="#过滤器可以引用模型的字段" class="headerlink" title="过滤器可以引用模型的字段"></a>过滤器可以引用模型的字段</h2><p>使用F()函数，并且支持计算，甚至位操作<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(rating__lt=F(<span class="string">'n_comments'</span>) + F(<span class="string">'n_pingbacks'</span>))</span><br></pre></td></tr></table></figure></p>
+<h2 id="缓存和QuerySet"><a href="#缓存和QuerySet" class="headerlink" title="缓存和QuerySet"></a>缓存和QuerySet</h2><p>每个QuerySet都包含一个缓存来最小化对数据库的访问。每个新创建的QuerySet缓存为空，首次求值后结果会先保存在缓存中，并返回结果。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>queryset = Entry.objects.all()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print([p.headline <span class="keyword">for</span> p <span class="keyword">in</span> queryset]) <span class="comment"># Evaluate the query set.</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print([p.pub_date <span class="keyword">for</span> p <span class="keyword">in</span> queryset]) <span class="comment"># Re-use the cache from the evaluation.</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Q-函数（单独讨论）"><a href="#Q-函数（单独讨论）" class="headerlink" title="Q()函数（单独讨论）"></a>Q()函数（单独讨论）</h2><h2 id="比较对象"><a href="#比较对象" class="headerlink" title="比较对象"></a>比较对象</h2><p>比较两个模型实例，使用==，在后台它会比较两个模型主键的值（无论主键是哪个字段）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>some_entry == other_entry</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>some_entry.id == other_entry.id</span><br></pre></td></tr></table></figure></p>
+<p>等价</p>
+<h2 id="删除对象"><a href="#删除对象" class="headerlink" title="删除对象"></a>删除对象</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(pub_date__year=<span class="number">2005</span>).delete()</span><br><span class="line">(<span class="number">5</span>, &#123;<span class="string">'webapp.Entry'</span>: <span class="number">5</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>delete()尽可能使用纯SQL执行，如果要自定义，则需要手工删除该模型的实例，而不能使用QuerySet的批量delete()方法。<br>当Django删除一个对象是，它默认使用SQL ON DELETE CASCADE，进行级联删除</p>
+<h2 id="复制模型实例"><a href="#复制模型实例" class="headerlink" title="复制模型实例"></a>复制模型实例</h2><p>简单方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">blog = Blog(name=<span class="string">'My blog'</span>, tagline=<span class="string">'Blogging is easy'</span>)</span><br><span class="line">blog.save() <span class="comment"># blog.pk == 1</span></span><br><span class="line"></span><br><span class="line">blog.pk = <span class="keyword">None</span></span><br><span class="line">blog.save() <span class="comment"># blog.pk == 2</span></span><br></pre></td></tr></table></figure></p>
+<p>ManyToManyField复制：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">entry = Entry.objects.all()[<span class="number">0</span>] <span class="comment"># some previous entry</span></span><br><span class="line">old_authors = entry.authors.all()</span><br><span class="line">entry.pk = <span class="keyword">None</span></span><br><span class="line">entry.save()</span><br><span class="line">entry.authors.set(old_authors)</span><br></pre></td></tr></table></figure></p>
+<h2 id="批量更新"><a href="#批量更新" class="headerlink" title="批量更新"></a>批量更新</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; b = Blog.objects.get(pk=1)</span><br><span class="line"></span><br><span class="line"># Update all the headlines belonging to this Blog.</span><br><span class="line">&gt;&gt;&gt; Entry.objects.select_related().filter(blog=b).update(headline=&apos;Everything is the same&apos;)</span><br></pre></td></tr></table></figure>
+<p>update()方法会直接转换成一个SQL语句，不会运行模型的save()方法，或发出pre_save或post_save信号<br>update()中可以使用F()函数，但是不能在F()中引入join即爽下划线到其他model</p>
+<h2 id="查询关联对象"><a href="#查询关联对象" class="headerlink" title="查询关联对象"></a>查询关联对象</h2><p>以下三种方式是一样的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Entry.objects.filter(blog=b) <span class="comment"># Query using object instance</span></span><br><span class="line">Entry.objects.filter(blog=b.id) <span class="comment"># Query using id from instance</span></span><br><span class="line">Entry.objects.filter(blog=<span class="number">5</span>) <span class="comment"># Query using id directly</span></span><br></pre></td></tr></table></figure></p>
+
+          
         
       
     </div>
@@ -1195,7 +1694,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/使用hexo和github构建自己的博客/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/24/Django-Database-访问优化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -1214,7 +1713,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/14/使用hexo和github构建自己的博客/" itemprop="url">使用hexo和github构建自己的博客</a></h1>
+                <a class="post-title-link" href="/2018/01/24/Django-Database-访问优化/" itemprop="url">Django-Database-访问优化</a></h1>
         
 
         <div class="post-meta">
@@ -1226,8 +1725,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T22:17:31+08:00">
-                2017-12-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-24T16:37:58+08:00">
+                2018-01-24
               </time>
             
 
@@ -1249,8 +1748,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">Hexo</span>
+                  <a href="/categories/Django/" itemprop="url" rel="index">
+                    <span itemprop="name">Django</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/Database/" itemprop="url" rel="index">
+                    <span itemprop="name">Database</span>
                   </a>
                 </span>
 
@@ -1287,14 +1797,31 @@
 
       
         
-          <p>搭建博客后的首篇文章自然是要总结一下搭建流程啦!后续还会记录优化博客的相关事宜</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/14/使用hexo和github构建自己的博客/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p>使用django-debug-toolbar是一个很好的选择。<br>主要的优化方向有两个：查询速度和内存占用</p>
+<h2 id="使用DB优化技术"><a href="#使用DB优化技术" class="headerlink" title="使用DB优化技术"></a>使用DB优化技术</h2><ol>
+<li>索引</li>
+<li>合理使用字段类型</li>
+</ol>
+<h2 id="理解QuerySets"><a href="#理解QuerySets" class="headerlink" title="理解QuerySets"></a>理解QuerySets</h2><h2 id="在数据库中工作，而不是python"><a href="#在数据库中工作，而不是python" class="headerlink" title="在数据库中工作，而不是python"></a>在数据库中工作，而不是python</h2><ol>
+<li>使用filter and exclude对数据库进行过滤</li>
+<li>使用F函数在相同模型中基于其他字段进行过滤</li>
+<li>使用annotate来在数据库中做聚合操作</li>
+<li>使用RawSQL查询</li>
+<li>使用原始SQL查询</li>
+</ol>
+<h2 id="使用唯一的索引来检索单个对象"><a href="#使用唯一的索引来检索单个对象" class="headerlink" title="使用唯一的索引来检索单个对象"></a>使用唯一的索引来检索单个对象</h2><p>get(id=10) &gt; get(name=’abcdef’) &gt; get(name__startswith=’abc’)</p>
+<h2 id="当知道要使用数据时，一起检索出来，避免多次检索"><a href="#当知道要使用数据时，一起检索出来，避免多次检索" class="headerlink" title="当知道要使用数据时，一起检索出来，避免多次检索"></a>当知道要使用数据时，一起检索出来，避免多次检索</h2><p>使用好QuerySet.select_related()和prefetch_related()</p>
+<h2 id="不要检索不需要的东西"><a href="#不要检索不需要的东西" class="headerlink" title="不要检索不需要的东西"></a>不要检索不需要的东西</h2><p>使用QuerySet.values()和values_list()<br>使用QuerySet.defer()和only()</p>
+<h2 id="使用批量数据库操作函数，而不是单独保存"><a href="#使用批量数据库操作函数，而不是单独保存" class="headerlink" title="使用批量数据库操作函数，而不是单独保存"></a>使用批量数据库操作函数，而不是单独保存</h2><ol>
+<li>update()</li>
+<li>bulk_create()</li>
+<li>bulk_delete()</li>
+</ol>
+<h2 id="直接使用外键值"><a href="#直接使用外键值" class="headerlink" title="直接使用外键值"></a>直接使用外键值</h2><p>使用entry.blog_id而不是entry.blog.id</p>
+<h2 id="能不排序就不要排序"><a href="#能不排序就不要排序" class="headerlink" title="能不排序就不要排序"></a>能不排序就不要排序</h2><p>如果在Meta.ordering中定义了默认的排序，则在QuerySet上无参调用order_by()</p>
+
+          
         
       
     </div>
@@ -1332,7 +1859,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1382,7 +1909,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1393,7 +1920,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1404,7 +1931,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

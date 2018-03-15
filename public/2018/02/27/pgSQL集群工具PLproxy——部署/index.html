@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PstgreSQL,PLproxy," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="准备工作下载安装pgsql-9.6(可根据需要版本替换命令中的版本号)123yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpmyum install postgresql96yum install postgresql96-">
+<meta name="keywords" content="PstgreSQL,PLproxy">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pgSQL集群工具PLproxy——部署">
+<meta property="og:url" content="http://yoursite.com/2018/02/27/pgSQL集群工具PLproxy——部署/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="准备工作下载安装pgsql-9.6(可根据需要版本替换命令中的版本号)123yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpmyum install postgresql96yum install postgresql96-">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-10T15:42:06.276Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pgSQL集群工具PLproxy——部署">
+<meta name="twitter:description" content="准备工作下载安装pgsql-9.6(可根据需要版本替换命令中的版本号)123yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpmyum install postgresql96yum install postgresql96-">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/27/pgSQL集群工具PLproxy——部署/"/>
+
+
+
+
+
+  <title>pgSQL集群工具PLproxy——部署 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/pgSQL集群工具PLproxy——部署/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">pgSQL集群工具PLproxy——部署</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T17:00:48+08:00">
+                2018-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/Extension/" itemprop="url" rel="index">
+                    <span itemprop="name">Extension</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="下载安装pgsql-9-6"><a href="#下载安装pgsql-9-6" class="headerlink" title="下载安装pgsql-9.6"></a>下载安装pgsql-9.6</h3><p>(可根据需要版本替换命令中的版本号)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm</span><br><span class="line">yum install postgresql96</span><br><span class="line">yum install postgresql96-server</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h3 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/usr/pgsql-9.6/bin/postgresql96-setup initdb</span><br><span class="line"><span class="comment">### 使用systemd管理</span></span><br><span class="line">systemctl <span class="built_in">enable</span> postgresql-9.6</span><br><span class="line">systemctl start postgresql-9.6</span><br></pre></td></tr></table></figure>
+<p><strong><em>需要安装下列安装包</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install flex</span><br><span class="line">sudo yum install bison</span><br><span class="line">sudo yum install postgresql96-devel</span><br></pre></td></tr></table></figure></p>
+<h3 id="修改环境变量"><a href="#修改环境变量" class="headerlink" title="修改环境变量"></a>修改环境变量</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /etc/profile</span></span><br></pre></td></tr></table></figure>
+<p>插入<br>PATH=/usr/pgsql-9.6/bin:$PATH<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># source /etc/profile</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="安装plproxy"><a href="#安装plproxy" class="headerlink" title="安装plproxy"></a>安装plproxy</h3><p>pgsql官网的plproxy最新版2.5（只支持pgsql9.4及以前版本）<br><a href="http://pgfoundry.org/projects/plproxy" target="_blank" rel="noopener">http://pgfoundry.org/projects/plproxy</a></p>
+<p>github上最新的plproxy已更新至2.8<br><a href="https://github.com/plproxy/plproxy/tree/plproxy_2_8" target="_blank" rel="noopener">https://github.com/plproxy/plproxy/tree/plproxy_2_8</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar xvf plproxy-2.5.tar.gz</span><br><span class="line"><span class="built_in">cd</span> plproxy-2.5</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure></p>
+<h2 id="部署plproxy"><a href="#部署plproxy" class="headerlink" title="部署plproxy"></a>部署plproxy</h2><h3 id="创建proxy代理数据库"><a href="#创建proxy代理数据库" class="headerlink" title="创建proxy代理数据库"></a>创建proxy代理数据库</h3><h4 id="使用超级用户postgres进入数据库环境"><a href="#使用超级用户postgres进入数据库环境" class="headerlink" title="使用超级用户postgres进入数据库环境"></a>使用超级用户postgres进入数据库环境</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@data-center-zookeeper bin]<span class="comment"># sudo su - postgres</span></span><br><span class="line">-bash-4.2$ psql</span><br></pre></td></tr></table></figure>
+<h4 id="创建proxy角色"><a href="#创建proxy角色" class="headerlink" title="创建proxy角色"></a>创建proxy角色</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">postgres=<span class="comment"># CREATE ROLE proxy NOSUPERUSER LOGIN ENCRYPTED PASSWORD 'proxy';</span></span><br><span class="line">CREATE ROLE</span><br></pre></td></tr></table></figure>
+<h4 id="创建proxy数据库"><a href="#创建proxy数据库" class="headerlink" title="创建proxy数据库"></a>创建proxy数据库</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">digoal=<span class="comment"># CREATE DATABASE proxy;</span></span><br><span class="line">CREATE DATABASE</span><br></pre></td></tr></table></figure>
+<h4 id="使用超级用户postgres进入到proxy数据库，并创建plproxy扩展"><a href="#使用超级用户postgres进入到proxy数据库，并创建plproxy扩展" class="headerlink" title="使用超级用户postgres进入到proxy数据库，并创建plproxy扩展"></a>使用超级用户postgres进入到proxy数据库，并创建plproxy扩展</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">digoal=<span class="comment"># \c proxy</span></span><br><span class="line">You are now connected to database <span class="string">"proxy"</span> as user <span class="string">"postgres"</span>.</span><br><span class="line">proxy=<span class="comment"># CREATE EXTENSION plproxy;</span></span><br><span class="line">CREATE EXTENSION</span><br></pre></td></tr></table></figure>
+<h4 id="调整proxy库授权"><a href="#调整proxy库授权" class="headerlink" title="调整proxy库授权"></a>调整proxy库授权</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">proxy=<span class="comment"># GRANT ALL ON DATABASE proxy TO proxy;</span></span><br><span class="line">GRANT</span><br><span class="line">proxy=<span class="comment"># \c proxy proxy</span></span><br><span class="line">You are now connected to database <span class="string">"proxy"</span> as user <span class="string">"proxy"</span>.</span><br></pre></td></tr></table></figure>
+<p><strong><em>如果无法使用proxy用户连接，调整pg_hba.conf文件的权限设置</em></strong></p>
+<h4 id="创建digoal-schema-使用proxy用户"><a href="#创建digoal-schema-使用proxy用户" class="headerlink" title="创建digoal schema  使用proxy用户"></a>创建digoal schema  <strong><em>使用proxy用户</em></strong></h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy=&gt; CREATE SCHEMA digoal;</span><br><span class="line">CREATE SCHEMA</span><br></pre></td></tr></table></figure>
+<p><strong><em>创建schema后最好加到search_path中，否则执行\dt无法列出来</em></strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> search_path;</span><br><span class="line"><span class="keyword">SET</span> search_path <span class="keyword">TO</span> myschema,<span class="keyword">public</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="部署节点数据库"><a href="#部署节点数据库" class="headerlink" title="部署节点数据库"></a>部署节点数据库</h3><h4 id="创建节点数据库-以两节点为例"><a href="#创建节点数据库-以两节点为例" class="headerlink" title="创建节点数据库(以两节点为例)"></a>创建节点数据库(以两节点为例)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">proxy=&gt; \c postgres postgres</span><br><span class="line">You are now connected to database <span class="string">"postgres"</span> as user <span class="string">"postgres"</span>.</span><br><span class="line">postgres=<span class="comment"># CREATE ROLE digoal NOSUPERUSER LOGIN ENCRYPTED PASSWORD 'digoal';</span></span><br><span class="line">postgres=<span class="comment"># CREATE DATABASE db0;</span></span><br><span class="line">postgres=<span class="comment"># CREATE DATABASE db1;</span></span><br></pre></td></tr></table></figure>
+<h4 id="调整权限"><a href="#调整权限" class="headerlink" title="调整权限"></a>调整权限</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">postgres=<span class="comment"># GRANT ALL ON DATABASE db0 TO digoal;</span></span><br><span class="line">postgres=<span class="comment"># GRANT ALL ON DATABASE db1 TO digoal;</span></span><br></pre></td></tr></table></figure>
+<h3 id="部署proxy-server"><a href="#部署proxy-server" class="headerlink" title="部署proxy server"></a>部署proxy server</h3><h4 id="使用超级用户在proxy数据库中创建server"><a href="#使用超级用户在proxy数据库中创建server" class="headerlink" title="使用超级用户在proxy数据库中创建server"></a>使用超级用户在proxy数据库中创建server</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">proxy=&gt; \c proxy postgres  </span><br><span class="line">You are now connected to database <span class="string">"proxy"</span> as user <span class="string">"postgres"</span>.</span><br><span class="line">proxy=<span class="comment"># </span></span><br><span class="line">CREATE SERVER cluster_srv1 FOREIGN DATA WRAPPER plproxy OPTIONS</span><br><span class="line">(connection_lifetime <span class="string">'1800'</span>,</span><br><span class="line">p0 <span class="string">'dbname=db0 hostaddr=127.0.0.1 port=5432 application_name=test'</span>,</span><br><span class="line">p1 <span class="string">'dbname=db1 hostaddr=127.0.0.1 port=5432'</span>);</span><br></pre></td></tr></table></figure>
+<p><strong><em>此处有坑</em></strong></p>
+<ul>
+<li>如果hostaddr相同，即在同一台主机上，dbname应该不同</li>
+<li>如果hostaddr不相同，则dbname要相同，否则proxy库函数执行失败，不知道why</li>
+</ul>
+<h4 id="将server权限赋予给proxy用户"><a href="#将server权限赋予给proxy用户" class="headerlink" title="将server权限赋予给proxy用户"></a>将server权限赋予给proxy用户</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy=<span class="comment"># GRANT USAGE ON FOREIGN SERVER cluster_srv1 TO proxy;</span></span><br><span class="line">GRANT</span><br></pre></td></tr></table></figure>
+<h4 id="配置proxy用户的链接cluster-srv1的选项"><a href="#配置proxy用户的链接cluster-srv1的选项" class="headerlink" title="配置proxy用户的链接cluster_srv1的选项"></a>配置proxy用户的链接cluster_srv1的选项</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy=<span class="comment"># CREATE USER MAPPING FOR proxy SERVER cluster_srv1 OPTIONS (user 'digoal');</span></span><br><span class="line">CREATE USER MAPPING</span><br></pre></td></tr></table></figure>
+<p>用户proxy连接到cluster_srv1时使用digoal用户连接, 这里不需要配置password, 因为我们将使用trust认证.</p>
+<h4 id="修改数据节点的pg-hba-conf"><a href="#修改数据节点的pg-hba-conf" class="headerlink" title="修改数据节点的pg_hba.conf"></a>修改数据节点的pg_hba.conf</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vi <span class="variable">$PGDATA</span>/pg_hba.conf</span><br><span class="line">host db0 digoal 172.16.3.150/32 trust</span><br><span class="line">host db1 digoal 172.16.3.150/32 trust</span><br><span class="line">-bash-4.2$ pg_ctl reload</span><br></pre></td></tr></table></figure>
+<h4 id="在plproxy节点创建代理函数"><a href="#在plproxy节点创建代理函数" class="headerlink" title="在plproxy节点创建代理函数"></a>在plproxy节点创建代理函数</h4><p>使用超级用户创建plproxy函数, 然后把函数权限赋予给proxy权限.<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">proxy=<span class="comment"># CREATE OR REPLACE FUNCTION digoal.dy(sql text)</span></span><br><span class="line"> RETURNS SETOF record</span><br><span class="line"> LANGUAGE plproxy</span><br><span class="line"> STRICT</span><br><span class="line">AS <span class="variable">$function</span>$</span><br><span class="line">  cluster <span class="string">'cluster_srv1'</span>;</span><br><span class="line">  run on all;</span><br><span class="line"><span class="variable">$function</span>$;</span><br><span class="line">proxy=<span class="comment"># GRANT EXECUTE ON FUNCTION digoal.dy(text) TO proxy;</span></span><br><span class="line">GRANT</span><br></pre></td></tr></table></figure></p>
+<h4 id="在数据节点创建schema-digoal-并创建实体函数"><a href="#在数据节点创建schema-digoal-并创建实体函数" class="headerlink" title="在数据节点创建schema digoal,并创建实体函数"></a>在数据节点创建schema digoal,并创建实体函数</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">proxy=<span class="comment"># \c db0 digoal  </span></span><br><span class="line">db0=<span class="comment"># CREATE SCHEMA digoal；</span></span><br><span class="line">CREATE SCHEMA</span><br><span class="line">db0=<span class="comment"># </span></span><br><span class="line">CREATE OR REPLACE FUNCTION digoal.dy(sql text)  </span><br><span class="line"> RETURNS SETOF record  </span><br><span class="line"> LANGUAGE plpgsql  </span><br><span class="line"> STRICT  </span><br><span class="line">AS <span class="variable">$function</span>$  </span><br><span class="line">  <span class="built_in">declare</span>  </span><br><span class="line">  rec record;  </span><br><span class="line">  begin  </span><br><span class="line">    <span class="keyword">for</span> rec <span class="keyword">in</span> execute sql loop  </span><br><span class="line">      <span class="built_in">return</span> next rec;  </span><br><span class="line">    end loop;  </span><br><span class="line">    <span class="built_in">return</span>;  </span><br><span class="line">  end;  </span><br><span class="line"><span class="variable">$function</span>$;  </span><br><span class="line">db0=<span class="comment"># \c db1 digoal  </span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<h4 id="在proxy节点中就可以访问数据节点了，例如"><a href="#在proxy节点中就可以访问数据节点了，例如" class="headerlink" title="在proxy节点中就可以访问数据节点了，例如"></a>在proxy节点中就可以访问数据节点了，例如</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">proxy=&gt; select * from digoal.dy(<span class="string">'select count(*) from pg_class'</span>) as t(i int8);  </span><br><span class="line">  i    </span><br><span class="line">-----  </span><br><span class="line"> 293  </span><br><span class="line"> 293  </span><br><span class="line"> 293  </span><br><span class="line"> 293  </span><br><span class="line">(4 rows)  </span><br><span class="line">proxy=&gt; select sum(i) from digoal.dy(<span class="string">'select count(*) from pg_class'</span>) as t(i int8);  </span><br><span class="line"> sum    </span><br><span class="line">------  </span><br><span class="line"> 1172  </span><br><span class="line">(1 row)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PstgreSQL/" rel="tag"># PstgreSQL</a>
+          
+            <a href="/tags/PLproxy/" rel="tag"># PLproxy</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/26/PL-pgSQL/" rel="next" title="PL/pgSQL">
+                <i class="fa fa-chevron-left"></i> PL/pgSQL
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/28/SQL-MED/" rel="prev" title="SQL/MED">
+                SQL/MED <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x51C6;&#x5907;&#x5DE5;&#x4F5C;" class="headerlink" title="&#x51C6;&#x5907;&#x5DE5;&#x4F5C;"></a>&#x51C6;&#x5907;&#x5DE5;&#x4F5C;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装pgsql-9-6"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;pgsql-9-6" class="headerlink" title="&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;pgsql-9.6"></a>&#x4E0B;&#x8F7D;&#x5B89;&#x88C5;pgsql-9.6</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化数据库"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;"></a>&#x521D;&#x59CB;&#x5316;&#x6570;&#x636E;&#x5E93;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改环境变量"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x4FEE;&#x6539;&#x73AF;&#x5883;&#x53D8;&#x91CF;" class="headerlink" title="&#x4FEE;&#x6539;&#x73AF;&#x5883;&#x53D8;&#x91CF;"></a>&#x4FEE;&#x6539;&#x73AF;&#x5883;&#x53D8;&#x91CF;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装plproxy"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x5B89;&#x88C5;plproxy" class="headerlink" title="&#x5B89;&#x88C5;plproxy"></a>&#x5B89;&#x88C5;plproxy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署plproxy"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x90E8;&#x7F72;plproxy" class="headerlink" title="&#x90E8;&#x7F72;plproxy"></a>&#x90E8;&#x7F72;plproxy</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建proxy代理数据库"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;proxy&#x4EE3;&#x7406;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x521B;&#x5EFA;proxy&#x4EE3;&#x7406;&#x6570;&#x636E;&#x5E93;"></a>&#x521B;&#x5EFA;proxy&#x4EE3;&#x7406;&#x6570;&#x636E;&#x5E93;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用超级用户postgres进入数据库环境"><span class="nav-number">2.1.1.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x8D85;&#x7EA7;&#x7528;&#x6237;postgres&#x8FDB;&#x5165;&#x6570;&#x636E;&#x5E93;&#x73AF;&#x5883;" class="headerlink" title="&#x4F7F;&#x7528;&#x8D85;&#x7EA7;&#x7528;&#x6237;postgres&#x8FDB;&#x5165;&#x6570;&#x636E;&#x5E93;&#x73AF;&#x5883;"></a>&#x4F7F;&#x7528;&#x8D85;&#x7EA7;&#x7528;&#x6237;postgres&#x8FDB;&#x5165;&#x6570;&#x636E;&#x5E93;&#x73AF;&#x5883;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建proxy角色"><span class="nav-number">2.1.2.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;proxy&#x89D2;&#x8272;" class="headerlink" title="&#x521B;&#x5EFA;proxy&#x89D2;&#x8272;"></a>&#x521B;&#x5EFA;proxy&#x89D2;&#x8272;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建proxy数据库"><span class="nav-number">2.1.3.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;proxy&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x521B;&#x5EFA;proxy&#x6570;&#x636E;&#x5E93;"></a>&#x521B;&#x5EFA;proxy&#x6570;&#x636E;&#x5E93;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用超级用户postgres进入到proxy数据库，并创建plproxy扩展"><span class="nav-number">2.1.4.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x8D85;&#x7EA7;&#x7528;&#x6237;postgres&#x8FDB;&#x5165;&#x5230;proxy&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5E76;&#x521B;&#x5EFA;plproxy&#x6269;&#x5C55;" class="headerlink" title="&#x4F7F;&#x7528;&#x8D85;&#x7EA7;&#x7528;&#x6237;postgres&#x8FDB;&#x5165;&#x5230;proxy&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5E76;&#x521B;&#x5EFA;plproxy&#x6269;&#x5C55;"></a>&#x4F7F;&#x7528;&#x8D85;&#x7EA7;&#x7528;&#x6237;postgres&#x8FDB;&#x5165;&#x5230;proxy&#x6570;&#x636E;&#x5E93;&#xFF0C;&#x5E76;&#x521B;&#x5EFA;plproxy&#x6269;&#x5C55;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调整proxy库授权"><span class="nav-number">2.1.5.</span> <span class="nav-text"><a href="#&#x8C03;&#x6574;proxy&#x5E93;&#x6388;&#x6743;" class="headerlink" title="&#x8C03;&#x6574;proxy&#x5E93;&#x6388;&#x6743;"></a>&#x8C03;&#x6574;proxy&#x5E93;&#x6388;&#x6743;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建digoal-schema-使用proxy用户"><span class="nav-number">2.1.6.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;digoal-schema-&#x4F7F;&#x7528;proxy&#x7528;&#x6237;" class="headerlink" title="&#x521B;&#x5EFA;digoal schema  &#x4F7F;&#x7528;proxy&#x7528;&#x6237;"></a>&#x521B;&#x5EFA;digoal schema  <strong><em>&#x4F7F;&#x7528;proxy&#x7528;&#x6237;</em></strong></span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署节点数据库"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x90E8;&#x7F72;&#x8282;&#x70B9;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x90E8;&#x7F72;&#x8282;&#x70B9;&#x6570;&#x636E;&#x5E93;"></a>&#x90E8;&#x7F72;&#x8282;&#x70B9;&#x6570;&#x636E;&#x5E93;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建节点数据库-以两节点为例"><span class="nav-number">2.2.1.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;&#x8282;&#x70B9;&#x6570;&#x636E;&#x5E93;-&#x4EE5;&#x4E24;&#x8282;&#x70B9;&#x4E3A;&#x4F8B;" class="headerlink" title="&#x521B;&#x5EFA;&#x8282;&#x70B9;&#x6570;&#x636E;&#x5E93;(&#x4EE5;&#x4E24;&#x8282;&#x70B9;&#x4E3A;&#x4F8B;)"></a>&#x521B;&#x5EFA;&#x8282;&#x70B9;&#x6570;&#x636E;&#x5E93;(&#x4EE5;&#x4E24;&#x8282;&#x70B9;&#x4E3A;&#x4F8B;)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#调整权限"><span class="nav-number">2.2.2.</span> <span class="nav-text"><a href="#&#x8C03;&#x6574;&#x6743;&#x9650;" class="headerlink" title="&#x8C03;&#x6574;&#x6743;&#x9650;"></a>&#x8C03;&#x6574;&#x6743;&#x9650;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署proxy-server"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x90E8;&#x7F72;proxy-server" class="headerlink" title="&#x90E8;&#x7F72;proxy server"></a>&#x90E8;&#x7F72;proxy server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用超级用户在proxy数据库中创建server"><span class="nav-number">2.3.1.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x8D85;&#x7EA7;&#x7528;&#x6237;&#x5728;proxy&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x521B;&#x5EFA;server" class="headerlink" title="&#x4F7F;&#x7528;&#x8D85;&#x7EA7;&#x7528;&#x6237;&#x5728;proxy&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x521B;&#x5EFA;server"></a>&#x4F7F;&#x7528;&#x8D85;&#x7EA7;&#x7528;&#x6237;&#x5728;proxy&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x521B;&#x5EFA;server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将server权限赋予给proxy用户"><span class="nav-number">2.3.2.</span> <span class="nav-text"><a href="#&#x5C06;server&#x6743;&#x9650;&#x8D4B;&#x4E88;&#x7ED9;proxy&#x7528;&#x6237;" class="headerlink" title="&#x5C06;server&#x6743;&#x9650;&#x8D4B;&#x4E88;&#x7ED9;proxy&#x7528;&#x6237;"></a>&#x5C06;server&#x6743;&#x9650;&#x8D4B;&#x4E88;&#x7ED9;proxy&#x7528;&#x6237;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置proxy用户的链接cluster-srv1的选项"><span class="nav-number">2.3.3.</span> <span class="nav-text"><a href="#&#x914D;&#x7F6E;proxy&#x7528;&#x6237;&#x7684;&#x94FE;&#x63A5;cluster-srv1&#x7684;&#x9009;&#x9879;" class="headerlink" title="&#x914D;&#x7F6E;proxy&#x7528;&#x6237;&#x7684;&#x94FE;&#x63A5;cluster_srv1&#x7684;&#x9009;&#x9879;"></a>&#x914D;&#x7F6E;proxy&#x7528;&#x6237;&#x7684;&#x94FE;&#x63A5;cluster_srv1&#x7684;&#x9009;&#x9879;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改数据节点的pg-hba-conf"><span class="nav-number">2.3.4.</span> <span class="nav-text"><a href="#&#x4FEE;&#x6539;&#x6570;&#x636E;&#x8282;&#x70B9;&#x7684;pg-hba-conf" class="headerlink" title="&#x4FEE;&#x6539;&#x6570;&#x636E;&#x8282;&#x70B9;&#x7684;pg_hba.conf"></a>&#x4FEE;&#x6539;&#x6570;&#x636E;&#x8282;&#x70B9;&#x7684;pg_hba.conf</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在plproxy节点创建代理函数"><span class="nav-number">2.3.5.</span> <span class="nav-text"><a href="#&#x5728;plproxy&#x8282;&#x70B9;&#x521B;&#x5EFA;&#x4EE3;&#x7406;&#x51FD;&#x6570;" class="headerlink" title="&#x5728;plproxy&#x8282;&#x70B9;&#x521B;&#x5EFA;&#x4EE3;&#x7406;&#x51FD;&#x6570;"></a>&#x5728;plproxy&#x8282;&#x70B9;&#x521B;&#x5EFA;&#x4EE3;&#x7406;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在数据节点创建schema-digoal-并创建实体函数"><span class="nav-number">2.3.6.</span> <span class="nav-text"><a href="#&#x5728;&#x6570;&#x636E;&#x8282;&#x70B9;&#x521B;&#x5EFA;schema-digoal-&#x5E76;&#x521B;&#x5EFA;&#x5B9E;&#x4F53;&#x51FD;&#x6570;" class="headerlink" title="&#x5728;&#x6570;&#x636E;&#x8282;&#x70B9;&#x521B;&#x5EFA;schema digoal,&#x5E76;&#x521B;&#x5EFA;&#x5B9E;&#x4F53;&#x51FD;&#x6570;"></a>&#x5728;&#x6570;&#x636E;&#x8282;&#x70B9;&#x521B;&#x5EFA;schema digoal,&#x5E76;&#x521B;&#x5EFA;&#x5B9E;&#x4F53;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在proxy节点中就可以访问数据节点了，例如"><span class="nav-number">2.3.7.</span> <span class="nav-text"><a href="#&#x5728;proxy&#x8282;&#x70B9;&#x4E2D;&#x5C31;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x6570;&#x636E;&#x8282;&#x70B9;&#x4E86;&#xFF0C;&#x4F8B;&#x5982;" class="headerlink" title="&#x5728;proxy&#x8282;&#x70B9;&#x4E2D;&#x5C31;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x6570;&#x636E;&#x8282;&#x70B9;&#x4E86;&#xFF0C;&#x4F8B;&#x5982;"></a>&#x5728;proxy&#x8282;&#x70B9;&#x4E2D;&#x5C31;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#x6570;&#x636E;&#x8282;&#x70B9;&#x4E86;&#xFF0C;&#x4F8B;&#x5982;</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

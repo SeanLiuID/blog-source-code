@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Data Warehouse," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据仓库不是一次建成的，因为用户是在发现模式下，只有通过开发迭代，才能确定数据仓库应该包含什么，怎么处理数据。 数据仓库的特性 面向主题 数据集成，从操作型环境传输进来时对数据进行集成（统一编码，统一单位，统一关键字类型，多数据源等）">
+<meta name="keywords" content="Data Warehouse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《数据仓库》第二章-数据仓库环境">
+<meta property="og:url" content="http://yoursite.com/2018/02/09/《数据仓库》第二章-数据仓库环境/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="数据仓库不是一次建成的，因为用户是在发现模式下，只有通过开发迭代，才能确定数据仓库应该包含什么，怎么处理数据。 数据仓库的特性 面向主题 数据集成，从操作型环境传输进来时对数据进行集成（统一编码，统一单位，统一关键字类型，多数据源等）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-10T15:40:03.352Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《数据仓库》第二章-数据仓库环境">
+<meta name="twitter:description" content="数据仓库不是一次建成的，因为用户是在发现模式下，只有通过开发迭代，才能确定数据仓库应该包含什么，怎么处理数据。 数据仓库的特性 面向主题 数据集成，从操作型环境传输进来时对数据进行集成（统一编码，统一单位，统一关键字类型，多数据源等）">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/09/《数据仓库》第二章-数据仓库环境/"/>
+
+
+
+
+
+  <title>《数据仓库》第二章-数据仓库环境 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/《数据仓库》第二章-数据仓库环境/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《数据仓库》第二章-数据仓库环境</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T16:24:10+08:00">
+                2018-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/《数据仓库》/" itemprop="url" rel="index">
+                    <span itemprop="name">《数据仓库》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>数据仓库不是一次建成的，因为用户是在发现模式下，只有通过开发迭代，才能确定数据仓库应该包含什么，怎么处理数据。</p>
+<h2 id="数据仓库的特性"><a href="#数据仓库的特性" class="headerlink" title="数据仓库的特性"></a>数据仓库的特性</h2><ul>
+<li>面向主题</li>
+<li>数据集成，从操作型环境传输进来时对数据进行集成（统一编码，统一单位，统一关键字类型，多数据源等）</li>
+</ul>
+<a id="more"></a>
+<h2 id="数据仓库设计决策的两个最重要方面"><a href="#数据仓库设计决策的两个最重要方面" class="headerlink" title="数据仓库设计决策的两个最重要方面"></a>数据仓库设计决策的两个最重要方面</h2><h3 id="粒度："><a href="#粒度：" class="headerlink" title="粒度："></a>粒度：</h3><ol>
+<li>低粒度带来大量数据，存储成本和计算都会受到影响；高粒度效率高，但会丢失很多细节数据；可以采用<strong>双重粒度</strong>设计。<h3 id="分区："><a href="#分区：" class="headerlink" title="分区："></a>分区：</h3></li>
+<li>分区在应用层而非系统层，数据分区是的数据可以在小的分开的离散单元中进行管理。</li>
+<li>方便装载，建索引，查询，归档，删除，监控，存储等管理工作。</li>
+</ol>
+<h2 id="活样本数据库"><a href="#活样本数据库" class="headerlink" title="活样本数据库"></a>活样本数据库</h2><p>活样本数据库是从数据仓库中取得的真实档案数据或轻度综合数据的一个子集。”样本”指一部分数据，”活”指需要周期刷新，可以用作分析员开发的测试集。</p>
+<h2 id="数据仓库中的数据组织"><a href="#数据仓库中的数据组织" class="headerlink" title="数据仓库中的数据组织"></a>数据仓库中的数据组织</h2><ol>
+<li>简单堆积结构：简单的对每个周期对操作型环境中的数据进行汇总，形成轻度综合数据。</li>
+<li>轮转综合数据存储：简单堆积结构的变种，基于上述结构形成的轻度综合数据，在更大的周期继续堆积汇总，并清空已汇总的综合数据。</li>
+<li>简单直接文件：数据仅仅从操作型环境被拖入数据仓库环境，没有任何鸡肋，是操作性数据间隔一定时间的一个快照。</li>
+<li>连续文件：根据多个简单直接文件合并成一个连续文件</li>
+</ol>
+<h2 id="数据审计"><a href="#数据审计" class="headerlink" title="数据审计"></a>数据审计</h2><p>审计可以再数据仓库中进行，但却不应当在其中进行，应该放在操作型环境中进行。</p>
+<h2 id="数据清理的几种方式"><a href="#数据清理的几种方式" class="headerlink" title="数据清理的几种方式"></a>数据清理的几种方式</h2><ul>
+<li>数据加入到失去原有细节的一个轮转综合文件中</li>
+<li>数据从高性能的介质转移到大容量介质上</li>
+<li>数据从系统中被真正清除</li>
+<li>数据从体系结构的一个层次转到另一个层次，比如从操作层转到数据仓库层</li>
+</ul>
+<h2 id="解决数据仓库中的错误数据方法（没有绝对优劣，视情况而定）"><a href="#解决数据仓库中的错误数据方法（没有绝对优劣，视情况而定）" class="headerlink" title="解决数据仓库中的错误数据方法（没有绝对优劣，视情况而定）"></a>解决数据仓库中的错误数据方法（没有绝对优劣，视情况而定）</h2><ul>
+<li>直接修改原错误细节数据</li>
+<li>增补新细节数据对原错误数据进行抵消</li>
+<li>修改结果数据</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Data-Warehouse/" rel="tag"># Data Warehouse</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/09/Postgresql-WAL日志/" rel="next" title="Postgresql-WAL日志">
+                <i class="fa fa-chevron-left"></i> Postgresql-WAL日志
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/11/《数据仓库》第三章-设计数据仓库1/" rel="prev" title="《数据仓库》第三章-设计数据仓库1">
+                《数据仓库》第三章-设计数据仓库1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据仓库的特性"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x7684;&#x7279;&#x6027;" class="headerlink" title="&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x7684;&#x7279;&#x6027;"></a>&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x7684;&#x7279;&#x6027;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据仓库设计决策的两个最重要方面"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x8BBE;&#x8BA1;&#x51B3;&#x7B56;&#x7684;&#x4E24;&#x4E2A;&#x6700;&#x91CD;&#x8981;&#x65B9;&#x9762;" class="headerlink" title="&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x8BBE;&#x8BA1;&#x51B3;&#x7B56;&#x7684;&#x4E24;&#x4E2A;&#x6700;&#x91CD;&#x8981;&#x65B9;&#x9762;"></a>&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x8BBE;&#x8BA1;&#x51B3;&#x7B56;&#x7684;&#x4E24;&#x4E2A;&#x6700;&#x91CD;&#x8981;&#x65B9;&#x9762;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#粒度："><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x7C92;&#x5EA6;&#xFF1A;" class="headerlink" title="&#x7C92;&#x5EA6;&#xFF1A;"></a>&#x7C92;&#x5EA6;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分区："><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x5206;&#x533A;&#xFF1A;" class="headerlink" title="&#x5206;&#x533A;&#xFF1A;"></a>&#x5206;&#x533A;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#活样本数据库"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x6D3B;&#x6837;&#x672C;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x6D3B;&#x6837;&#x672C;&#x6570;&#x636E;&#x5E93;"></a>&#x6D3B;&#x6837;&#x672C;&#x6570;&#x636E;&#x5E93;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据仓库中的数据组织"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x7EC4;&#x7EC7;" class="headerlink" title="&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x7EC4;&#x7EC7;"></a>&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x7EC4;&#x7EC7;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据审计"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x5BA1;&#x8BA1;" class="headerlink" title="&#x6570;&#x636E;&#x5BA1;&#x8BA1;"></a>&#x6570;&#x636E;&#x5BA1;&#x8BA1;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据清理的几种方式"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x6E05;&#x7406;&#x7684;&#x51E0;&#x79CD;&#x65B9;&#x5F0F;" class="headerlink" title="&#x6570;&#x636E;&#x6E05;&#x7406;&#x7684;&#x51E0;&#x79CD;&#x65B9;&#x5F0F;"></a>&#x6570;&#x636E;&#x6E05;&#x7406;&#x7684;&#x51E0;&#x79CD;&#x65B9;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决数据仓库中的错误数据方法（没有绝对优劣，视情况而定）"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x89E3;&#x51B3;&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x7684;&#x9519;&#x8BEF;&#x6570;&#x636E;&#x65B9;&#x6CD5;&#xFF08;&#x6CA1;&#x6709;&#x7EDD;&#x5BF9;&#x4F18;&#x52A3;&#xFF0C;&#x89C6;&#x60C5;&#x51B5;&#x800C;&#x5B9A;&#xFF09;" class="headerlink" title="&#x89E3;&#x51B3;&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x7684;&#x9519;&#x8BEF;&#x6570;&#x636E;&#x65B9;&#x6CD5;&#xFF08;&#x6CA1;&#x6709;&#x7EDD;&#x5BF9;&#x4F18;&#x52A3;&#xFF0C;&#x89C6;&#x60C5;&#x51B5;&#x800C;&#x5B9A;&#xFF09;"></a>&#x89E3;&#x51B3;&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x7684;&#x9519;&#x8BEF;&#x6570;&#x636E;&#x65B9;&#x6CD5;&#xFF08;&#x6CA1;&#x6709;&#x7EDD;&#x5BF9;&#x4F18;&#x52A3;&#xFF0C;&#x89C6;&#x60C5;&#x51B5;&#x800C;&#x5B9A;&#xFF09;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

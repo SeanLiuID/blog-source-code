@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Django," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一旦建立好Models，Django会自动生成一套数据库抽象的API用于增删改查对象。假设Model建立如下：1234567891011121314151617181920212223242526272829from django.db import modelsclass Blog(models.Model):    name = models.CharField(max_length=100)">
+<meta name="keywords" content="Django">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django-QuerySet-查询">
+<meta property="og:url" content="http://yoursite.com/2018/01/24/Django-QuerySet-查询/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="一旦建立好Models，Django会自动生成一套数据库抽象的API用于增删改查对象。假设Model建立如下：1234567891011121314151617181920212223242526272829from django.db import modelsclass Blog(models.Model):    name = models.CharField(max_length=100)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-24T12:40:32.037Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django-QuerySet-查询">
+<meta name="twitter:description" content="一旦建立好Models，Django会自动生成一套数据库抽象的API用于增删改查对象。假设Model建立如下：1234567891011121314151617181920212223242526272829from django.db import modelsclass Blog(models.Model):    name = models.CharField(max_length=100)">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/24/Django-QuerySet-查询/"/>
+
+
+
+
+
+  <title>Django-QuerySet-查询 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/24/Django-QuerySet-查询/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Django-QuerySet-查询</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-24T18:14:03+08:00">
+                2018-01-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/" itemprop="url" rel="index">
+                    <span itemprop="name">Django</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/QuerySet/" itemprop="url" rel="index">
+                    <span itemprop="name">QuerySet</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一旦建立好Models，Django会自动生成一套数据库抽象的API用于增删改查对象。<br>假设Model建立如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Blog</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">100</span>)</span><br><span class="line">    tagline = models.TextField()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>              <span class="comment"># __unicode__ on Python 2</span></span><br><span class="line">        <span class="keyword">return</span> self.name</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Author</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">    email = models.EmailField()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>              <span class="comment"># __unicode__ on Python 2</span></span><br><span class="line">        <span class="keyword">return</span> self.name</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Entry</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    blog = models.ForeignKey(Blog)</span><br><span class="line">    headline = models.CharField(max_length=<span class="number">255</span>)</span><br><span class="line">    body_text = models.TextField()</span><br><span class="line">    pub_date = models.DateField()</span><br><span class="line">    mod_date = models.DateField()</span><br><span class="line">    authors = models.ManyToManyField(Author)</span><br><span class="line">    n_comments = models.IntegerField()</span><br><span class="line">    n_pingbacks = models.IntegerField()</span><br><span class="line">    rating = models.IntegerField()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>              <span class="comment"># __unicode__ on Python 2</span></span><br><span class="line">        <span class="keyword">return</span> self.headline</span><br></pre></td></tr></table></figure></p>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> blog.models <span class="keyword">import</span> Blog</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = Blog(name=<span class="string">'Beatles Blog'</span>, tagline=<span class="string">'All the latest Beatles news.'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b.save()</span><br></pre></td></tr></table></figure>
+<h2 id="修改对象"><a href="#修改对象" class="headerlink" title="修改对象"></a>修改对象</h2><h4 id="修改字段"><a href="#修改字段" class="headerlink" title="修改字段"></a>修改字段</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>b.name = <span class="string">'New name'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b.save()</span><br></pre></td></tr></table></figure>
+<h4 id="修改ForeignKey字段"><a href="#修改ForeignKey字段" class="headerlink" title="修改ForeignKey字段"></a>修改ForeignKey字段</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> blog.models <span class="keyword">import</span> Blog, Entry</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry = Entry.objects.get(pk=<span class="number">1</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>cheese_blog = Blog.objects.get(name=<span class="string">"Cheddar Talk"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry.blog = cheese_blog</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry.save()</span><br></pre></td></tr></table></figure>
+<h4 id="修改ManyToManyField字段"><a href="#修改ManyToManyField字段" class="headerlink" title="修改ManyToManyField字段"></a>修改ManyToManyField字段</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> blog.models <span class="keyword">import</span> Author</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>joe = Author.objects.create(name=<span class="string">"Joe"</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry.authors.add(joe)</span><br><span class="line"><span class="comment"># 可以同时传入多条记录</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>entry.authors.add(john, paul, george, ringo)</span><br></pre></td></tr></table></figure>
+<h2 id="检索对象"><a href="#检索对象" class="headerlink" title="检索对象"></a>检索对象</h2><p>通过manager构造QuerySet<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>all_entries = Entry.objects.all()</span><br><span class="line"><span class="comment"># 检索满足条件的对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(pub_date__year=<span class="number">2006</span>)</span><br><span class="line"><span class="comment"># 检索不满足条件的对象</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.exclude(id=<span class="number">10</span>)</span><br></pre></td></tr></table></figure></p>
+<h4 id="链式过滤器"><a href="#链式过滤器" class="headerlink" title="链式过滤器"></a>链式过滤器</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(</span><br><span class="line"><span class="meta">... </span>    headline__startswith=<span class="string">'What'</span></span><br><span class="line"><span class="meta">... </span>).exclude(</span><br><span class="line"><span class="meta">... </span>    pub_date__gte=datetime.date.today()</span><br><span class="line"><span class="meta">... </span>).filter(</span><br><span class="line"><span class="meta">... </span>    pub_date__gte=datetime(<span class="number">2005</span>, <span class="number">1</span>, <span class="number">30</span>)</span><br><span class="line"><span class="meta">... </span>)</span><br></pre></td></tr></table></figure>
+<h3 id="QuerySet是惰性的"><a href="#QuerySet是惰性的" class="headerlink" title="QuerySet是惰性的"></a>QuerySet是惰性的</h3><p>只有需要求值时才会被执行</p>
+<h3 id="使用get-检索单个对象"><a href="#使用get-检索单个对象" class="headerlink" title="使用get()检索单个对象"></a>使用get()检索单个对象</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>one_entry = Entry.objects.get(pk=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>get()只会返回一个对象，查询不到或查询到多个对象时都会报错</p>
+<h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><p>[:5]或[2:5]，不支持负索引</p>
+<h3 id="字段查找"><a href="#字段查找" class="headerlink" title="字段查找"></a>字段查找</h3><p>使用双下划线加关键字，如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(pub_date__lte=<span class="string">'2006-01-01'</span>)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>lt,lte,gt,gte 大小比较</li>
+<li>exact 精确匹配字符串</li>
+<li>iexact 精确匹配，大小写不敏感</li>
+<li>contains 模糊匹配，包含字符串</li>
+<li>icontains 模糊匹配，大小写不敏感</li>
+<li>startswith 以…开头</li>
+<li>endswith 以…结尾</li>
+<li>istartswith,iendswith</li>
+</ul>
+<h2 id="跨关联关系的查询"><a href="#跨关联关系的查询" class="headerlink" title="跨关联关系的查询"></a>跨关联关系的查询</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Blog.objects.filter(entry__authors__isnull=<span class="keyword">False</span>, entry__authors__name__isnull=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<p><strong> 注意 </strong> 当机遇ManyToManyField时，以下两个查询是不同的<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Blog.objects.filter(entry__headline__contains=<span class="string">'Lennon'</span>, entry__pub_date__year=<span class="number">2008</span>)</span><br><span class="line">Blog.objects.filter(entry__headline__contains=<span class="string">'Lennon'</span>).filter(entry__pub_date__year=<span class="number">2008</span>)</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>第一个查询结果要求同时同一个entry满足两个条件</li>
+<li>第二个查询中的两个entry可以不是同一个</li>
+</ul>
+<p><strong> 还要注意 </strong> exclude和filter可能不是补集：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Blog.objects.exclude(</span><br><span class="line">    entry__headline__contains=<span class="string">'Lennon'</span>,</span><br><span class="line">    entry__pub_date__year=<span class="number">2008</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">Blog.objects.exclude(</span><br><span class="line">    entry__in=Entry.objects.filter(</span><br><span class="line">        headline__contains=<span class="string">'Lennon'</span>,</span><br><span class="line">        pub_date__year=<span class="number">2008</span>,</span><br><span class="line">    ),</span><br><span class="line">)</span><br></pre></td></tr></table></figure></p>
+<h2 id="过滤器可以引用模型的字段"><a href="#过滤器可以引用模型的字段" class="headerlink" title="过滤器可以引用模型的字段"></a>过滤器可以引用模型的字段</h2><p>使用F()函数，并且支持计算，甚至位操作<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(rating__lt=F(<span class="string">'n_comments'</span>) + F(<span class="string">'n_pingbacks'</span>))</span><br></pre></td></tr></table></figure></p>
+<h2 id="缓存和QuerySet"><a href="#缓存和QuerySet" class="headerlink" title="缓存和QuerySet"></a>缓存和QuerySet</h2><p>每个QuerySet都包含一个缓存来最小化对数据库的访问。每个新创建的QuerySet缓存为空，首次求值后结果会先保存在缓存中，并返回结果。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>queryset = Entry.objects.all()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print([p.headline <span class="keyword">for</span> p <span class="keyword">in</span> queryset]) <span class="comment"># Evaluate the query set.</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print([p.pub_date <span class="keyword">for</span> p <span class="keyword">in</span> queryset]) <span class="comment"># Re-use the cache from the evaluation.</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="Q-函数（单独讨论）"><a href="#Q-函数（单独讨论）" class="headerlink" title="Q()函数（单独讨论）"></a>Q()函数（单独讨论）</h2><h2 id="比较对象"><a href="#比较对象" class="headerlink" title="比较对象"></a>比较对象</h2><p>比较两个模型实例，使用==，在后台它会比较两个模型主键的值（无论主键是哪个字段）<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>some_entry == other_entry</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>some_entry.id == other_entry.id</span><br></pre></td></tr></table></figure></p>
+<p>等价</p>
+<h2 id="删除对象"><a href="#删除对象" class="headerlink" title="删除对象"></a>删除对象</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>Entry.objects.filter(pub_date__year=<span class="number">2005</span>).delete()</span><br><span class="line">(<span class="number">5</span>, &#123;<span class="string">'webapp.Entry'</span>: <span class="number">5</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>delete()尽可能使用纯SQL执行，如果要自定义，则需要手工删除该模型的实例，而不能使用QuerySet的批量delete()方法。<br>当Django删除一个对象是，它默认使用SQL ON DELETE CASCADE，进行级联删除</p>
+<h2 id="复制模型实例"><a href="#复制模型实例" class="headerlink" title="复制模型实例"></a>复制模型实例</h2><p>简单方法：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">blog = Blog(name=<span class="string">'My blog'</span>, tagline=<span class="string">'Blogging is easy'</span>)</span><br><span class="line">blog.save() <span class="comment"># blog.pk == 1</span></span><br><span class="line"></span><br><span class="line">blog.pk = <span class="keyword">None</span></span><br><span class="line">blog.save() <span class="comment"># blog.pk == 2</span></span><br></pre></td></tr></table></figure></p>
+<p>ManyToManyField复制：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">entry = Entry.objects.all()[<span class="number">0</span>] <span class="comment"># some previous entry</span></span><br><span class="line">old_authors = entry.authors.all()</span><br><span class="line">entry.pk = <span class="keyword">None</span></span><br><span class="line">entry.save()</span><br><span class="line">entry.authors.set(old_authors)</span><br></pre></td></tr></table></figure></p>
+<h2 id="批量更新"><a href="#批量更新" class="headerlink" title="批量更新"></a>批量更新</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; b = Blog.objects.get(pk=1)</span><br><span class="line"></span><br><span class="line"># Update all the headlines belonging to this Blog.</span><br><span class="line">&gt;&gt;&gt; Entry.objects.select_related().filter(blog=b).update(headline=&apos;Everything is the same&apos;)</span><br></pre></td></tr></table></figure>
+<p>update()方法会直接转换成一个SQL语句，不会运行模型的save()方法，或发出pre_save或post_save信号<br>update()中可以使用F()函数，但是不能在F()中引入join即爽下划线到其他model</p>
+<h2 id="查询关联对象"><a href="#查询关联对象" class="headerlink" title="查询关联对象"></a>查询关联对象</h2><p>以下三种方式是一样的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Entry.objects.filter(blog=b) <span class="comment"># Query using object instance</span></span><br><span class="line">Entry.objects.filter(blog=b.id) <span class="comment"># Query using id from instance</span></span><br><span class="line">Entry.objects.filter(blog=<span class="number">5</span>) <span class="comment"># Query using id directly</span></span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Django/" rel="tag"># Django</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/24/Django-Database-访问优化/" rel="next" title="Django-Database-访问优化">
+                <i class="fa fa-chevron-left"></i> Django-Database-访问优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/25/Django-QuerySet-API/" rel="prev" title="Django-QuerySet-API">
+                Django-QuerySet-API <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建对象"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;&#x5BF9;&#x8C61;" class="headerlink" title="&#x521B;&#x5EFA;&#x5BF9;&#x8C61;"></a>&#x521B;&#x5EFA;&#x5BF9;&#x8C61;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改对象"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4FEE;&#x6539;&#x5BF9;&#x8C61;" class="headerlink" title="&#x4FEE;&#x6539;&#x5BF9;&#x8C61;"></a>&#x4FEE;&#x6539;&#x5BF9;&#x8C61;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#修改字段"><span class="nav-number">2.0.1.</span> <span class="nav-text"><a href="#&#x4FEE;&#x6539;&#x5B57;&#x6BB5;" class="headerlink" title="&#x4FEE;&#x6539;&#x5B57;&#x6BB5;"></a>&#x4FEE;&#x6539;&#x5B57;&#x6BB5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改ForeignKey字段"><span class="nav-number">2.0.2.</span> <span class="nav-text"><a href="#&#x4FEE;&#x6539;ForeignKey&#x5B57;&#x6BB5;" class="headerlink" title="&#x4FEE;&#x6539;ForeignKey&#x5B57;&#x6BB5;"></a>&#x4FEE;&#x6539;ForeignKey&#x5B57;&#x6BB5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改ManyToManyField字段"><span class="nav-number">2.0.3.</span> <span class="nav-text"><a href="#&#x4FEE;&#x6539;ManyToManyField&#x5B57;&#x6BB5;" class="headerlink" title="&#x4FEE;&#x6539;ManyToManyField&#x5B57;&#x6BB5;"></a>&#x4FEE;&#x6539;ManyToManyField&#x5B57;&#x6BB5;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检索对象"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x68C0;&#x7D22;&#x5BF9;&#x8C61;" class="headerlink" title="&#x68C0;&#x7D22;&#x5BF9;&#x8C61;"></a>&#x68C0;&#x7D22;&#x5BF9;&#x8C61;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#链式过滤器"><span class="nav-number">3.0.1.</span> <span class="nav-text"><a href="#&#x94FE;&#x5F0F;&#x8FC7;&#x6EE4;&#x5668;" class="headerlink" title="&#x94FE;&#x5F0F;&#x8FC7;&#x6EE4;&#x5668;"></a>&#x94FE;&#x5F0F;&#x8FC7;&#x6EE4;&#x5668;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QuerySet是惰性的"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#QuerySet&#x662F;&#x60F0;&#x6027;&#x7684;" class="headerlink" title="QuerySet&#x662F;&#x60F0;&#x6027;&#x7684;"></a>QuerySet&#x662F;&#x60F0;&#x6027;&#x7684;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用get-检索单个对象"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;get-&#x68C0;&#x7D22;&#x5355;&#x4E2A;&#x5BF9;&#x8C61;" class="headerlink" title="&#x4F7F;&#x7528;get()&#x68C0;&#x7D22;&#x5355;&#x4E2A;&#x5BF9;&#x8C61;"></a>&#x4F7F;&#x7528;get()&#x68C0;&#x7D22;&#x5355;&#x4E2A;&#x5BF9;&#x8C61;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切片"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#x5207;&#x7247;" class="headerlink" title="&#x5207;&#x7247;"></a>&#x5207;&#x7247;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字段查找"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#&#x5B57;&#x6BB5;&#x67E5;&#x627E;" class="headerlink" title="&#x5B57;&#x6BB5;&#x67E5;&#x627E;"></a>&#x5B57;&#x6BB5;&#x67E5;&#x627E;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨关联关系的查询"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x8DE8;&#x5173;&#x8054;&#x5173;&#x7CFB;&#x7684;&#x67E5;&#x8BE2;" class="headerlink" title="&#x8DE8;&#x5173;&#x8054;&#x5173;&#x7CFB;&#x7684;&#x67E5;&#x8BE2;"></a>&#x8DE8;&#x5173;&#x8054;&#x5173;&#x7CFB;&#x7684;&#x67E5;&#x8BE2;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤器可以引用模型的字段"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x8FC7;&#x6EE4;&#x5668;&#x53EF;&#x4EE5;&#x5F15;&#x7528;&#x6A21;&#x578B;&#x7684;&#x5B57;&#x6BB5;" class="headerlink" title="&#x8FC7;&#x6EE4;&#x5668;&#x53EF;&#x4EE5;&#x5F15;&#x7528;&#x6A21;&#x578B;&#x7684;&#x5B57;&#x6BB5;"></a>&#x8FC7;&#x6EE4;&#x5668;&#x53EF;&#x4EE5;&#x5F15;&#x7528;&#x6A21;&#x578B;&#x7684;&#x5B57;&#x6BB5;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存和QuerySet"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x7F13;&#x5B58;&#x548C;QuerySet" class="headerlink" title="&#x7F13;&#x5B58;&#x548C;QuerySet"></a>&#x7F13;&#x5B58;&#x548C;QuerySet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-函数（单独讨论）"><span class="nav-number">7.</span> <span class="nav-text"><a href="#Q-&#x51FD;&#x6570;&#xFF08;&#x5355;&#x72EC;&#x8BA8;&#x8BBA;&#xFF09;" class="headerlink" title="Q()&#x51FD;&#x6570;&#xFF08;&#x5355;&#x72EC;&#x8BA8;&#x8BBA;&#xFF09;"></a>Q()&#x51FD;&#x6570;&#xFF08;&#x5355;&#x72EC;&#x8BA8;&#x8BBA;&#xFF09;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较对象"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x6BD4;&#x8F83;&#x5BF9;&#x8C61;" class="headerlink" title="&#x6BD4;&#x8F83;&#x5BF9;&#x8C61;"></a>&#x6BD4;&#x8F83;&#x5BF9;&#x8C61;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除对象"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x5220;&#x9664;&#x5BF9;&#x8C61;" class="headerlink" title="&#x5220;&#x9664;&#x5BF9;&#x8C61;"></a>&#x5220;&#x9664;&#x5BF9;&#x8C61;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复制模型实例"><span class="nav-number">10.</span> <span class="nav-text"><a href="#&#x590D;&#x5236;&#x6A21;&#x578B;&#x5B9E;&#x4F8B;" class="headerlink" title="&#x590D;&#x5236;&#x6A21;&#x578B;&#x5B9E;&#x4F8B;"></a>&#x590D;&#x5236;&#x6A21;&#x578B;&#x5B9E;&#x4F8B;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#批量更新"><span class="nav-number">11.</span> <span class="nav-text"><a href="#&#x6279;&#x91CF;&#x66F4;&#x65B0;" class="headerlink" title="&#x6279;&#x91CF;&#x66F4;&#x65B0;"></a>&#x6279;&#x91CF;&#x66F4;&#x65B0;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询关联对象"><span class="nav-number">12.</span> <span class="nav-text"><a href="#&#x67E5;&#x8BE2;&#x5173;&#x8054;&#x5BF9;&#x8C61;" class="headerlink" title="&#x67E5;&#x8BE2;&#x5173;&#x8054;&#x5BF9;&#x8C61;"></a>&#x67E5;&#x8BE2;&#x5173;&#x8054;&#x5BF9;&#x8C61;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

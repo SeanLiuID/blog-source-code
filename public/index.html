@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/03/Django-ORM-HstoreExtension/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/15/python非容器类的赋值、浅拷贝和深拷贝/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/03/Django-ORM-HstoreExtension/" itemprop="url">Django-ORM-HstoreExtension</a></h1>
+                <a class="post-title-link" href="/2018/03/15/python非容器类的赋值、浅拷贝和深拷贝/" itemprop="url">python非容器类的赋值、浅拷贝和深拷贝</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T15:08:47+08:00">
-                2018-01-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-15T14:22:21+08:00">
+                2018-03-15
               </time>
             
 
@@ -303,19 +303,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/ORM/" itemprop="url" rel="index">
-                    <span itemprop="name">ORM</span>
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
                   </a>
                 </span>
 
@@ -352,663 +341,176 @@
 
       
         
-          <p>使用HstoreField创建Model字段,使用前必须保证数据库已经安装扩展，详见Django-DB-Migration-Operations<br><figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.postgres.fields <span class="keyword">import</span> HStoreField</span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">    data = HStoreField()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>  <span class="comment"># __unicode__ on Python 2</span></span><br><span class="line">        <span class="keyword">return</span> self.name</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/03/Django-ORM-HstoreExtension/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/03/Django-DB-Migration-Operations/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/03/Django-DB-Migration-Operations/" itemprop="url">Django-DB-Migration-Operations</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T14:20:05+08:00">
-                2018-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/DB/" itemprop="url" rel="index">
-                    <span itemprop="name">DB</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本文主要讲述使用迁移文件对PostgreSQL创建扩展，比如hstore扩展：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.postgres.operations <span class="keyword">import</span> HStoreExtension</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Migration</span><span class="params">(migrations.Migration)</span>:</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    operations = [</span><br><span class="line">        HStoreExtension(),</span><br><span class="line">        ...</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>创建扩展需要db的superuser权限，否则在migrate时报错；</li>
-<li>请在创建HStoreField前执行上述代码，或手动在psql中创建 create extension if not exists hstore;</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/03/Django-DB-Migration-Operations/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/Django-Model-Field-Types/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/02/Django-Model-Field-Types/" itemprop="url">Django-Model-Field-Types</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T16:52:25+08:00">
-                2018-01-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
-                    <span itemprop="name">Model</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Django默认提供多种字段类型，如CharField，BooleanField等，也可以扩展字段类型；</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/02/Django-Model-Field-Types/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/Django-Model-Field-Options/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/02/Django-Model-Field-Options/" itemprop="url">Django-Model-Field-Options</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T15:44:26+08:00">
-                2018-01-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
-                    <span itemprop="name">Model</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>所有字段都可以通过选项进行约束和控制<br><figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Content</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    title = models.CharField(_(<span class="string">'Title'</span>), max_length=<span class="number">500</span>)</span><br><span class="line">    description = models.TextField(_(<span class="string">'Description'</span>), blank=<span class="keyword">True</span>)</span><br><span class="line">    created_at = models.DateTimeField(_(<span class="string">'Created At'</span>), null=<span class="keyword">True</span>, editable=<span class="keyword">False</span>, default=timezone.now)</span><br><span class="line">    author = models.ForeignKey(User, verbose_name=_(<span class="string">'Author'</span>), related_name=<span class="string">'posted_articles'</span>, null=<span class="keyword">True</span>)</span><br><span class="line">    source_name = models.CharField(_(<span class="string">'Article Source'</span>), null=<span class="keyword">True</span>, blank=<span class="keyword">True</span>, default=<span class="string">''</span>, max_length=<span class="number">100</span>,</span><br><span class="line">                                   help_text=_(<span class="string">'Input source of the article, e.g. 39health, for App showcasing.'</span>))</span><br><span class="line">    review_status = models.IntegerField(_(<span class="string">'Review Status'</span>),</span><br><span class="line">                                        choices=REVIEW_STATUS_CHOICES, default=REVIEW_STATUS.NOT_YET)</span><br><span class="line">    reviewer = models.ForeignKey(User, verbose_name=_(<span class="string">'Reviewer'</span>), related_name=<span class="string">'reviewed_articles'</span>, null=<span class="keyword">True</span>)</span><br><span class="line">    reviewed_at = models.DateTimeField(_(<span class="string">'Reviewed At'</span>), null=<span class="keyword">True</span>, editable=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/02/Django-Model-Field-Options/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/" itemprop="url">Notes《系统架构设计师-希赛》（一）计算机组成与体系结构</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-01T18:02:34+08:00">
-                2018-01-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Notes/" itemprop="url" rel="index">
-                    <span itemprop="name">Notes</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Notes/《系统架构设计师》（希赛）/" itemprop="url" rel="index">
-                    <span itemprop="name">《系统架构设计师》（希赛）</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="第一章-计算机组成与体系结构"><a href="#第一章-计算机组成与体系结构" class="headerlink" title="第一章 计算机组成与体系结构"></a>第一章 计算机组成与体系结构</h1><h2 id="1-1-计算机系统组成"><a href="#1-1-计算机系统组成" class="headerlink" title="1.1 计算机系统组成"></a>1.1 计算机系统组成</h2><p>计算机系统是一个硬件和软件的综合体。</p>
-<h3 id="1-1-1-计算机硬件的组成"><a href="#1-1-1-计算机硬件的组成" class="headerlink" title="1.1.1 计算机硬件的组成"></a>1.1.1 计算机硬件的组成</h3><p>以运算器为中心 -&gt; 以存储器为中心</p>
+            <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line">a = [[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>],[<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]]</span><br><span class="line"><span class="comment"># 赋值</span></span><br><span class="line">b = a</span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line">c = copy.copy(a)</span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印对象地址</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'a.id:'</span>,id(a)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'b.id:'</span>,id(b)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'c.id:'</span>,id(c)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'d.id:'</span>,id(d)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印对象中元素地址</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'a[0].id:'</span>,id(a[<span class="number">0</span>])</span><br><span class="line"><span class="keyword">print</span> <span class="string">'b[0].id:'</span>,id(b[<span class="number">0</span>])</span><br><span class="line"><span class="keyword">print</span> <span class="string">'c[0].id:'</span>,id(c[<span class="number">0</span>])</span><br><span class="line"><span class="keyword">print</span> <span class="string">'d[0].id:'</span>,id(d[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改a内容</span></span><br><span class="line">a.append([<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>])</span><br><span class="line">a[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看变化</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'a:'</span>, a</span><br><span class="line"><span class="keyword">print</span> <span class="string">'b:'</span>, b</span><br><span class="line"><span class="keyword">print</span> <span class="string">'c:'</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">'d:'</span>, d</span><br></pre></td></tr></table></figure>
+<p>结果：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a.id: <span class="number">4519991704</span></span><br><span class="line">b.id: <span class="number">4519991704</span></span><br><span class="line">c.id: <span class="number">4519992352</span></span><br><span class="line">d.id: <span class="number">4519024976</span></span><br><span class="line">a[<span class="number">0</span>].id: <span class="number">4519991488</span></span><br><span class="line">b[<span class="number">0</span>].id: <span class="number">4519991488</span></span><br><span class="line">c[<span class="number">0</span>].id: <span class="number">4519991488</span></span><br><span class="line">d[<span class="number">0</span>].id: <span class="number">4516148432</span></span><br><span class="line">a: [[<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]]</span><br><span class="line">b: [[<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]]</span><br><span class="line">c: [[<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]]</span><br><span class="line">d: [[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]]</span><br></pre></td></tr></table></figure></p>
+<p>对比结果可以看出：</p>
 <ol>
-<li>控制器：分析和执行指令<ul>
-<li>程序计数器PC：存储下一条执行指令的地址</li>
-<li>指令寄存器IR：存储即将执行的指令</li>
-<li>指令译码器ID：对指令中的操作码字段进行分析解释</li>
-<li>时序部件：提供时序控制信号</li>
-</ul>
-</li>
-<li>运算器：<ul>
-<li>算术逻辑单元ALU：数据的算术运算和逻辑运算</li>
-<li>累加寄存器AC：通用寄存器，为ALU提供一个工作区暂存数据</li>
-<li>数据缓冲寄存器DR：写内存时，暂存指令或数据</li>
-<li>状态条件寄存器PSW：存状态标志和控制标志</li>
-</ul>
-</li>
-<li>主存储器（内存）：存储现场操作的信息与中间结果</li>
-<li>辅助存储器（外存）</li>
-<li>输入设备</li>
-<li>输出设备</li>
+<li>b可以看做是a的一个别名，对a的改变就是对b的改变</li>
+<li>c对a进行了浅拷贝，只有对象本身的指针改变了，但其中元素指针仍是a中元素的指针，所以对a的操作不影响c，但是对a中元素的操作一样会影响c；</li>
+<li>d是对a的深拷贝，无论是对象本身的指针还是元素指针都改变了，因此对a的操作完全影响不到d；</li>
+</ol>
+<p><strong><em>如果对象中的元素是一个原子类型，即元素是值传递类型，则不能深拷贝。但我感觉是不能浅拷贝</em></strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line">a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]</span><br><span class="line"><span class="comment"># 赋值</span></span><br><span class="line">b = a</span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line">c = copy.copy(a)</span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line">d = copy.deepcopy(a)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印父结构地址</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'a.id:'</span>,id(a)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'b.id:'</span>,id(b)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'c.id:'</span>,id(c)</span><br><span class="line"><span class="keyword">print</span> <span class="string">'d.id:'</span>,id(d)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印子结构地址</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'a[0].id:'</span>,id(a[<span class="number">0</span>])</span><br><span class="line"><span class="keyword">print</span> <span class="string">'b[0].id:'</span>,id(b[<span class="number">0</span>])</span><br><span class="line"><span class="keyword">print</span> <span class="string">'c[0].id:'</span>,id(c[<span class="number">0</span>])</span><br><span class="line"><span class="keyword">print</span> <span class="string">'d[0].id:'</span>,id(d[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改a内容</span></span><br><span class="line">a.append(<span class="number">7</span>)</span><br><span class="line">a[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看变化</span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'a:'</span>, a</span><br><span class="line"><span class="keyword">print</span> <span class="string">'b:'</span>, b</span><br><span class="line"><span class="keyword">print</span> <span class="string">'c:'</span>, c</span><br><span class="line"><span class="keyword">print</span> <span class="string">'d:'</span>, d</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a.id: <span class="number">4519990984</span></span><br><span class="line">b.id: <span class="number">4519990984</span></span><br><span class="line">c.id: <span class="number">4520059752</span></span><br><span class="line">d.id: <span class="number">4519991560</span></span><br><span class="line">a[<span class="number">0</span>].id: <span class="number">140465015896968</span></span><br><span class="line">b[<span class="number">0</span>].id: <span class="number">140465015896968</span></span><br><span class="line">c[<span class="number">0</span>].id: <span class="number">140465015896968</span></span><br><span class="line">d[<span class="number">0</span>].id: <span class="number">140465015896968</span></span><br><span class="line">a: [<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">7</span>]</span><br><span class="line">b: [<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">7</span>]</span><br><span class="line">c: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">d: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/12/显示图片缩略图/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/12/显示图片缩略图/" itemprop="url">显示图片缩略图</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-12T09:35:43+08:00">
+                2018-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/" itemprop="url" rel="index">
+                    <span itemprop="name">Django</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Django/Admin/" itemprop="url" rel="index">
+                    <span itemprop="name">Admin</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="Question"><a href="#Question" class="headerlink" title="Question:"></a>Question:</h2><ol>
+<li>图片上传至七牛</li>
+<li>记录图片的长宽</li>
+<li>在admin web界面显示图片缩略图</li>
 </ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/#more" rel="contents">
+            <a class="btn" href="/2018/03/12/显示图片缩略图/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1059,7 +561,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/Django-Model-Inheritance/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/11/《大家的日语》初级1-第3课/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -1078,7 +580,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/28/Django-Model-Inheritance/" itemprop="url">Django-Model-Inheritance(模型继承)</a></h1>
+                <a class="post-title-link" href="/2018/03/11/《大家的日语》初级1-第3课/" itemprop="url">《大家的日语》初级1-第3课</a></h1>
         
 
         <div class="post-meta">
@@ -1090,8 +592,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-28T16:20:44+08:00">
-                2017-12-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-11T15:26:07+08:00">
+                2018-03-11
               </time>
             
 
@@ -1113,19 +615,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
-                    <span itemprop="name">Model</span>
+                  <a href="/categories/日本語/" itemprop="url" rel="index">
+                    <span itemprop="name">日本語</span>
                   </a>
                 </span>
 
@@ -1162,19 +653,345 @@
 
       
         
-          <p>所有的类都继承自django.db.models.Model<br>Django中由三种风格的继承：</p>
-<ol>
-<li>如果只想使用父类来持有一些信息供多子类继承，则把父类定义成<strong>抽象基类</strong>（不自动生成数据表）</li>
-<li>如果继承一个非抽象的基类，则两个模型都有自己的数据表，那么应该是用<strong>多表继承</strong></li>
-<li>如果只是想改变一个模块python级别的行为，而不用修改模型的字段，可以使用<strong>代理模型</strong></li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/28/Django-Model-Inheritance/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          
+            <p><img src="/images/IMG_1014.PNG" alt=""></p>
+<p>＃単語</p>
+<table>
+<thead>
+<tr>
+<th>书写</th>
+<th>平假名</th>
+<th>音调</th>
+<th>词意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ここ</td>
+<td></td>
+<td>０</td>
+<td>这里</td>
+</tr>
+<tr>
+<td>食堂</td>
+<td>しょくどう</td>
+<td>０</td>
+<td>食堂</td>
+</tr>
+<tr>
+<td>エレベーター</td>
+<td>e re be e ta a</td>
+<td>３</td>
+<td>电梯</td>
+</tr>
+<tr>
+<td>あそこ</td>
+<td></td>
+<td>０</td>
+<td>那里</td>
+</tr>
+<tr>
+<td>トイレ</td>
+<td>to i re</td>
+<td>１</td>
+<td>厕所</td>
+</tr>
+<tr>
+<td>お手洗い</td>
+<td>おてあらい</td>
+<td>３</td>
+<td>洗手间</td>
+</tr>
+<tr>
+<td>どこ</td>
+<td></td>
+<td>１</td>
+<td>哪里</td>
+</tr>
+<tr>
+<td>会議室</td>
+<td>かいぎしつ</td>
+<td>３</td>
+<td>会议室</td>
+</tr>
+<tr>
+<td>事務所</td>
+<td>じむしょ</td>
+<td>２</td>
+<td>办事处、事务所</td>
+</tr>
+<tr>
+<td>どちら</td>
+<td></td>
+<td>１</td>
+<td>[どこ的礼貌用法]哪边</td>
+</tr>
+<tr>
+<td>あちら</td>
+<td></td>
+<td>０</td>
+<td>那边</td>
+</tr>
+<tr>
+<td>[お]国</td>
+<td>[お]くに</td>
+<td>０</td>
+<td>国家、故乡</td>
+</tr>
+<tr>
+<td>靴</td>
+<td>くつ</td>
+<td>２</td>
+<td>鞋</td>
+</tr>
+<tr>
+<td>イタリア</td>
+<td>i ta ri a</td>
+<td>０</td>
+<td>意大利</td>
+</tr>
+<tr>
+<td>万</td>
+<td>まん</td>
+<td>１</td>
+<td>万</td>
+</tr>
+<tr>
+<td>千</td>
+<td>せん</td>
+<td>１</td>
+<td>千</td>
+</tr>
+<tr>
+<td>百</td>
+<td>ひゃく</td>
+<td>２</td>
+<td>百</td>
+</tr>
+<tr>
+<td>[~を]ください。</td>
+<td></td>
+<td></td>
+<td>请给我[~]</td>
+</tr>
+<tr>
+<td>いらつしゃいませ。</td>
+<td></td>
+<td></td>
+<td>欢迎光临</td>
+</tr>
+<tr>
+<td>すみません</td>
+<td></td>
+<td></td>
+<td>对不起</td>
+</tr>
+<tr>
+<td>どうも</td>
+<td></td>
+<td>１</td>
+<td>谢谢</td>
+</tr>
+<tr>
+<td>ワイン</td>
+<td>wa i n</td>
+<td>１</td>
+<td>葡萄酒</td>
+</tr>
+<tr>
+<td>売り場</td>
+<td>うりば</td>
+<td>０</td>
+<td>销售柜台</td>
+</tr>
+<tr>
+<td>地下</td>
+<td>ちか</td>
+<td>１２</td>
+<td>地下</td>
+</tr>
+<tr>
+<td>ー階</td>
+<td>ーかい</td>
+<td></td>
+<td>-层</td>
+</tr>
+<tr>
+<td>何階</td>
+<td>なんがい</td>
+<td></td>
+<td>几层</td>
+</tr>
+<tr>
+<td>[〜]を見せて下さい。</td>
+<td>[〜]をみせてくだちい。</td>
+<td></td>
+<td>请让我看一下[~]</td>
+</tr>
+<tr>
+<td>じゃ</td>
+<td></td>
+<td>１</td>
+<td>那么</td>
+</tr>
+<tr>
+<td>教室</td>
+<td>きょうしつ</td>
+<td>０</td>
+<td>教室</td>
+</tr>
+<tr>
+<td>広島</td>
+<td>ひろしま</td>
+<td>０</td>
+<td>广岛</td>
+</tr>
+<tr>
+<td>受付</td>
+<td>うけつけ</td>
+<td>０</td>
+<td>接待处</td>
+</tr>
+<tr>
+<td>そこ</td>
+<td></td>
+<td>０</td>
+<td>那里</td>
+</tr>
+<tr>
+<td>自動販売機</td>
+<td>じどうはんばいき</td>
+<td>６</td>
+<td>自动贩卖机</td>
+</tr>
+<tr>
+<td>ロビー</td>
+<td>ro bi i</td>
+<td>１</td>
+<td>大厅、休息室</td>
+</tr>
+<tr>
+<td>こちら</td>
+<td></td>
+<td>０</td>
+<td>这边</td>
+</tr>
+<tr>
+<td>そちら</td>
+<td></td>
+<td>０</td>
+<td>那边</td>
+</tr>
+<tr>
+<td>フランス</td>
+<td>hu ra n su</td>
+<td>０</td>
+<td>法国</td>
+</tr>
+<tr>
+<td>ネクタイ</td>
+<td>ne ku ta i</td>
+<td>１</td>
+<td>领带</td>
+</tr>
+<tr>
+<td>階段</td>
+<td>かいだん</td>
+<td>０</td>
+<td>楼梯</td>
+</tr>
+<tr>
+<td>エスカレーター</td>
+<td>e su ka re e ta a</td>
+<td>４</td>
+<td>自动扶梯</td>
+</tr>
+<tr>
+<td>電話</td>
+<td>でんわ</td>
+<td>０</td>
+<td>电话</td>
+</tr>
+<tr>
+<td>部屋</td>
+<td>へや</td>
+<td>２</td>
+<td>房间</td>
+</tr>
+<tr>
+<td>家</td>
+<td>うち</td>
+<td>０</td>
+<td>家</td>
+</tr>
+<tr>
+<td>会社</td>
+<td>かいしゃ</td>
+<td>０</td>
+<td>公司</td>
+</tr>
+<tr>
+<td>バンコク</td>
+<td>ba n ko ku</td>
+<td>１</td>
+<td>曼谷</td>
+</tr>
+<tr>
+<td>ベルリン</td>
+<td>be ru ri n</td>
+<td>０</td>
+<td>柏林</td>
+</tr>
+<tr>
+<td>ジャカルタ</td>
+<td>jya ka ru ta</td>
+<td>２</td>
+<td>雅加达</td>
+</tr>
+<tr>
+<td>スイス</td>
+<td>su i su</td>
+<td>１</td>
+<td>瑞士</td>
+</tr>
+</tbody>
+</table>
+<h2 id="文法"><a href="#文法" class="headerlink" title="文法"></a>文法</h2><table>
+<thead>
+<tr>
+<th>文法</th>
+<th>意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ここ/そこ/あそこ</strong></td>
+<td><strong>指代场所</strong></td>
+</tr>
+<tr>
+<td><strong>こちら/そちら/あちら</strong></td>
+<td><strong>指代方向，也指代场所（郑重语气）</strong></td>
+</tr>
+<tr>
+<td><strong>名詞　は　場所　です</strong></td>
+<td><strong>什么在哪</strong></td>
+</tr>
+<tr>
+<td><em>お手洗いはあそこです</em></td>
+<td><em>洗手间在那边</em></td>
+</tr>
+<tr>
+<td><em>電話は２階です</em></td>
+<td><em>电话在2层</em></td>
+</tr>
+<tr>
+<td><em>山田さんは事務所です</em></td>
+<td><em>山田在事务所</em></td>
+</tr>
+</tbody>
+</table>
+
+          
         
       
     </div>
@@ -1221,7 +1038,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/27/Django-Web-调试工具debug-toolbar/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/10/《大家的日语》初级1-第2课/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -1240,7 +1057,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/27/Django-Web-调试工具debug-toolbar/" itemprop="url">Django-Web-调试工具debug-toolbar</a></h1>
+                <a class="post-title-link" href="/2018/03/10/《大家的日语》初级1-第2课/" itemprop="url">《大家的日语》初级1-第2课</a></h1>
         
 
         <div class="post-meta">
@@ -1252,8 +1069,999 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-27T18:33:35+08:00">
-                2017-12-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-10T23:38:28+08:00">
+                2018-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/日本語/" itemprop="url" rel="index">
+                    <span itemprop="name">日本語</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/images/IMG_1014.PNG" alt=""></p>
+<p>＃単語</p>
+<table>
+<thead>
+<tr>
+<th>书写</th>
+<th>平假名</th>
+<th>音调</th>
+<th>词意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>これ</td>
+<td></td>
+<td>０</td>
+<td>这（离自己近）</td>
+</tr>
+<tr>
+<td>辞書</td>
+<td>じしょ</td>
+<td>１</td>
+<td>字典</td>
+</tr>
+<tr>
+<td>それ</td>
+<td></td>
+<td>０</td>
+<td>那（离对方近）</td>
+</tr>
+<tr>
+<td>傘</td>
+<td>かさ</td>
+<td>１</td>
+<td>雨伞</td>
+</tr>
+<tr>
+<td>この〜</td>
+<td></td>
+<td>０</td>
+<td>这个</td>
+</tr>
+<tr>
+<td>ボールペン</td>
+<td>bo o ru pe n</td>
+<td>０</td>
+<td>圆珠笔</td>
+</tr>
+<tr>
+<td>そうです</td>
+<td></td>
+<td>１</td>
+<td>是这个</td>
+</tr>
+<tr>
+<td>ノート</td>
+<td>no o to</td>
+<td>１</td>
+<td>笔记本</td>
+</tr>
+<tr>
+<td>手帳</td>
+<td>てちょう</td>
+<td>０</td>
+<td>记事本</td>
+</tr>
+<tr>
+<td>何</td>
+<td>なに</td>
+<td>１</td>
+<td>什么</td>
+</tr>
+<tr>
+<td>名刺</td>
+<td>めいし</td>
+<td>０</td>
+<td>名片</td>
+</tr>
+<tr>
+<td>雑誌</td>
+<td>ざっし</td>
+<td>０</td>
+<td>杂志</td>
+</tr>
+<tr>
+<td>コンピューター</td>
+<td>ko n pyo o ta a</td>
+<td>３</td>
+<td>计算机</td>
+</tr>
+<tr>
+<td>あれ</td>
+<td></td>
+<td>０</td>
+<td>那（离自己和对方都远）</td>
+</tr>
+<tr>
+<td>鞄</td>
+<td>かばん</td>
+<td>０</td>
+<td>皮包，提包</td>
+</tr>
+<tr>
+<td>鍵</td>
+<td>かぎ</td>
+<td>２</td>
+<td>钥匙</td>
+</tr>
+<tr>
+<td>これからお世話になります</td>
+<td>これからおせわになります</td>
+<td></td>
+<td>今后会给您添麻烦</td>
+</tr>
+<tr>
+<td>こんにちは</td>
+<td></td>
+<td></td>
+<td>你好</td>
+</tr>
+<tr>
+<td>こちらこそ、どうも、よろしくお願いします</td>
+<td></td>
+<td></td>
+<td>也请您多多关照</td>
+</tr>
+<tr>
+<td>あのう</td>
+<td></td>
+<td>２</td>
+<td>那个…（打招呼时使用）</td>
+</tr>
+<tr>
+<td>えっ</td>
+<td></td>
+<td></td>
+<td>唉</td>
+</tr>
+<tr>
+<td>コーヒー</td>
+<td>ko o hi i</td>
+<td>３</td>
+<td>咖啡</td>
+</tr>
+<tr>
+<td>どうぞ</td>
+<td></td>
+<td>１</td>
+<td>请</td>
+</tr>
+<tr>
+<td>[どうも]ありがとう[ございます]</td>
+<td></td>
+<td></td>
+<td>谢谢</td>
+</tr>
+<tr>
+<td>机</td>
+<td>つくえ</td>
+<td>０</td>
+<td>桌子</td>
+</tr>
+<tr>
+<td>新聞</td>
+<td>しんぶん</td>
+<td>０</td>
+<td>报纸</td>
+</tr>
+<tr>
+<td>シャープペンシル</td>
+<td>sya a pu pe n si ru</td>
+<td>４</td>
+<td>自动铅笔</td>
+</tr>
+<tr>
+<td>車</td>
+<td>くるま</td>
+<td>０</td>
+<td>汽车</td>
+</tr>
+<tr>
+<td>本</td>
+<td>ほん</td>
+<td>１</td>
+<td>书</td>
+</tr>
+<tr>
+<td>日本語</td>
+<td>にほんご</td>
+<td>０</td>
+<td>日语</td>
+</tr>
+<tr>
+<td>〜語</td>
+<td>〜ご</td>
+<td></td>
+<td>~语</td>
+</tr>
+<tr>
+<td>テレビ</td>
+<td>te re bi</td>
+<td>１</td>
+<td>电视</td>
+</tr>
+<tr>
+<td>ラジオ</td>
+<td>ra ji o</td>
+<td>０</td>
+<td>收音机</td>
+</tr>
+<tr>
+<td>カメラ</td>
+<td>ka me ra</td>
+<td>１</td>
+<td>照相机</td>
+</tr>
+<tr>
+<td>鉛筆</td>
+<td>えんぴつ</td>
+<td>０</td>
+<td>铅笔</td>
+</tr>
+<tr>
+<td>椅子</td>
+<td>いす</td>
+<td>０</td>
+<td>椅子</td>
+</tr>
+<tr>
+<td>シーディー</td>
+<td>si i dai i</td>
+<td>３</td>
+<td>CD</td>
+</tr>
+<tr>
+<td>お土産</td>
+<td>おみやげ</td>
+<td>０</td>
+<td>礼物</td>
+</tr>
+<tr>
+<td>チョコレート</td>
+<td>qyo ko re e to</td>
+<td>３</td>
+<td>巧克力</td>
+</tr>
+<tr>
+<td>英語</td>
+<td>えいご</td>
+<td>０</td>
+<td>英语</td>
+</tr>
+<tr>
+<td>そうですか</td>
+<td></td>
+<td></td>
+<td>是吗</td>
+</tr>
+<tr>
+<td>カード</td>
+<td>ka a do</td>
+<td>１</td>
+<td>卡片</td>
+</tr>
+<tr>
+<td>違います</td>
+<td>ちがいます</td>
+<td></td>
+<td>不是</td>
+</tr>
+<tr>
+<td>あ</td>
+<td></td>
+<td>１</td>
+<td>啊</td>
+</tr>
+<tr>
+<td>その〜</td>
+<td></td>
+<td>０</td>
+<td>那个</td>
+</tr>
+<tr>
+<td>あの〜</td>
+<td></td>
+<td>０</td>
+<td>那个</td>
+</tr>
+</tbody>
+</table>
+<h2 id="文法"><a href="#文法" class="headerlink" title="文法"></a>文法</h2><table>
+<thead>
+<tr>
+<th>文法</th>
+<th>意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>これ/それ/あれ</strong></td>
+<td><strong>作为名词使用，指代物体</strong></td>
+</tr>
+<tr>
+<td><em>それは辞書ですか</em></td>
+<td><em>那是字典吗</em></td>
+</tr>
+<tr>
+<td><strong>この　名詞/その　名詞/あの　名詞</strong></td>
+<td><strong>修饰名词使用</strong></td>
+</tr>
+<tr>
+<td><em>この本は私のです</em></td>
+<td><em>这本书是我的</em></td>
+</tr>
+<tr>
+<td><strong>そうです</strong></td>
+<td><strong>是的，名词句肯定回答</strong></td>
+</tr>
+<tr>
+<td><em>はい、そうです</em></td>
+<td><em>对，是的</em></td>
+</tr>
+<tr>
+<td><strong>違います</strong></td>
+<td><strong>不是的，名词句否定回答</strong></td>
+</tr>
+<tr>
+<td><em>いいえ、違います</em></td>
+<td><em>不，不是的</em></td>
+</tr>
+<tr>
+<td><strong>〜か、〜か</strong></td>
+<td><strong>这是~，还是~</strong></td>
+</tr>
+<tr>
+<td><em>これは９ですか、７ですか</em></td>
+<td><em>这是9还是7</em></td>
+</tr>
+<tr>
+<td><strong>お〜</strong></td>
+<td><strong>可续接名词，郑重的语气</strong></td>
+</tr>
+<tr>
+<td><em>お土産</em></td>
+<td><em>特产</em></td>
+</tr>
+<tr>
+<td><strong>そですか</strong></td>
+<td><strong>表示知道了，尾音用降调</strong></td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/10/《大家的日语》初级1-第1课/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/10/《大家的日语》初级1-第1课/" itemprop="url">《大家的日语》初级1-第1课</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-10T01:09:09+08:00">
+                2018-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/日本語/" itemprop="url" rel="index">
+                    <span itemprop="name">日本語</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="/images/IMG_1013.PNG" alt=""></p>
+<h2 id="単語"><a href="#単語" class="headerlink" title="単語"></a>単語</h2><table>
+<thead>
+<tr>
+<th>书写</th>
+<th>平假名</th>
+<th>音调</th>
+<th>词意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>私</td>
+<td>わたし</td>
+<td>０</td>
+<td>我</td>
+</tr>
+<tr>
+<td>〜さん</td>
+<td></td>
+<td></td>
+<td>尊称后缀</td>
+</tr>
+<tr>
+<td>学生</td>
+<td>がくせい</td>
+<td>０</td>
+<td>学生</td>
+</tr>
+<tr>
+<td>会社員</td>
+<td>かいしゃいん</td>
+<td>３</td>
+<td>公司职员</td>
+</tr>
+<tr>
+<td>貴方</td>
+<td>あなた</td>
+<td>２</td>
+<td>您</td>
+</tr>
+<tr>
+<td>はい</td>
+<td></td>
+<td>１</td>
+<td>是、对</td>
+</tr>
+<tr>
+<td>いいえ</td>
+<td></td>
+<td>３</td>
+<td>不、不是</td>
+</tr>
+<tr>
+<td>銀行員</td>
+<td>ぎんこういん</td>
+<td>３</td>
+<td>银行职员</td>
+</tr>
+<tr>
+<td>医者</td>
+<td>いしゃ</td>
+<td>０</td>
+<td>医生</td>
+</tr>
+<tr>
+<td>あの方</td>
+<td>あのかた</td>
+<td>４</td>
+<td>他、她、那个人、あのひと的礼貌用法</td>
+</tr>
+<tr>
+<td>どなた</td>
+<td></td>
+<td>１</td>
+<td>どれ的礼貌用法</td>
+</tr>
+<tr>
+<td>大学</td>
+<td>だいがく</td>
+<td>０</td>
+<td>大学</td>
+</tr>
+<tr>
+<td>桜</td>
+<td>さくら</td>
+<td>１</td>
+<td>樱花</td>
+</tr>
+<tr>
+<td>先生</td>
+<td>せんせい</td>
+<td>３</td>
+<td>老师</td>
+</tr>
+<tr>
+<td>〜ちゃん</td>
+<td></td>
+<td></td>
+<td>小孩子后缀</td>
+</tr>
+<tr>
+<td>何歳</td>
+<td>なんさい</td>
+<td>１</td>
+<td>几岁</td>
+</tr>
+<tr>
+<td>９</td>
+<td>きゅう</td>
+<td>１</td>
+<td>9</td>
+</tr>
+<tr>
+<td>歳</td>
+<td>さい</td>
+<td></td>
+<td>岁</td>
+</tr>
+<tr>
+<td>初めまして</td>
+<td>はじめまして</td>
+<td></td>
+<td>初次见面</td>
+</tr>
+<tr>
+<td>おはようございます</td>
+<td></td>
+<td></td>
+<td>早上好</td>
+</tr>
+<tr>
+<td>こちらは</td>
+<td></td>
+<td></td>
+<td>这位是~</td>
+</tr>
+<tr>
+<td>アメリカ</td>
+<td>a me ri ka</td>
+<td>０</td>
+<td>美国</td>
+</tr>
+<tr>
+<td>〜から来ました</td>
+<td>〜からきました</td>
+<td></td>
+<td>来自~</td>
+</tr>
+<tr>
+<td>どうぞ　よろしく　お願いします</td>
+<td>おねがいします</td>
+<td></td>
+<td>请多关照</td>
+</tr>
+<tr>
+<td>中国</td>
+<td>ちゅうごく</td>
+<td>１</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>〜人</td>
+<td>〜じん</td>
+<td></td>
+<td>~人</td>
+</tr>
+<tr>
+<td>教師</td>
+<td>きょうし</td>
+<td>１</td>
+<td>教师</td>
+</tr>
+<tr>
+<td>あの人</td>
+<td>あのひと</td>
+<td>４</td>
+<td>他、她、那个人</td>
+</tr>
+<tr>
+<td>誰</td>
+<td>だれ</td>
+<td>１</td>
+<td>谁</td>
+</tr>
+<tr>
+<td>社員</td>
+<td>しゃいん</td>
+<td>１</td>
+<td>职员</td>
+</tr>
+<tr>
+<td>富士大学</td>
+<td>ふじだいがく</td>
+<td></td>
+<td>富士大学</td>
+</tr>
+<tr>
+<td>ブラジル</td>
+<td>bu ra ji ru</td>
+<td></td>
+<td>巴西</td>
+</tr>
+<tr>
+<td>８</td>
+<td>はっ</td>
+<td></td>
+<td>8</td>
+</tr>
+<tr>
+<td>おいくつ</td>
+<td></td>
+<td>０</td>
+<td>なんさい的礼貌用法</td>
+</tr>
+<tr>
+<td>日本</td>
+<td>にほん</td>
+<td>２３</td>
+<td>日本</td>
+</tr>
+<tr>
+<td>イギリス</td>
+<td>i gi ri su</td>
+<td>０</td>
+<td>英国</td>
+</tr>
+<tr>
+<td>タイ</td>
+<td>ta i</td>
+<td>１</td>
+<td>泰国</td>
+</tr>
+<tr>
+<td>ドイツ</td>
+<td>do i tsu</td>
+<td>１</td>
+<td>德国</td>
+</tr>
+<tr>
+<td>研究者</td>
+<td>けんきゅうしゃ</td>
+<td>３</td>
+<td>研究人员</td>
+</tr>
+<tr>
+<td>神戸</td>
+<td>こうべ</td>
+<td>１</td>
+<td>神户</td>
+</tr>
+<tr>
+<td>病院</td>
+<td>びょういん</td>
+<td>０</td>
+<td>医院</td>
+</tr>
+<tr>
+<td>インド</td>
+<td>i n do</td>
+<td>１</td>
+<td>印度</td>
+</tr>
+<tr>
+<td>韓国</td>
+<td>かんこく</td>
+<td>１</td>
+<td>韩国</td>
+</tr>
+<tr>
+<td>インドネシア</td>
+<td>i n do ne si a</td>
+<td>４</td>
+<td>印度尼西亚</td>
+</tr>
+<tr>
+<td>失礼ですが</td>
+<td>しっれいですが</td>
+<td></td>
+<td>对不起、请问</td>
+</tr>
+<tr>
+<td>お名前は</td>
+<td>おなまえは</td>
+<td></td>
+<td>您贵姓？</td>
+</tr>
+<tr>
+<td>パワー電気</td>
+<td>pa wa a でんき</td>
+<td></td>
+<td>power电器</td>
+</tr>
+</tbody>
+</table>
+<h2 id="文法"><a href="#文法" class="headerlink" title="文法"></a>文法</h2><table>
+<thead>
+<tr>
+<th>文法</th>
+<th>意思</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>名詞　は　名詞　です</strong></td>
+<td><strong>什么是什么</strong></td>
+</tr>
+<tr>
+<td><em>田中さんは銀行員です</em></td>
+<td><em>田中是银行职员</em></td>
+</tr>
+<tr>
+<td><strong>名詞　は　名詞　じゃ（では）ありません</strong></td>
+<td><strong>什么不是什么</strong></td>
+</tr>
+<tr>
+<td><em>鈴木さんは学生じゃありません</em></td>
+<td><em>铃木不是学生</em></td>
+</tr>
+<tr>
+<td><strong>名詞　は　名詞　ですが</strong></td>
+<td><strong>什么是什么吗</strong></td>
+</tr>
+<tr>
+<td><em>スミスは医者ですが</em></td>
+<td><em>史密斯是医生吗</em></td>
+</tr>
+<tr>
+<td><em>あの人（方）　は　だれ（どなた）ですが</em></td>
+<td><em>（带疑问词）那是谁</em></td>
+</tr>
+<tr>
+<td><strong>名詞　も　名詞　です</strong></td>
+<td><strong>什么也是什么</strong></td>
+</tr>
+<tr>
+<td><em>佐藤さんも研究者です</em></td>
+<td><em>佐藤也是研究人员</em></td>
+</tr>
+<tr>
+<td><strong>名詞　の　名詞</strong></td>
+<td><strong>什么的什么</strong></td>
+</tr>
+<tr>
+<td><em>ソニーの社員</em></td>
+<td><em>索尼的职员</em></td>
+</tr>
+<tr>
+<td><strong>さん</strong></td>
+<td><strong>接名字的尊称</strong></td>
+</tr>
+<tr>
+<td><em>ミラーさん</em></td>
+<td><em>米勒先生</em></td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/08/django-imagekit——图片处理包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/08/django-imagekit——图片处理包/" itemprop="url">django-imagekit——图片处理包</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-08T13:45:13+08:00">
+                2018-03-08
               </time>
             
 
@@ -1324,10 +2132,204 @@
 
       
         
-          <p><a href="http://django-debug-toolbar.readthedocs.io/en/stable/" target="_blank" rel="noopener">Django Debug Toolbar</a>绝对是Django开发如虎添翼包，之前有个页面刷新特别慢，看过源码，用chrome检查过元素，定位，查找，累的半死也没查到原因。偶然发现了这个工具，简单配置一下就能使用。刷新页面后列出了所有页面的query，哪里慢一目了然。</p>
+          
+            <p><a href="http://django-imagekit.readthedocs.io/en/latest/" target="_blank" rel="noopener">django-imagekit英文原文地址</a></p>
+<p>使用的原因是需要在django的admin changeform页面中显示ImageField中的图片。上述链接是官方的readme，没找到中文版本的，只能自己慢慢啃了，顺便记录下来吧。</p>
+<p>ImageKit是Django的一个用于处理图片的app。它可以帮你生成一个已上传图片的缩略图或黑白图。如果你需要通过程序化的根据一张图片生成另一张图片，那么你肯定需要它。<br>ImageKit包含了一组图片处理器，可以满足一些通用简单的任务，比如调整大小和剪裁。当然你也可以自定义一些处理器，可以参考<a href="https://github.com/fish2000/instakit" target="_blank" rel="noopener">Instakit</a>项目。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><ol>
+<li>安装PIL或Pillow。（如果已经在项目中使用了ImageField，说明已经安装过了）</li>
+<li>pip install django-imagekit</li>
+<li>在项目settings.py配置文件的INSTALLED_APPS中添加’imagekit’</li>
+</ol>
+<h1 id="用法概览"><a href="#用法概览" class="headerlink" title="用法概览"></a>用法概览</h1><h2 id="Specs"><a href="#Specs" class="headerlink" title="Specs"></a>Specs</h2><p>如果想基于已有的图片来创造另一张图片时，可以定义一个Image Spec来通知ImageKit来实现。<br>Image Spec是一种从源图片生成新图片的生成器。</p>
+<h2 id="在Model中定义Specs"><a href="#在Model中定义Specs" class="headerlink" title="在Model中定义Specs"></a>在Model中定义Specs</h2><p>定义Image spec最简单的方式是在model类中定义一个ImageSpecField：<br><figure class="highlight python"><figcaption><span>model.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> imagekit.models <span class="keyword">import</span> ImageSpecField</span><br><span class="line"><span class="keyword">from</span> imagekit.processors <span class="keyword">import</span> ResizeToFill</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Profile</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    avatar = models.ImageField(upload_to=<span class="string">'avatars'</span>)</span><br><span class="line">    avatar_thumbnail = ImageSpecField(source=<span class="string">'avatar'</span>,</span><br><span class="line">                                      processors=[ResizeToFill(<span class="number">100</span>, <span class="number">50</span>)],</span><br><span class="line">                                      format=<span class="string">'JPEG'</span>,</span><br><span class="line">                                      options=&#123;<span class="string">'quality'</span>: <span class="number">60</span>&#125;)</span><br><span class="line"></span><br><span class="line">profile = Profile.objects.all()[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">print</span> profile.avatar_thumbnail.url    <span class="comment"># &gt; /media/CACHE/images/982d5af84cddddfd0fbf70892b4431e4.jpg</span></span><br><span class="line"><span class="keyword">print</span> profile.avatar_thumbnail.width  <span class="comment"># &gt; 100</span></span><br></pre></td></tr></table></figure></p>
+<p>你可能会说，ImageSpecFields和Django中的ImageFields很像。不同之处是，ImageSpecFields是基于你给出的指令通过ImageKit自动生成的。在上面的示例中，avatar thumbnail是avatar图片重新调整大小的版本，并按60质量JPEG格式保存。</p>
+<p>有些时候，可能不需要报错原图（avatar图片），当用户上传一张图片时，只想保存处理后的结果，这时可以使用ProcessedImageField类：<br><figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"><span class="keyword">from</span> imagekit.models <span class="keyword">import</span> ProcessedImageField</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Profile</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    avatar_thumbnail = ProcessedImageField(upload_to=<span class="string">'avatars'</span>,</span><br><span class="line">                                           processors=[ResizeToFill(<span class="number">100</span>, <span class="number">50</span>)],</span><br><span class="line">                                           format=<span class="string">'JPEG'</span>,</span><br><span class="line">                                           options=&#123;<span class="string">'quality'</span>: <span class="number">60</span>&#125;)</span><br><span class="line"></span><br><span class="line">profile = Profile.objects.all()[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">print</span> profile.avatar_thumbnail.url    <span class="comment"># &gt; /media/avatars/MY-avatar.jpg</span></span><br><span class="line"><span class="keyword">print</span> profile.avatar_thumbnail.width  <span class="comment"># &gt; 100</span></span><br></pre></td></tr></table></figure></p>
+<p>这段代码看起来和上面的示例很相似。因为我们不需要处理另一个ImageField，也就不需要指定’source’。但是我们需要指定’upload_to’参数，这看起来更像Django中ImageField做的事情。</p>
+<p><strong><em>注意</em></strong><br><strong><em>你可能想知道，为什么ImageSpecField不需要’upload_to’参数。原因是ProcessedImageFields更像ImageFields，它们需要在数据库中保存文件路径，并且在修改完model后需要进行migration</em></strong><br><strong><em>另一方面，ImageSpecFields是虚拟的字段，即它不会在数据库中创建字段，甚至都不需要数据库。这在很多方面都很方便，但也意味着图片文件的路径需要基于源图片和处理器程序化的构建。</em></strong></p>
+<h2 id="在Models之外定义Specs"><a href="#在Models之外定义Specs" class="headerlink" title="在Models之外定义Specs"></a>在Models之外定义Specs</h2><p>在models的字段中定义specs是处理图片最简便的方法，但并不是唯一的。有时候你不能或不想在models中添加字段，那么你可以定义image spec类并直接使用它们。这在views中最图片处理将会特别有用，尤其是在用户输入后就处理图片的情况下。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> imagekit <span class="keyword">import</span> ImageSpec</span><br><span class="line"><span class="keyword">from</span> imagekit.processors <span class="keyword">import</span> ResizeToFill</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thumbnail</span><span class="params">(ImageSpec)</span>:</span></span><br><span class="line">    processors = [ResizeToFill(<span class="number">100</span>, <span class="number">50</span>)]</span><br><span class="line">    format = <span class="string">'JPEG'</span></span><br><span class="line">    options = &#123;<span class="string">'quality'</span>: <span class="number">60</span>&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个雷能够像上面的ImageSpecField一样处理图片。但与在model中使用字段定义不同的是，这个类不能定义spec执行的source，或者应该如何处理结果，这将取决于你。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">source_file = open(<span class="string">'/path/to/myimage.jpg'</span>)</span><br><span class="line">image_generator = Thumbnail(source=source_file)</span><br><span class="line">result = image_generator.generate()</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>注意</em></strong><br><strong><em>并不是必须使用open函数，你可以使用任何类文件的对象，包括model中的ImageField。</em></strong><br>在Image Spec上调用generate()函数后的结果，是一个类文件对象，它包括我们调整大小或做其他处理后的图片，如果你想存到磁盘上：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dest = open(<span class="string">'/path/to/dest.jpg'</span>, <span class="string">'w'</span>)</span><br><span class="line">dest.write(result.read())</span><br><span class="line">dest.close()</span><br></pre></td></tr></table></figure></p>
+<h2 id="在Templates模板中使用Specs"><a href="#在Templates模板中使用Specs" class="headerlink" title="在Templates模板中使用Specs"></a>在Templates模板中使用Specs</h2><p>如果你已经在model中定义了一个ImageSpecField或者ProcessedImageFIeld，你可以想使用一个普通的image field一样简单的使用这些处理过的图片。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"&#123;&#123; profile.avatar_thumbnail.url &#125;&#125;"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong><em>（这里假设你已经有了一个view，并将上下文的Profile model实例变量命名为‘profile’）</em></strong></p>
+<p>但是你也可以不在model中添加任何代码的情况下，直接在template中生成任意图片处理后的图片。为了做到这一点，你需要像上一节所述的那样，先在你的app中某个文职定义一个图片生成器类（记住，specs 是一类生成器）。你同样需要一种方式在template中引用这个生成器，那么就register注册它。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> imagekit <span class="keyword">import</span> ImageSpec, register</span><br><span class="line"><span class="keyword">from</span> imagekit.processors <span class="keyword">import</span> ResizeToFill</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thumbnail</span><span class="params">(ImageSpec)</span>:</span></span><br><span class="line">    processors = [ResizeToFill(<span class="number">100</span>, <span class="number">50</span>)]</span><br><span class="line">    format = <span class="string">'JPEG'</span></span><br><span class="line">    options = &#123;<span class="string">'quality'</span>: <span class="number">60</span>&#125;</span><br><span class="line"></span><br><span class="line">register.generator(<span class="string">'myapp:thumbnail'</span>, Thumbnail)</span><br></pre></td></tr></table></figure>
+<p><strong><em>注意</em></strong><br><strong><em>你可以使用任意的id注册生成器，但还是要明智一点。如果你选择了太普通的id，可能会与你使用的其他第三方app冲突。因此，最好为id增加一个与自己app同名的前缀。同样的，在做模式识别是ImageKit会将冒号识别为分隔符</em></strong></p>
+<p><strong><em>警告</em></strong><br><strong><em>这个代码可以在任意文件中运行，只要你确保它已经被加载。为了保持简单，ImageKit将会自动尝试加载你已经安装的每一个app中名称为‘imagegenerators’的模型。因此，可以把你的image specs放在这里</em></strong></p>
+<p>现在我们已经创建了图片生成器类并使用Imagekit注册了它，已经可以在templates中使用了。</p>
+<h3 id="generateimage"><a href="#generateimage" class="headerlink" title="generateimage"></a>generateimage</h3><p>ImageKit给你的最通用模板标签叫做“generateimage”。它需要至少一个参数：注册的图片生成器id。额外的关键字样式的参数传递给注册的生成器类。正如我们上面看到的，image spec构造函数需要一个源关键字参数，因此我们需要通过这个来使用我们的缩略图spec。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% generateimage 'myapp:thumbnail' source=source_file %&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这将会输出如下的HTML<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/media/CACHE/images/982d5af84cddddfd0fbf70892b4431e4.jpg"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"50"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>你也可以添加额外的HTML属性，只需要通过两个横线分开<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% generateimage 'myapp:thumbnail' source=source_file -- alt="A picture of Me" id="mypicture" %&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还可以使用一个赋值标记，生成HTML的img标签，提供对底层文件对象的访问<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% generateimage 'myapp:thumbnail' source=source_file as th %&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"&#123;&#123; th.url &#125;&#125;"</span>&gt;</span>Click to download a cool &#123;&#123; th.width &#125;&#125; x &#123;&#123; th.height &#125;&#125; image!<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="thumbnail"><a href="#thumbnail" class="headerlink" title="thumbnail"></a>thumbnail</h3><p>因为很常用，ImageKit还提供了一个缩略图模板标签<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% thumbnail '100x50' source_file %&#125;</span><br></pre></td></tr></table></figure></p>
+<p>和generateimage标签类似，thumbnail标签输出一个img标签<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"/media/CACHE/images/982d5af84cddddfd0fbf70892b4431e4.jpg"</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">height</span>=<span class="string">"50"</span> /&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>和上述的generateimage标签相比，还是可以注意到一些区别的。</p>
+<ol>
+<li>我们没有指定图片生成器的id；除非我们指定，否则thumbnail标签将使用id为“imagekit:thumbnail”注册的生成器（imagekit.generatorlibrary.Thumbnail）。<strong>重点注意的是，这个标签没有使用我们之前定义的缩略图spec类</strong>。</li>
+<li>我们传递了两个位置参数（维度和源图片），而不是我们在generateimage标签中使用参数；</li>
+</ol>
+<p>和generateimage标签一样，我们也可以指定额外的HTML属性，或者指定标记：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% load imagekit %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% thumbnail '100x50' source_file -- alt="A picture of Me" id="mypicture" %&#125;</span><br><span class="line">&#123;% thumbnail '100x50' source_file as th %&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="在Forms中使用Specs"><a href="#在Forms中使用Specs" class="headerlink" title="在Forms中使用Specs"></a>在Forms中使用Specs</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/06/数据仓库建模——数据路径/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/数据仓库建模——数据路径/" itemprop="url">数据仓库建模——数据路径</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:17:35+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/" itemprop="url" rel="index">
+                    <span itemprop="name">DW</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/Design/" itemprop="url" rel="index">
+                    <span itemprop="name">Design</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>设计思路按层次关系划分，数据路径上包括业务建模，概念建模，逻辑建模，物理建模四个层次。</p>
+<ul>
+<li><strong>业务建模</strong>是针对公司或者部门级的业务进行全方面的梳理和分解。</li>
+<li><strong>概念建模</strong>是对业务模型进行抽象出来实体以及实体与实体之间的关系。</li>
+<li><strong>逻辑模型</strong>是对概念模型进行具体的设计，实体的属性，主键，外键等等。</li>
+<li><strong>物理模型</strong>是将逻辑模型具体实施，考虑各种具体的技术实现因素，进行数据仓库体系结构设计，真正实现数据在数据仓库中的存放。</li>
+</ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/27/Django-Web-调试工具debug-toolbar/#more" rel="contents">
+            <a class="btn" href="/2018/03/06/数据仓库建模——数据路径/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1378,7 +2380,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/26/PostgreSQL中使用hstore存储键值对数据/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/06/数据仓库设计：Kimball模式和Inmon模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -1397,7 +2399,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/26/PostgreSQL中使用hstore存储键值对数据/" itemprop="url">PostgreSQL中使用hstore存储键值对数据</a></h1>
+                <a class="post-title-link" href="/2018/03/06/数据仓库设计：Kimball模式和Inmon模式/" itemprop="url">数据仓库设计：Kimball模式和Inmon模式</a></h1>
         
 
         <div class="post-meta">
@@ -1409,8 +2411,292 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-26T18:59:03+08:00">
-                2017-12-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T10:58:05+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/" itemprop="url" rel="index">
+                    <span itemprop="name">DW</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/Design/" itemprop="url" rel="index">
+                    <span itemprop="name">Design</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Inmon模式"><a href="#Inmon模式" class="headerlink" title="Inmon模式"></a>Inmon模式</h2><p>Bill Inmon的经典著作是《数据仓库》-Building the Data Warehouse.<br>他将数据仓库定义为，一个面向主题的、集成的、随时间变化的、非易变的用于支持管理的决策过程的数据集合。每个主题区域仅仅包含该主题相关的信息。数据仓库应该一次增加一个主题，并且当需要容易地访问多个主题时，应该创建以数据仓库为来源的数据集市。<br>Inmon模式设计是自顶向下的（top down）瀑布流式开发方法。数据源往往是异构的，主要的数据处理工作集中在对异构数据的清晰、类型检验、值范围检验等规则。以<strong>数据源头</strong>为导向，首先，探索性的获取尽量符合预期的数据，尝试将数据按照预期划分为不同的表需求。其次，明确数据清洗规则后通过ETL转化到DW层，这里较多UDF开发（User-Defined Function），将数据抽取为实体-关系模型。接着，可以将数据输出到DM层供BI环节使用。<br><strong>模式</strong>：范式建模（第三范式），集线器式建模，一般用于ODS和DW层，不对外开放<br><strong>重点</strong>：数据的清洗工作，从中抽取实体-关系<br><strong>优点</strong>：冗余少，数据模型泛化，精心抽象设计，方便维护</p>
+<p><strong><em>简单地说，1NF就是消除重复元组，并保持列的原子性，具体到数据库设计上就是每个表都要有一个主键来唯一标识一行记录。2NF就是在1NF的基础上消除了部分依赖，即非键属性必须完全依赖于主键。3NF在2NF基础上消除了传递依赖，即非键属性只能完全依赖于主键。一般数据库设计需要满足3NF。</em></strong></p>
+<p><img src="/images/DW/dw_inmon.png" alt=""><br><img src="/images/DW/dw_inmon_1.png" alt=""></p>
+<h2 id="Kimball模式"><a href="#Kimball模式" class="headerlink" title="Kimball模式"></a>Kimball模式</h2><p>Ralph Kimbal的经典著作是《数据仓库工具箱》-The Data Warehouse Toolkit.<br>他对数据仓库的定义为，数据仓库仅仅是构成它的数据集市的联合。通过使用“一致的”维，能够共同看到不同数据集市中的信息，这表示它们拥有公共定义的元素。<br>Kimball模式设计从流程上是自底向上的（bottom up），以<strong>最终任务</strong>为导向，根据业务需求对源数据进行探索，拆分出不同的表需求；然后通过ETL将数据转化到DM层（维度表+事实表）,之后一方面想BI环节输出数据，另一方面向DW层输出数据。<br><strong>模式</strong>：维度建模，总线式建模（星型模型），一般用于DM层<br><strong>重点</strong>：建立事实表和维度表<br><strong>优点</strong>：快速交付、敏捷迭代、对DW层不做过多复杂设计</p>
+<p><strong><em>维度建模允许进行一定的数据冗余来起到减少表间关联和快速查询的作用</em></strong></p>
+<p><img src="/images/DW/dw_kimball.png" alt=""><br><img src="/images/DW/dw_kimball_1.png" alt=""></p>
+<h2 id="混合模式"><a href="#混合模式" class="headerlink" title="混合模式"></a>混合模式</h2><p>结合了两个模式的特点</p>
+<p><img src="/images/DW/dw_mix.png" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/02/PgSQL双向同步工具Bucardo——配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/02/PgSQL双向同步工具Bucardo——配置/" itemprop="url">PgSQL双向同步工具Bucardo——配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T10:17:48+08:00">
+                2018-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="PgSQL使用Bucardo进行主从同步"><a href="#PgSQL使用Bucardo进行主从同步" class="headerlink" title="PgSQL使用Bucardo进行主从同步"></a>PgSQL使用Bucardo进行主从同步</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="安装依赖包-按顺序"><a href="#安装依赖包-按顺序" class="headerlink" title="安装依赖包(按顺序)"></a>安装依赖包(按顺序)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install perl-boolean</span></span><br><span class="line"><span class="comment"># yum install postgresql-plperl</span></span><br><span class="line"><span class="comment"># wget http://files.directadmin.com/services/9.0/ExtUtils-MakeMaker-6.31.tar.gz</span></span><br><span class="line"><span class="comment"># wget http://search.cpan.org/CPAN/authors/id/E/EX/EXODIST/Test-Simple-1.302125.tar.gz</span></span><br><span class="line"><span class="comment"># wget http://search.cpan.org/CPAN/authors/id/J/JP/JPEACOCK/version-0.9918.tar.gz</span></span><br><span class="line"><span class="comment"># wget http://www.cpan.org/authors/id/T/TU/TURNSTEP/DBD-Pg-3.5.0.tar.gz   </span></span><br><span class="line"><span class="comment"># wget http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-1.630.tar.gz</span></span><br><span class="line"><span class="comment"># wget http://bucardo.org/downloads/dbix_safe.tar.gz</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装Bucardo"><a href="#安装Bucardo" class="headerlink" title="安装Bucardo"></a>安装Bucardo</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wget http://bucardo.org/downloads/Bucardo-5.4.1.tar.gz</span></span><br></pre></td></tr></table></figure>
+<p><strong><em>以上perl模块安装步骤</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tar xvf (...)</span></span><br><span class="line"><span class="comment"># cd (...)</span></span><br><span class="line"><span class="comment"># perl Makefile.PL</span></span><br><span class="line"><span class="comment"># make</span></span><br><span class="line"><span class="comment"># make install</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="创建配置文件"><a href="#创建配置文件" class="headerlink" title="创建配置文件"></a>创建配置文件</h3><p>在系统用户的home目录下创建.bucardorc文件，内容如下：<br>log_conflict_file    = /home/devops/bucardo/log/bucardo_conflict.log<br>piddir                = /home/devops/bucardo/run<br>reason_file            = /home/devops/bucardo/log/bucardo.restart.reason.log<br>warning_file        = /home/devops/bucardo/log/bucardo.warning.log<br>syslog_facility        = LOG_LOCAL</p>
+<h3 id="运行bucardo-install（-user-local-bin）"><a href="#运行bucardo-install（-user-local-bin）" class="headerlink" title="运行bucardo install（/user/local/bin）"></a>运行bucardo install（/user/local/bin）</h3><h2 id="安装perl模块过程中报错解决"><a href="#安装perl模块过程中报错解决" class="headerlink" title="安装perl模块过程中报错解决"></a>安装perl模块过程中报错解决</h2><h3 id="出现Could-not-open-‘’-No-such-file-or-directory-at-lib-ExtUtils-MM-Unix-pm"><a href="#出现Could-not-open-‘’-No-such-file-or-directory-at-lib-ExtUtils-MM-Unix-pm" class="headerlink" title="出现Could not open ‘’: No such file or directory at lib/ExtUtils/MM_Unix.pm"></a>出现Could not open ‘’: No such file or directory at lib/ExtUtils/MM_Unix.pm</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install perl-ExtUtils-MakeMaker</span></span><br></pre></td></tr></table></figure>
+<h3 id="出现Can’t-locate-Data-Dumper-pm-in-INC"><a href="#出现Can’t-locate-Data-Dumper-pm-in-INC" class="headerlink" title="出现Can’t locate Data/Dumper.pm in @INC"></a>出现Can’t locate Data/Dumper.pm in @INC</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install ‘perl(Data::Dumper)’</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/pgSQL集群工具PLproxy——基本代理函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/28/pgSQL集群工具PLproxy——基本代理函数/" itemprop="url">pgSQL集群工具PLproxy——基本代理函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T17:44:56+08:00">
+                2018-02-28
               </time>
             
 
@@ -1481,346 +2767,47 @@
 
       
         
-          <p>Hstore 数据类型可以把键值对集合存储在PGSQL的一个单独的值中</p>
-<ul>
-<li>键值对无序存储</li>
-<li>每个键是唯一的</li>
-<li>值可以为NULL，例如：key=&gt;NULL</li>
+          
+            <h2 id="准备工作参见《部署》"><a href="#准备工作参见《部署》" class="headerlink" title="准备工作参见《部署》"></a>准备工作参见《部署》</h2><p>假设基本配置如下：</p>
+<ol>
+<li>server name: cluster_zly</li>
+<li>proxy db role:proxy –\du</li>
+<li>proxy db name:proxy –\l</li>
+<li>data db role:zlyadmin（数据节点操作用户） –\du</li>
+<li>data db name:zlydb0,zlydb1（双数据节点） –\l</li>
+<li>schema:zly –\dn</li>
+</ol>
+<h2 id="PL-Proxy语言详解"><a href="#PL-Proxy语言详解" class="headerlink" title="PL/Proxy语言详解"></a>PL/Proxy语言详解</h2><ul>
+<li>共支持下列4个语句：CONNECT,CLUSTER,RUN,SELECT;</li>
+<li>每个函数要么包含CONNECT,要么包含CLUSTER+RUN</li>
+<li>SELECT可选，如果不使用SELECT，会调用数据节点的同名函数；若使用则在数据节点直接执行此SQL；</li>
+<li>RUN语句也可以不使用，等价于RUN ON ANY；</li>
 </ul>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">postgres-$ <span class="keyword">create</span> extension hstore;</span><br><span class="line"><span class="keyword">CREATE</span> EXTENSION</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/26/PostgreSQL中使用hstore存储键值对数据/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/24/Django-Permissions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/24/Django-Permissions/" itemprop="url">Django-Permissions</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-24T22:54:12+08:00">
-                2017-12-24
-              </time>
-            
-
-            
-
-            
-          </span>
+<h3 id="CONNECT"><a href="#CONNECT" class="headerlink" title="CONNECT"></a>CONNECT</h3><figure class="highlight sql"><figcaption><span>grammar</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONNECT 'libpg connstr' | CONNECT connect_func(...) | argname;</span><br></pre></td></tr></table></figure>
+<p>CONNECT后面可以直接跟一个libpq的连接字符串，也可跟一个函数，由其返回一个libpq连接串；或跟一个函数参数名,指定连接哪一个数据库。<br>一个proxy函数中只能出现一条connect语句<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONNECT 'hostaddr=172.16.3.150 dbname=db0 user=digoal port=1921';</span><br></pre></td></tr></table></figure></p>
+<h3 id="CLUSTER"><a href="#CLUSTER" class="headerlink" title="CLUSTER"></a>CLUSTER</h3><figure class="highlight sql"><figcaption><span>grammar</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CLUSTER 'cluster_name' | CLUSTER connect_func(...) | argname;</span><br></pre></td></tr></table></figure>
+<p>CLUSTER后面跟一个标识集群名称的字符串，也可以跟一个函数，由其返回一个集群名称；还可跟一个参数名，参数内容为一个集群名称。</p>
+<h3 id="RUN-ON"><a href="#RUN-ON" class="headerlink" title="RUN ON"></a>RUN ON</h3><figure class="highlight"><figcaption><span>grammar</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUN ON ALL | ANY | &lt;NR&gt; | partition_func(...);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>RUN ON ALL 表示在集群每个数据节点并行执行,必须returns setof</li>
+<li>RUN ON ANY 表示随机挑选一个节点执行</li>
+<li>RUN ON <nr> 表示指定某一数据节点的数字（0…n-1）执行</nr></li>
+<li>RUN ON partition_func(…) 表示有函数particion_func()返回一个或多个hash值后将请求转到对应的后端数据节点上，如果是多个hash值，也是并行执行。</li>
+</ol>
+<h3 id="SPLIT"><a href="#SPLIT" class="headerlink" title="SPLIT"></a>SPLIT</h3><h3 id="TARGET"><a href="#TARGET" class="headerlink" title="TARGET"></a>TARGET</h3><figure class="highlight sql"><figcaption><span>grammar</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TARGET other_function;</span><br></pre></td></tr></table></figure>
+<p>可以让后端的函数名与Proxy节点的函数名不一样，如：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> get_user_email(i_username <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">text</span> <span class="keyword">AS</span> $$</span><br><span class="line">	CLUSTER <span class="string">'cluster_zly'</span>;</span><br><span class="line">    RUN ON hashtext(i_username);</span><br><span class="line">    TARGET get_customer_email;</span><br><span class="line">$$ LANGUAGE plproxy</span><br></pre></td></tr></table></figure></p>
+<h2 id="proxy节点函数"><a href="#proxy节点函数" class="headerlink" title="proxy节点函数"></a>proxy节点函数</h2><h3 id="ddl函数"><a href="#ddl函数" class="headerlink" title="ddl函数"></a>ddl函数</h3><figure class="highlight sql"><figcaption><span>ddl</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.ddlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">integer</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line">CLUSTER <span class="string">'cluster_zly'</span>;</span><br><span class="line">RUN ON ALL;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE plproxy VOLATILE</span><br><span class="line">COST 100</span><br><span class="line">ROWS 1000;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">FUNCTION</span> zly.ddlexec(<span class="built_in">text</span>)</span><br><span class="line">OWNER <span class="keyword">TO</span> postgres;</span><br></pre></td></tr></table></figure>
+<h3 id="dml函数（随机insert，不适用update，delete）"><a href="#dml函数（随机insert，不适用update，delete）" class="headerlink" title="dml函数（随机insert，不适用update，delete）"></a>dml函数（随机insert，不适用update，delete）</h3><figure class="highlight sql"><figcaption><span>dml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.dmlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">integer</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line">CLUSTER <span class="string">'cluster_zly'</span>;</span><br><span class="line">RUN ON ANY;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE plproxy VOLATILE</span><br><span class="line">COST 100</span><br><span class="line">ROWS 1000;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">FUNCTION</span> zly.dmlexec(<span class="built_in">text</span>) OWNER <span class="keyword">TO</span> postgres;</span><br></pre></td></tr></table></figure>
+<h3 id="dql函数（查询）"><a href="#dql函数（查询）" class="headerlink" title="dql函数（查询）"></a>dql函数（查询）</h3><figure class="highlight sql"><figcaption><span>dql</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.dqlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">record</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line">CLUSTER <span class="string">'cluster_zly'</span>;</span><br><span class="line">RUN ON ALL;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE plproxy VOLATILE</span><br><span class="line">COST 100</span><br><span class="line">ROWS 1000;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">FUNCTION</span> zly.dqlexec(<span class="built_in">text</span>) OWNER <span class="keyword">TO</span> postgres;</span><br></pre></td></tr></table></figure>
+<h2 id="data节点函数"><a href="#data节点函数" class="headerlink" title="data节点函数"></a>data节点函数</h2><h3 id="ddl函数-1"><a href="#ddl函数-1" class="headerlink" title="ddl函数"></a>ddl函数</h3><figure class="highlight sql"><figcaption><span>ddl</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.ddlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="built_in">integer</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line">ret <span class="built_in">integer</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">execute</span> <span class="keyword">query</span>;</span><br><span class="line">return 1;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE 'plpgsql' VOLATILE</span><br><span class="line">COST 100;</span><br></pre></td></tr></table></figure>
+<h3 id="dml函数（插入）"><a href="#dml函数（插入）" class="headerlink" title="dml函数（插入）"></a>dml函数（插入）</h3><figure class="highlight sql"><figcaption><span>dml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.dmlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="built_in">integer</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line">ret <span class="built_in">integer</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">execute</span> <span class="keyword">query</span>;</span><br><span class="line">return 1;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE 'plpgsql' VOLATILE</span><br><span class="line">COST 100;</span><br></pre></td></tr></table></figure>
+<h3 id="dql函数（查询）-1"><a href="#dql函数（查询）-1" class="headerlink" title="dql函数（查询）"></a>dql函数（查询）</h3><figure class="highlight sql"><figcaption><span>dql</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.dqlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">record</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line">ret <span class="built_in">record</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">for</span> ret <span class="keyword">in</span> <span class="keyword">execute</span> <span class="keyword">query</span> </span><br><span class="line"><span class="keyword">loop</span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">next</span> ret;</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">loop</span>;</span><br><span class="line">return;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE 'plpgsql' VOLATILE</span><br><span class="line">COST 100</span><br><span class="line">ROWS 1000;</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="批量建表："><a href="#批量建表：" class="headerlink" title="批量建表："></a>批量建表：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> zly.ddlexec(<span class="string">'create table t1(id integer,name varchar(100))'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="插入数据："><a href="#插入数据：" class="headerlink" title="插入数据："></a>插入数据：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> zly.dmlexec(<span class="string">'insert into t1 values(0,'</span>aaa<span class="string">')'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="查询数据数量："><a href="#查询数据数量：" class="headerlink" title="查询数据数量："></a>查询数据数量：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> zly.dqlexec(<span class="string">'select cast(count(id) as int) as cnt  from t1 '</span>) <span class="keyword">as</span> (cnt <span class="built_in">int</span>) ;</span><br></pre></td></tr></table></figure>
+<h3 id="查询数据内容："><a href="#查询数据内容：" class="headerlink" title="查询数据内容："></a>查询数据内容：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> zly.dqlexec(<span class="string">'select * from t1'</span>) <span class="keyword">as</span> (<span class="keyword">id</span>  <span class="built_in">integer</span>, <span class="keyword">name</span> <span class="built_in">varchar</span> );</span><br></pre></td></tr></table></figure>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Permission/" itemprop="url" rel="index">
-                    <span itemprop="name">Permission</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Django权限机制由User，Group，Permission组成<br>只有model有permission，每个model默认有三个permissions，可自定义其他：</p>
-<ul>
-<li>add model</li>
-<li>change model</li>
-<li>delete model</li>
-</ul>
-<figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">		permissions = &#123;</span><br><span class="line">				(<span class="string">"view_A"</span>,<span class="string">"can view A"</span>),</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
-<p>每个 permission 都是 django.contrib.auth.Permission 类型的实例.<br>该类型包含三个字段 name, codename 和 content_type，</p>
-<ul>
-<li>content_type 反应了 permission 属于哪个 model</li>
-<li>codename 如上面的 view_server，代码逻辑中检查权限时要用</li>
-<li>name 是 permission 的描述，将 permission 打印到屏幕或页面时默认显示的就是 name</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/24/Django-Permissions/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/22/常用导数公式汇总/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/22/常用导数公式汇总/" itemprop="url">常用导数公式汇总</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-22T22:37:00+08:00">
-                2017-12-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/" itemprop="url" rel="index">
-                    <span itemprop="name">Tools</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tools/Math/" itemprop="url" rel="index">
-                    <span itemprop="name">Math</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近看梯度下降时，发现一些常用导数都不记得了，还是记录一下，顺便练练LaTeX。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/22/常用导数公式汇总/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
         
       
     </div>
@@ -1858,7 +2845,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1908,7 +2895,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1919,7 +2906,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1930,7 +2917,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

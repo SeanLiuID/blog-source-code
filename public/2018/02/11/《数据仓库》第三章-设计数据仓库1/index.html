@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Data Warehouse," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="建造数据仓库主要包括两个部分的工作:  与操作型系统结构的设计 数据仓库本身的设计">
+<meta name="keywords" content="Data Warehouse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《数据仓库》第三章-设计数据仓库1">
+<meta property="og:url" content="http://yoursite.com/2018/02/11/《数据仓库》第三章-设计数据仓库1/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="建造数据仓库主要包括两个部分的工作:  与操作型系统结构的设计 数据仓库本身的设计">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/DW/sjck314.png">
+<meta property="og:image" content="http://yoursite.com/images/DW/sjck316.png">
+<meta property="og:updated_time" content="2018-03-10T15:41:29.790Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《数据仓库》第三章-设计数据仓库1">
+<meta name="twitter:description" content="建造数据仓库主要包括两个部分的工作:  与操作型系统结构的设计 数据仓库本身的设计">
+<meta name="twitter:image" content="http://yoursite.com/images/DW/sjck314.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/11/《数据仓库》第三章-设计数据仓库1/"/>
+
+
+
+
+
+  <title>《数据仓库》第三章-设计数据仓库1 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/11/《数据仓库》第三章-设计数据仓库1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《数据仓库》第三章-设计数据仓库1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T23:41:26+08:00">
+                2018-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/《数据仓库》/" itemprop="url" rel="index">
+                    <span itemprop="name">《数据仓库》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>建造数据仓库主要包括两个部分的工作:</p>
+<ol>
+<li>与操作型系统结构的设计</li>
+<li>数据仓库本身的设计</li>
+</ol>
+<a id="more"></a>
+<h2 id="从操作型数据开始"><a href="#从操作型数据开始" class="headerlink" title="从操作型数据开始"></a>从操作型数据开始</h2><p>抽取过程面临的4个问题：集成、性能、抽取过程经历的时基变化、数据压缩<br>将未经集成的数据载入到数据仓库是一个极端严重的错误，从操作型环境到数据仓库有三种装载工作要做：</p>
+<ol>
+<li>装载档案数据</li>
+<li>装载在操作型系统中的现有数据</li>
+<li>将上次数据仓库刷新以来在操作型环境中不断发生的变化（更新）从操作型环境中装载到数据仓库中</li>
+</ol>
+<p>前两种装载工作都是一次性的，并不困难，第三种工作则是常态的，而限制扫描的操作型数据量是设计者面对的主要问题。<br>共有5种技术可以采用：</p>
+<ol>
+<li>扫描在操作型环境中哪些被打伤<strong>时间戳</strong>的数据。但带有时间戳的数据很少，或需要手工加入到操作型环境中。</li>
+<li>扫描<strong>增量文件</strong>。但很少应用创建增量文件。</li>
+<li>对作为事务处理的副产品产生的<strong>日志文件或审计文件</strong>进行扫描。</li>
+<li>修改应用程序代码。但很多应用程序的代码陈旧且不易修改。</li>
+<li>将一个“前”映像文件和一个“后”映像文件进行比较。这是最可怕的选择。</li>
+</ol>
+<h2 id="数据-过程模型与体系结构化环境"><a href="#数据-过程模型与体系结构化环境" class="headerlink" title="数据/过程模型与体系结构化环境"></a>数据/过程模型与体系结构化环境</h2><p><strong>过程模型</strong>是需求驱动的，仅适用于操作型环境。包括功能分解、第零层上下文图、数据流图、结构图、状态转换图、HIPO图、伪代码。<br><strong>数据模型</strong>即可用于操作型环境，又可用于数据仓库环境</p>
+<h2 id="数据仓库与数据模型"><a href="#数据仓库与数据模型" class="headerlink" title="数据仓库与数据模型"></a>数据仓库与数据模型</h2><h3 id="企业数据模型-gt-操作型数据模型："><a href="#企业数据模型-gt-操作型数据模型：" class="headerlink" title="企业数据模型 -&gt; 操作型数据模型："></a>企业数据模型 -&gt; 操作型数据模型：</h3><ol>
+<li>基本等价</li>
+<li>加入性能因素</li>
+</ol>
+<h3 id="企业数据模型-gt-数据仓库数据模型"><a href="#企业数据模型-gt-数据仓库数据模型" class="headerlink" title="企业数据模型 -&gt; 数据仓库数据模型"></a>企业数据模型 -&gt; 数据仓库数据模型</h3><ol>
+<li>去掉纯操作型数据</li>
+<li>关键字中加入时间元素</li>
+<li>合适之处增加导出数据</li>
+<li>创建人工关系</li>
+<li><strong>稳定性分析</strong>，根据各个数据属性是否经常变化的特性将这些属性分组(很少改变，不时改变，经常改变)</li>
+</ol>
+<h3 id="数据仓库的数据模型"><a href="#数据仓库的数据模型" class="headerlink" title="数据仓库的数据模型"></a>数据仓库的数据模型</h3><p>数据建模分为三个层次：</p>
+<ol>
+<li>高额那个建模（实体关系图，或ERD）</li>
+<li>中间层建模（数据项集，或DIS）</li>
+<li>底层建模（物理模型）</li>
+</ol>
+<h3 id="中间层数据建模"><a href="#中间层数据建模" class="headerlink" title="中间层数据建模"></a>中间层数据建模</h3><p><img src="/images/DW/sjck314.png" alt=""></p>
+<ol>
+<li>主要数据分组：每个主题域有且仅有一个主要数据分组，包含了对每个主题域只存在一次的属性。</li>
+<li>二级数据分组：包含每个主题域可以存在多次的数据属性。</li>
+<li>连接器：标识两个主题域间的数据关系，在ERD层确定的每一个关系在DIS层必须有与其对应的连接器。</li>
+<li>数据的“类型”：左边的数据分组是超类型，右边的数据分组是子类型。<br>如：<br><img src="/images/DW/sjck316.png" alt=""></li>
+</ol>
+<h3 id="物理数据模型"><a href="#物理数据模型" class="headerlink" title="物理数据模型"></a>物理数据模型</h3><p>通过扩展中间层模型，使模型中包含有关键字和物理特性。为了保证执行一次物理IO能返回最大数量的记录，可以采用一些在数据经常需要更新的情况下不能接受的物理设计技术。</p>
+<h2 id="数据模型与迭代开发"><a href="#数据模型与迭代开发" class="headerlink" title="数据模型与迭代开发"></a>数据模型与迭代开发</h2><ul>
+<li>业界成功案例都是迭代的</li>
+<li>最终用户在第一遍迭代完成前不能清晰的提出需求</li>
+<li>必须尽快见到成果</li>
+<li>只有实际结果切实而明确时，管理部门才会做出充分承诺</li>
+</ul>
+<h2 id="规范化-反向规范化"><a href="#规范化-反向规范化" class="headerlink" title="规范化/反向规范化"></a>规范化/反向规范化</h2><p>主要为了物理模型的设计，减少物理IO，提高性能</p>
+<ol>
+<li>合并物理表</li>
+<li>创建数据数组：要求数列中值的数量稳定，数据按顺序访问，数据的创建和修改在统计上非常有规律等条件下。</li>
+<li>引入冗余数据：（更新慢，访问快，但数据仓库一般不更新）</li>
+<li>对数据进一步分离：将常用数据和不常用数据分表</li>
+<li>引入导出数据：即已计算出的数据</li>
+</ol>
+<h2 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h2><p>元数据就是关于数据的数据，与指向数据仓库内容的索引相似，处于数据仓库的上层，并且记录数据仓库中对象的位置。<br>一般记录以下内容：</p>
+<ul>
+<li>程序员所致的数据结构</li>
+<li>DSS分析员所知的数据结构</li>
+<li>数据仓库的源数据</li>
+<li>数据进入数据仓库时进行的转换</li>
+<li>数据模型</li>
+<li>数据模型和数据仓库的关系</li>
+<li>抽取数据的历史记录</li>
+</ul>
+<h3 id="数据仓库中的参照（字典）表管理"><a href="#数据仓库中的参照（字典）表管理" class="headerlink" title="数据仓库中的参照（字典）表管理"></a>数据仓库中的参照（字典）表管理</h3><p>参照表也需要加入时间元素，否则可能与数据对应出错：</p>
+<ol>
+<li>每隔一段时间对参照表生成一次快照。但逻辑上不完备，即如果在一个周期内发生的多次更改无法记录。</li>
+<li>某个时间点生成一个快照，之后收集记录所有对参照表的活动。逻辑完备，但复杂繁重。</li>
+</ol>
+<p>这是两种极端方案，可以中和方案。</p>
+<h2 id="数据周期——时间间隔"><a href="#数据周期——时间间隔" class="headerlink" title="数据周期——时间间隔"></a>数据周期——时间间隔</h2><p>数据周期是指从操作型环境中的数据发生改变起，到这个变化反映到数据仓库中所用的时间。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Data-Warehouse/" rel="tag"># Data Warehouse</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/09/《数据仓库》第二章-数据仓库环境/" rel="next" title="《数据仓库》第二章-数据仓库环境">
+                <i class="fa fa-chevron-left"></i> 《数据仓库》第二章-数据仓库环境
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/23/《数据仓库》第三章-设计数据仓库2/" rel="prev" title="《数据仓库》第三章-设计数据仓库2">
+                《数据仓库》第三章-设计数据仓库2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从操作型数据开始"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4ECE;&#x64CD;&#x4F5C;&#x578B;&#x6570;&#x636E;&#x5F00;&#x59CB;" class="headerlink" title="&#x4ECE;&#x64CD;&#x4F5C;&#x578B;&#x6570;&#x636E;&#x5F00;&#x59CB;"></a>&#x4ECE;&#x64CD;&#x4F5C;&#x578B;&#x6570;&#x636E;&#x5F00;&#x59CB;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据-过程模型与体系结构化环境"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;-&#x8FC7;&#x7A0B;&#x6A21;&#x578B;&#x4E0E;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x5316;&#x73AF;&#x5883;" class="headerlink" title="&#x6570;&#x636E;/&#x8FC7;&#x7A0B;&#x6A21;&#x578B;&#x4E0E;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x5316;&#x73AF;&#x5883;"></a>&#x6570;&#x636E;/&#x8FC7;&#x7A0B;&#x6A21;&#x578B;&#x4E0E;&#x4F53;&#x7CFB;&#x7ED3;&#x6784;&#x5316;&#x73AF;&#x5883;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据仓库与数据模型"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E0E;&#x6570;&#x636E;&#x6A21;&#x578B;" class="headerlink" title="&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E0E;&#x6570;&#x636E;&#x6A21;&#x578B;"></a>&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E0E;&#x6570;&#x636E;&#x6A21;&#x578B;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#企业数据模型-gt-操作型数据模型："><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x6A21;&#x578B;-gt-&#x64CD;&#x4F5C;&#x578B;&#x6570;&#x636E;&#x6A21;&#x578B;&#xFF1A;" class="headerlink" title="&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x6A21;&#x578B; -&gt; &#x64CD;&#x4F5C;&#x578B;&#x6570;&#x636E;&#x6A21;&#x578B;&#xFF1A;"></a>&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x6A21;&#x578B; -&gt; &#x64CD;&#x4F5C;&#x578B;&#x6570;&#x636E;&#x6A21;&#x578B;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#企业数据模型-gt-数据仓库数据模型"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x6A21;&#x578B;-gt-&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x6570;&#x636E;&#x6A21;&#x578B;" class="headerlink" title="&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x6A21;&#x578B; -&gt; &#x6570;&#x636E;&#x4ED3;&#x5E93;&#x6570;&#x636E;&#x6A21;&#x578B;"></a>&#x4F01;&#x4E1A;&#x6570;&#x636E;&#x6A21;&#x578B; -&gt; &#x6570;&#x636E;&#x4ED3;&#x5E93;&#x6570;&#x636E;&#x6A21;&#x578B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据仓库的数据模型"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B;" class="headerlink" title="&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B;"></a>&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x7684;&#x6570;&#x636E;&#x6A21;&#x578B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中间层数据建模"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#&#x4E2D;&#x95F4;&#x5C42;&#x6570;&#x636E;&#x5EFA;&#x6A21;" class="headerlink" title="&#x4E2D;&#x95F4;&#x5C42;&#x6570;&#x636E;&#x5EFA;&#x6A21;"></a>&#x4E2D;&#x95F4;&#x5C42;&#x6570;&#x636E;&#x5EFA;&#x6A21;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#物理数据模型"><span class="nav-number">3.5.</span> <span class="nav-text"><a href="#&#x7269;&#x7406;&#x6570;&#x636E;&#x6A21;&#x578B;" class="headerlink" title="&#x7269;&#x7406;&#x6570;&#x636E;&#x6A21;&#x578B;"></a>&#x7269;&#x7406;&#x6570;&#x636E;&#x6A21;&#x578B;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据模型与迭代开发"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x6A21;&#x578B;&#x4E0E;&#x8FED;&#x4EE3;&#x5F00;&#x53D1;" class="headerlink" title="&#x6570;&#x636E;&#x6A21;&#x578B;&#x4E0E;&#x8FED;&#x4EE3;&#x5F00;&#x53D1;"></a>&#x6570;&#x636E;&#x6A21;&#x578B;&#x4E0E;&#x8FED;&#x4EE3;&#x5F00;&#x53D1;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#规范化-反向规范化"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x89C4;&#x8303;&#x5316;-&#x53CD;&#x5411;&#x89C4;&#x8303;&#x5316;" class="headerlink" title="&#x89C4;&#x8303;&#x5316;/&#x53CD;&#x5411;&#x89C4;&#x8303;&#x5316;"></a>&#x89C4;&#x8303;&#x5316;/&#x53CD;&#x5411;&#x89C4;&#x8303;&#x5316;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元数据"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x5143;&#x6570;&#x636E;" class="headerlink" title="&#x5143;&#x6570;&#x636E;"></a>&#x5143;&#x6570;&#x636E;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据仓库中的参照（字典）表管理"><span class="nav-number">6.1.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x7684;&#x53C2;&#x7167;&#xFF08;&#x5B57;&#x5178;&#xFF09;&#x8868;&#x7BA1;&#x7406;" class="headerlink" title="&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x7684;&#x53C2;&#x7167;&#xFF08;&#x5B57;&#x5178;&#xFF09;&#x8868;&#x7BA1;&#x7406;"></a>&#x6570;&#x636E;&#x4ED3;&#x5E93;&#x4E2D;&#x7684;&#x53C2;&#x7167;&#xFF08;&#x5B57;&#x5178;&#xFF09;&#x8868;&#x7BA1;&#x7406;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据周期——时间间隔"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x5468;&#x671F;&#x2014;&#x2014;&#x65F6;&#x95F4;&#x95F4;&#x9694;" class="headerlink" title="&#x6570;&#x636E;&#x5468;&#x671F;&#x2014;&#x2014;&#x65F6;&#x95F4;&#x95F4;&#x9694;"></a>&#x6570;&#x636E;&#x5468;&#x671F;&#x2014;&#x2014;&#x65F6;&#x95F4;&#x95F4;&#x9694;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

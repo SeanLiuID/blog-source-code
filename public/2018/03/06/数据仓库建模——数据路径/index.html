@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Model,Data Warehouse," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="设计思路按层次关系划分，数据路径上包括业务建模，概念建模，逻辑建模，物理建模四个层次。  业务建模是针对公司或者部门级的业务进行全方面的梳理和分解。 概念建模是对业务模型进行抽象出来实体以及实体与实体之间的关系。 逻辑模型是对概念模型进行具体的设计，实体的属性，主键，外键等等。 物理模型是将逻辑模型具体实施，考虑各种具体的技术实现因素，进行数据仓库体系结构设计，真正实现数据在数据仓库中的存放。">
+<meta name="keywords" content="Model,Data Warehouse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据仓库建模——数据路径">
+<meta property="og:url" content="http://yoursite.com/2018/03/06/数据仓库建模——数据路径/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="设计思路按层次关系划分，数据路径上包括业务建模，概念建模，逻辑建模，物理建模四个层次。  业务建模是针对公司或者部门级的业务进行全方面的梳理和分解。 概念建模是对业务模型进行抽象出来实体以及实体与实体之间的关系。 逻辑模型是对概念模型进行具体的设计，实体的属性，主键，外键等等。 物理模型是将逻辑模型具体实施，考虑各种具体的技术实现因素，进行数据仓库体系结构设计，真正实现数据在数据仓库中的存放。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/DW/dw_star_model.jpg">
+<meta property="og:image" content="http://yoursite.com/images/DW/dw_snow_model.jpg">
+<meta property="og:image" content="http://yoursite.com/images/DW/dw_star_model_redundancy.jpg">
+<meta property="og:updated_time" content="2018-03-06T09:39:05.969Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据仓库建模——数据路径">
+<meta name="twitter:description" content="设计思路按层次关系划分，数据路径上包括业务建模，概念建模，逻辑建模，物理建模四个层次。  业务建模是针对公司或者部门级的业务进行全方面的梳理和分解。 概念建模是对业务模型进行抽象出来实体以及实体与实体之间的关系。 逻辑模型是对概念模型进行具体的设计，实体的属性，主键，外键等等。 物理模型是将逻辑模型具体实施，考虑各种具体的技术实现因素，进行数据仓库体系结构设计，真正实现数据在数据仓库中的存放。">
+<meta name="twitter:image" content="http://yoursite.com/images/DW/dw_star_model.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/06/数据仓库建模——数据路径/"/>
+
+
+
+
+
+  <title>数据仓库建模——数据路径 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/06/数据仓库建模——数据路径/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据仓库建模——数据路径</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T14:17:35+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/" itemprop="url" rel="index">
+                    <span itemprop="name">DW</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/Design/" itemprop="url" rel="index">
+                    <span itemprop="name">Design</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>设计思路按层次关系划分，数据路径上包括业务建模，概念建模，逻辑建模，物理建模四个层次。</p>
+<ul>
+<li><strong>业务建模</strong>是针对公司或者部门级的业务进行全方面的梳理和分解。</li>
+<li><strong>概念建模</strong>是对业务模型进行抽象出来实体以及实体与实体之间的关系。</li>
+<li><strong>逻辑模型</strong>是对概念模型进行具体的设计，实体的属性，主键，外键等等。</li>
+<li><strong>物理模型</strong>是将逻辑模型具体实施，考虑各种具体的技术实现因素，进行数据仓库体系结构设计，真正实现数据在数据仓库中的存放。</li>
+</ul>
+<a id="more"></a>
+<h2 id="业务建模——Business-Model"><a href="#业务建模——Business-Model" class="headerlink" title="业务建模——Business Model"></a>业务建模——Business Model</h2><p>首先要与业务部门充分沟通，包括业务的整体逻辑和执行流程，和业务部门的分析需求</p>
+<h3 id="业务建模步骤"><a href="#业务建模步骤" class="headerlink" title="业务建模步骤"></a>业务建模步骤</h3><ol>
+<li>顶层模型：从公司整体业务的角度出发，划分业务模块和各模块之间的交互关系。比如交易模块，财务模块，营销模块和它们之间的关系。</li>
+<li>业务域：把划分的模块注意进行分解到业务用例。比如营销活动模块中的运营人员配置活动信息，用户购买产品使用优惠券等。</li>
+<li>业务流程：把业务用例的具体流程分解，每一步的顺序、影响、依赖等。</li>
+<li>业务环节：把流程每一个环节再标准化（SOP），正常情况和异常情况下的结果都是什么。</li>
+</ol>
+<h2 id="概念建模——Concept-Model"><a href="#概念建模——Concept-Model" class="headerlink" title="概念建模——Concept Model"></a>概念建模——Concept Model</h2><p>概念建模主要是在业务模型中抽象出实体和关系（ER），可以在不考虑实体的具体属性。</p>
+<h3 id="概念建模步骤"><a href="#概念建模步骤" class="headerlink" title="概念建模步骤"></a>概念建模步骤</h3><ol>
+<li>从每个业务环节抽象实体</li>
+<li>抽象实体间的关系，一对一，一对多，多对多。</li>
+<li>合并汇集所有实体和关系</li>
+</ol>
+<h2 id="逻辑建模——Logical-Data-Model"><a href="#逻辑建模——Logical-Data-Model" class="headerlink" title="逻辑建模——Logical Data Model"></a>逻辑建模——Logical Data Model</h2><p>逻辑建模阶段是最重要的一环，也就是维度建模。涉及到了整个数据仓库所有层次的模型设计，从DW到DM到OLAP。</p>
+<h3 id="逻辑建模步骤"><a href="#逻辑建模步骤" class="headerlink" title="逻辑建模步骤"></a>逻辑建模步骤</h3><ol>
+<li>分析主题域：确定要装载到数据仓库的主题名称，以及各自主题的码键和属性组；主题内的实体，及其容量和更新频率；实体的列的属性等</li>
+<li>粒度模型的设计：通过粗略估算数据量来确定粒度层次的划分，是单一粒度还是多重粒度（比如1年内的数据是天粒度的，历史记录是月粒度的）</li>
+<li>数据分割设计：针对某一实体的数据应该是按怎样的方式来分割，一般是按照时间来分割，比如每天的数据放在一个分区里面。</li>
+<li>元数据模型的建立：在各种转换和汇总的过程中建立好元数据模型能更好的维护和理解数据。</li>
+</ol>
+<h3 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h3><ul>
+<li>粒度性：数据仓库不同的层次具有的粒度是不同的，DW层是数据是原子粒度的数据，比如交易数据原子粒度是订单，记录也包括购买的用户以及商家，DM层的数据是面向主题按一定的维度进行汇总的数据，比如商户集市计算当天出售的订单量。</li>
+<li>共享性：在数据仓库中，通过抽象和集成，把一些(维度)信息汇总起来，并做全局的一致化，使其在整个数据仓库中处于共享状态，任何用户都可以来使用。比如一致性维度。</li>
+<li>历史性：针对业务分析的需求，需要从历史信息中获取有用的信息，比如评估客户生命周期价值。</li>
+<li>一致性：逻辑数据模型必须在设计过程中保持一个统一的业务定义。比如，渠道的定义、团体的分类等，应该在整个企业内部保持一致。将来各种分析应用都使用同样的数据，这些数据应按照预先约定的规则进行刷新，保证同步和一致。</li>
+<li>扩展性：当有新的需要和改变的时候，逻辑数据模型结构要能够做到可扩展，并能使得对用户透明。</li>
+</ul>
+<h3 id="范式建模"><a href="#范式建模" class="headerlink" title="范式建模"></a>范式建模</h3><p><strong><em>一般用于ODS层和DW层，Inmon提出的建模理念</em></strong><br>遵循第三范式，而且由于线上数据库一般也采用第三范式，所有对于简单业务可以直接装载。但是遇见如下情况，建议使用范式建模重新组织数据：</p>
+<ol>
+<li>业务数据库的表没有遵循第三范式；</li>
+<li>有复杂的字段需要解析（如json）；</li>
+<li>业务维度比较复杂，很难直接关联去除所需要的数据；</li>
+</ol>
+<h3 id="维度建模"><a href="#维度建模" class="headerlink" title="维度建模"></a>维度建模</h3><p><strong><em>一般用于DW/DM层，kimball提出的建模理念</em></strong><br><strong>三个核心：总线架构、一致性维度、一致性事实</strong></p>
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
+<li>易用性。数据仓库的目的是DSS，即决策支持系统(Decision Support System ，简称DSS)，既然面向的的是分析用户，那么数据越容易理解，越能受用户欢迎，而维度建模包含具有描述特性的维度表可以让用户很容易理解数据，而不像范式建模，由于太过规范化而导致用户对数据的理解有一定的难度，需要对业务的很深很细的了解。</li>
+<li>性能高。通过数据的处理，排序和整合，构建出来的维度表，不仅能够让用户很方便的理解数据，使用数据，而且在计算所需要的数据的时候，不需要关联太多的表，从而使得计算的性能很高。</li>
+<li>扩展性。具有非常好的可扩展性，以便容纳不可预知的新数据源和新的设计决策。可以很方便在不改变模型粒度情况下，增加新的分析维度和事实，不需要重载数据，也不需要为了适应新的改变而重新编码。<br>维度模型也存在一些缺点，比如数据的一致性很难保证，数据的冗余，大量的未读信息处理等。</li>
+</ul>
+<h4 id="星型模型"><a href="#星型模型" class="headerlink" title="星型模型"></a>星型模型</h4><p>维度建模的核心是星型模型，以维表为总线，事实表以维表为基础的总线矩阵，意味着建设出来的架构正是总线式架构。</p>
+<ul>
+<li>星型模型更具有易理解性，毕竟维度模型都是直接挂在事实表，没有额外的关联，所有的维度信息都汇集在维表中了。</li>
+<li>星型模型性能更高。只需要一次的关联就能获取这一维度的所有描述信息。</li>
+<li>冗余程度要更高，所有有层次关系的维度，都被设计成扁平化，有一定的冗余。但是维度表的冗余相比事实表毕竟不是一个数量级的。鉴于上面的两点，更多的偏爱于星型模型。</li>
+</ul>
+<h4 id="一致性维度（维度表）"><a href="#一致性维度（维度表）" class="headerlink" title="一致性维度（维度表）"></a>一致性维度（维度表）</h4><h5 id="What"><a href="#What" class="headerlink" title="What"></a>What</h5><p>维度一直是大家所熟知的，但是前面加上了“一致性”之后便成了数据仓库特有的一类维度表，其实一致性维度在表结构和属性都没有本质的区别，有一点的差异是数据仓库的星型模型会使得维度表有一定的冗余。那么一致性体现在哪里呢： 维度共享性。共享性体现在整个平台或整个部门共用维度，而不仅仅只是单纯某个业务单独使用。 一般的维度并没有把共享性作为一个共性的标准。然而在维度建模中，一致性维度将作为重心来做。数据仓库70%的工作量和复杂度是用在构建一致性维度。一致性维度将作用于数据仓库和数据集市甚至是OLAP。</p>
+<h5 id="When"><a href="#When" class="headerlink" title="When"></a>When</h5><p>一致性维度的构建是先于事实表的构建的，但又不是在构建完成一致性维度之后才开始构建事实表，在构建的过程中肯定会有一定的调整。当在构建事实表的时候如果遇到了比较复杂和困难的问题的时候，也要考虑一致性维度构建的是不是合理。</p>
+<h5 id="Where"><a href="#Where" class="headerlink" title="Where"></a>Where</h5><p>90%+的维度表是直接从ODS层进行ETL建设成的，一般都是业务的基本描述信息，这一过程是在数据缓冲区来做，输出在数据仓库DW层的最底部。还有一些维度的信息或者属性需要建立在数据集市的基础上，一般是用来做分析的指标或者标签，这个时候需要用集市层的汇总数据来打维度的标签，比如商户的标签。这样的维度信息需要回传到原有的维度表。</p>
+<h5 id="How"><a href="#How" class="headerlink" title="How"></a>How</h5><p>首先用过对业务过程进行梳理，将业务过程所携带的维度信息整理出来生成总线矩阵。一般情况同属一个价值链的业务过程的维度信息大致相同。然后是针对每个维度逐一审核相关的业务过程，对各个业务过程的维度值进行标准化。之后是对不同的业务的维度信息进行汇总，选择或者生成主键。最后设计维度表，并进行适当的迭代更新。</p>
+<h5 id="Why"><a href="#Why" class="headerlink" title="Why"></a>Why</h5><p>首先是容易管理，一致性维度不仅规范化，而且大大减少维度表的数量。其次是容易使用，同一主题或者实体的维度表单一，容易获取和使用。所有的事实共享同样的维度，容易进行交叉计算。</p>
+<h5 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h5><ol>
+<li>TYPEI(不变)<ul>
+<li>维度属性值持久不变，只有新增和删除</li>
+<li>属性能够在一定周期（比如一天）内不会变化</li>
+</ul>
+</li>
+<li>TYPEII(变化)<ul>
+<li>缓慢变化维，部分维度属性可变化，但是变化的频次很低</li>
+<li>快速变化维，部分维度属性可变化，但是变化的频次很高</li>
+</ul>
+</li>
+<li>杂项维度<ul>
+<li>大量不同的零散的维度整合在一起</li>
+</ul>
+</li>
+</ol>
+<h5 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h5><ol>
+<li>TYPEI维表适用于大多数这种维度属性经久不变的信息描述，比如日期维度的大多数属性，门店的地址和名称等属性。一般来讲业务上的维度信息都是当天不变的，而且DW用来做数据统计分析是按照一定周期来看的，大多数情况是按天为周期。所以从数据分析的角度上来看，虽然所有维度属性不能能完全不变化，但是只要能获取到当天结束时候的维度信息的快照就可以满足业务上的数据需求。对于生命周期完全不变化的可以建成全量表，其他可以建成快照表。在不明确的情况下优先选择快照表。快照也不会占用太多的空间。</li>
+<li>TYPEII<ul>
+<li>缓慢变化维。在有些情况下，业务上的统计周期相对比较短，就不能按照TYPEI的情况来建设表。此时如果维度变化的频次没有那么快的话，可以建成缓慢变化维度表。缓慢变化维表有几种建设方法，比较常见的一种就是采用effect_from_dt（记录有效起始时间），effect_to_date（记录有效结束时间），current_flag（当前是否有效）等字段的组合。比如营销过程中，一家门店在某几个小时采用的营销手段不同，为了获取当天所有交易的成本，如果没有现成的营销数据的话，完全可以按照交易的时间来匹配当时的营销活动，从而获取营销的成本。</li>
+<li>快速变化维。情景跟缓慢变化维差不多，唯一的问题在于维度属性变化超级频繁，甚至是秒级分钟级的变化频次，这时候如果依然采用缓慢变化维的构建方式，维表的数据量暴增的很厉害。而且大多数的维度属性没有变化，只有个别的属性变化的厉害而已，导致大量的空间存储的都是不变的信息。这种情况的结局方案是，绝大多数不变的或者变化频次很低的属性集合建成TYPEI或者缓慢变化维表， 而针对变化频次超快的属性单独建立成微型维度表。这两张表没有依赖关系，都是各自挂在事实表上的。</li>
+</ul>
+</li>
+</ol>
+<h5 id="主键和属性"><a href="#主键和属性" class="headerlink" title="主键和属性"></a>主键和属性</h5><p>维表主键的选择有两种：自然键，代理键。自然键是具有业务含义的ID，比如身份证号，日期等等，代理键是自动生成的唯一的键。这两种改如何做出选择呢？ 如果说业务ID比较有该业务的独特性（不需要跟其他业务集成），或者具有共享性（比如公司级别的，门店ID等等），可以考虑使用自然键，特别的是日期维表直接使用日期来做主键。如果说需要不同的业务维度信息进行整合集成，这种情况比较适合生成代理键来做主键。</p>
+<h2 id="物理建模"><a href="#物理建模" class="headerlink" title="物理建模"></a>物理建模</h2><p>依照逻辑模型，在数据库中进行建表、索引等。数据仓库。<br>星型模型：维度表直接跟事实表连接，图型像星星。如区县和地市做为同一维度都在地市表中。<br><strong><em>维度预处理，维度会预先进行分类，排序等预处理。</em></strong><br><img src="/images/DW/dw_star_model.jpg" alt=""><br>雪花模型：一些维度表不是直接与事实表连接，而是通过维度表中转，图形像雪花。<br><img src="/images/DW/dw_snow_model.jpg" alt=""><br>为了满足高性能的需求，可以增加冗余、隐藏表之间的约束等反第三范式操作。<br><img src="/images/DW/dw_star_model_redundancy.jpg" alt=""></p>
+<h3 id="分层设计原则"><a href="#分层设计原则" class="headerlink" title="分层设计原则"></a>分层设计原则</h3><p>总的来说分三层：接口层、中间汇总层和应用层。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">分层</th>
+<th style="text-align:center">子层</th>
+<th style="text-align:left">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">应用层</td>
+<td style="text-align:center">数据集市</td>
+<td style="text-align:left">第十数据集市、数据挖掘</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">应用层</td>
+<td style="text-align:left">KPI报表、cognos、主题分析、指标库</td>
+</tr>
+<tr>
+<td style="text-align:center">中间层</td>
+<td style="text-align:center">深度汇总层</td>
+<td style="text-align:left"><strong>信息聚合</strong>：用户统一视图、3G用户统一视图、固话用户同一视图  <strong>业务拓展</strong>：用户行为、增值业务、集团业务、国际业务</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">轻度汇总层</td>
+<td style="text-align:left">清单汇总、用户属性聚合、费用汇总、集团客户汇总等</td>
+</tr>
+<tr>
+<td style="text-align:center">接口层</td>
+<td style="text-align:center">存储层</td>
+<td style="text-align:left">接口备份、增量转全量、减少I/O</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">接口层</td>
+<td style="text-align:left">日接口、月接口、增量接口、全量接口</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Model/" rel="tag"># Model</a>
+          
+            <a href="/tags/Data-Warehouse/" rel="tag"># Data Warehouse</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/06/数据仓库设计：Kimball模式和Inmon模式/" rel="next" title="数据仓库设计：Kimball模式和Inmon模式">
+                <i class="fa fa-chevron-left"></i> 数据仓库设计：Kimball模式和Inmon模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/08/django-imagekit——图片处理包/" rel="prev" title="django-imagekit——图片处理包">
+                django-imagekit——图片处理包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#业务建模——Business-Model"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E1A;&#x52A1;&#x5EFA;&#x6A21;&#x2014;&#x2014;Business-Model" class="headerlink" title="&#x4E1A;&#x52A1;&#x5EFA;&#x6A21;&#x2014;&#x2014;Business Model"></a>&#x4E1A;&#x52A1;&#x5EFA;&#x6A21;&#x2014;&#x2014;Business Model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#业务建模步骤"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x4E1A;&#x52A1;&#x5EFA;&#x6A21;&#x6B65;&#x9AA4;" class="headerlink" title="&#x4E1A;&#x52A1;&#x5EFA;&#x6A21;&#x6B65;&#x9AA4;"></a>&#x4E1A;&#x52A1;&#x5EFA;&#x6A21;&#x6B65;&#x9AA4;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概念建模——Concept-Model"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6982;&#x5FF5;&#x5EFA;&#x6A21;&#x2014;&#x2014;Concept-Model" class="headerlink" title="&#x6982;&#x5FF5;&#x5EFA;&#x6A21;&#x2014;&#x2014;Concept Model"></a>&#x6982;&#x5FF5;&#x5EFA;&#x6A21;&#x2014;&#x2014;Concept Model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念建模步骤"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x6982;&#x5FF5;&#x5EFA;&#x6A21;&#x6B65;&#x9AA4;" class="headerlink" title="&#x6982;&#x5FF5;&#x5EFA;&#x6A21;&#x6B65;&#x9AA4;"></a>&#x6982;&#x5FF5;&#x5EFA;&#x6A21;&#x6B65;&#x9AA4;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#逻辑建模——Logical-Data-Model"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x903B;&#x8F91;&#x5EFA;&#x6A21;&#x2014;&#x2014;Logical-Data-Model" class="headerlink" title="&#x903B;&#x8F91;&#x5EFA;&#x6A21;&#x2014;&#x2014;Logical Data Model"></a>&#x903B;&#x8F91;&#x5EFA;&#x6A21;&#x2014;&#x2014;Logical Data Model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑建模步骤"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x903B;&#x8F91;&#x5EFA;&#x6A21;&#x6B65;&#x9AA4;" class="headerlink" title="&#x903B;&#x8F91;&#x5EFA;&#x6A21;&#x6B65;&#x9AA4;"></a>&#x903B;&#x8F91;&#x5EFA;&#x6A21;&#x6B65;&#x9AA4;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#原则"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x539F;&#x5219;" class="headerlink" title="&#x539F;&#x5219;"></a>&#x539F;&#x5219;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#范式建模"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#x8303;&#x5F0F;&#x5EFA;&#x6A21;" class="headerlink" title="&#x8303;&#x5F0F;&#x5EFA;&#x6A21;"></a>&#x8303;&#x5F0F;&#x5EFA;&#x6A21;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#维度建模"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#&#x7EF4;&#x5EA6;&#x5EFA;&#x6A21;" class="headerlink" title="&#x7EF4;&#x5EA6;&#x5EFA;&#x6A21;"></a>&#x7EF4;&#x5EA6;&#x5EFA;&#x6A21;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#特点"><span class="nav-number">3.4.1.</span> <span class="nav-text"><a href="#&#x7279;&#x70B9;" class="headerlink" title="&#x7279;&#x70B9;"></a>&#x7279;&#x70B9;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#星型模型"><span class="nav-number">3.4.2.</span> <span class="nav-text"><a href="#&#x661F;&#x578B;&#x6A21;&#x578B;" class="headerlink" title="&#x661F;&#x578B;&#x6A21;&#x578B;"></a>&#x661F;&#x578B;&#x6A21;&#x578B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一致性维度（维度表）"><span class="nav-number">3.4.3.</span> <span class="nav-text"><a href="#&#x4E00;&#x81F4;&#x6027;&#x7EF4;&#x5EA6;&#xFF08;&#x7EF4;&#x5EA6;&#x8868;&#xFF09;" class="headerlink" title="&#x4E00;&#x81F4;&#x6027;&#x7EF4;&#x5EA6;&#xFF08;&#x7EF4;&#x5EA6;&#x8868;&#xFF09;"></a>&#x4E00;&#x81F4;&#x6027;&#x7EF4;&#x5EA6;&#xFF08;&#x7EF4;&#x5EA6;&#x8868;&#xFF09;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#What"><span class="nav-number">3.4.3.1.</span> <span class="nav-text"><a href="#What" class="headerlink" title="What"></a>What</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#When"><span class="nav-number">3.4.3.2.</span> <span class="nav-text"><a href="#When" class="headerlink" title="When"></a>When</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Where"><span class="nav-number">3.4.3.3.</span> <span class="nav-text"><a href="#Where" class="headerlink" title="Where"></a>Where</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#How"><span class="nav-number">3.4.3.4.</span> <span class="nav-text"><a href="#How" class="headerlink" title="How"></a>How</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Why"><span class="nav-number">3.4.3.5.</span> <span class="nav-text"><a href="#Why" class="headerlink" title="Why"></a>Why</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类型"><span class="nav-number">3.4.3.6.</span> <span class="nav-text"><a href="#&#x7C7B;&#x578B;" class="headerlink" title="&#x7C7B;&#x578B;"></a>&#x7C7B;&#x578B;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#使用场景"><span class="nav-number">3.4.3.7.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x573A;&#x666F;" class="headerlink" title="&#x4F7F;&#x7528;&#x573A;&#x666F;"></a>&#x4F7F;&#x7528;&#x573A;&#x666F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#主键和属性"><span class="nav-number">3.4.3.8.</span> <span class="nav-text"><a href="#&#x4E3B;&#x952E;&#x548C;&#x5C5E;&#x6027;" class="headerlink" title="&#x4E3B;&#x952E;&#x548C;&#x5C5E;&#x6027;"></a>&#x4E3B;&#x952E;&#x548C;&#x5C5E;&#x6027;</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#物理建模"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x7269;&#x7406;&#x5EFA;&#x6A21;" class="headerlink" title="&#x7269;&#x7406;&#x5EFA;&#x6A21;"></a>&#x7269;&#x7406;&#x5EFA;&#x6A21;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分层设计原则"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#&#x5206;&#x5C42;&#x8BBE;&#x8BA1;&#x539F;&#x5219;" class="headerlink" title="&#x5206;&#x5C42;&#x8BBE;&#x8BA1;&#x539F;&#x5219;"></a>&#x5206;&#x5C42;&#x8BBE;&#x8BA1;&#x539F;&#x5219;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Data Warehouse," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Inmon模式Bill Inmon的经典著作是《数据仓库》-Building the Data Warehouse.他将数据仓库定义为，一个面向主题的、集成的、随时间变化的、非易变的用于支持管理的决策过程的数据集合。每个主题区域仅仅包含该主题相关的信息。数据仓库应该一次增加一个主题，并且当需要容易地访问多个主题时，应该创建以数据仓库为来源的数据集市。Inmon模式设计是自顶向下的（top down">
+<meta name="keywords" content="Data Warehouse">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据仓库设计：Kimball模式和Inmon模式">
+<meta property="og:url" content="http://yoursite.com/2018/03/06/数据仓库设计：Kimball模式和Inmon模式/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="Inmon模式Bill Inmon的经典著作是《数据仓库》-Building the Data Warehouse.他将数据仓库定义为，一个面向主题的、集成的、随时间变化的、非易变的用于支持管理的决策过程的数据集合。每个主题区域仅仅包含该主题相关的信息。数据仓库应该一次增加一个主题，并且当需要容易地访问多个主题时，应该创建以数据仓库为来源的数据集市。Inmon模式设计是自顶向下的（top down">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/DW/dw_inmon.png">
+<meta property="og:image" content="http://yoursite.com/images/DW/dw_inmon_1.png">
+<meta property="og:image" content="http://yoursite.com/images/DW/dw_kimball.png">
+<meta property="og:image" content="http://yoursite.com/images/DW/dw_kimball_1.png">
+<meta property="og:image" content="http://yoursite.com/images/DW/dw_mix.png">
+<meta property="og:updated_time" content="2018-03-06T13:04:16.194Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据仓库设计：Kimball模式和Inmon模式">
+<meta name="twitter:description" content="Inmon模式Bill Inmon的经典著作是《数据仓库》-Building the Data Warehouse.他将数据仓库定义为，一个面向主题的、集成的、随时间变化的、非易变的用于支持管理的决策过程的数据集合。每个主题区域仅仅包含该主题相关的信息。数据仓库应该一次增加一个主题，并且当需要容易地访问多个主题时，应该创建以数据仓库为来源的数据集市。Inmon模式设计是自顶向下的（top down">
+<meta name="twitter:image" content="http://yoursite.com/images/DW/dw_inmon.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/06/数据仓库设计：Kimball模式和Inmon模式/"/>
+
+
+
+
+
+  <title>数据仓库设计：Kimball模式和Inmon模式 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/06/数据仓库设计：Kimball模式和Inmon模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据仓库设计：Kimball模式和Inmon模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T10:58:05+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/" itemprop="url" rel="index">
+                    <span itemprop="name">DW</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/Design/" itemprop="url" rel="index">
+                    <span itemprop="name">Design</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Inmon模式"><a href="#Inmon模式" class="headerlink" title="Inmon模式"></a>Inmon模式</h2><p>Bill Inmon的经典著作是《数据仓库》-Building the Data Warehouse.<br>他将数据仓库定义为，一个面向主题的、集成的、随时间变化的、非易变的用于支持管理的决策过程的数据集合。每个主题区域仅仅包含该主题相关的信息。数据仓库应该一次增加一个主题，并且当需要容易地访问多个主题时，应该创建以数据仓库为来源的数据集市。<br>Inmon模式设计是自顶向下的（top down）瀑布流式开发方法。数据源往往是异构的，主要的数据处理工作集中在对异构数据的清晰、类型检验、值范围检验等规则。以<strong>数据源头</strong>为导向，首先，探索性的获取尽量符合预期的数据，尝试将数据按照预期划分为不同的表需求。其次，明确数据清洗规则后通过ETL转化到DW层，这里较多UDF开发（User-Defined Function），将数据抽取为实体-关系模型。接着，可以将数据输出到DM层供BI环节使用。<br><strong>模式</strong>：范式建模（第三范式），集线器式建模，一般用于ODS和DW层，不对外开放<br><strong>重点</strong>：数据的清洗工作，从中抽取实体-关系<br><strong>优点</strong>：冗余少，数据模型泛化，精心抽象设计，方便维护</p>
+<p><strong><em>简单地说，1NF就是消除重复元组，并保持列的原子性，具体到数据库设计上就是每个表都要有一个主键来唯一标识一行记录。2NF就是在1NF的基础上消除了部分依赖，即非键属性必须完全依赖于主键。3NF在2NF基础上消除了传递依赖，即非键属性只能完全依赖于主键。一般数据库设计需要满足3NF。</em></strong></p>
+<p><img src="/images/DW/dw_inmon.png" alt=""><br><img src="/images/DW/dw_inmon_1.png" alt=""></p>
+<h2 id="Kimball模式"><a href="#Kimball模式" class="headerlink" title="Kimball模式"></a>Kimball模式</h2><p>Ralph Kimbal的经典著作是《数据仓库工具箱》-The Data Warehouse Toolkit.<br>他对数据仓库的定义为，数据仓库仅仅是构成它的数据集市的联合。通过使用“一致的”维，能够共同看到不同数据集市中的信息，这表示它们拥有公共定义的元素。<br>Kimball模式设计从流程上是自底向上的（bottom up），以<strong>最终任务</strong>为导向，根据业务需求对源数据进行探索，拆分出不同的表需求；然后通过ETL将数据转化到DM层（维度表+事实表）,之后一方面想BI环节输出数据，另一方面向DW层输出数据。<br><strong>模式</strong>：维度建模，总线式建模（星型模型），一般用于DM层<br><strong>重点</strong>：建立事实表和维度表<br><strong>优点</strong>：快速交付、敏捷迭代、对DW层不做过多复杂设计</p>
+<p><strong><em>维度建模允许进行一定的数据冗余来起到减少表间关联和快速查询的作用</em></strong></p>
+<p><img src="/images/DW/dw_kimball.png" alt=""><br><img src="/images/DW/dw_kimball_1.png" alt=""></p>
+<h2 id="混合模式"><a href="#混合模式" class="headerlink" title="混合模式"></a>混合模式</h2><p>结合了两个模式的特点</p>
+<p><img src="/images/DW/dw_mix.png" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Data-Warehouse/" rel="tag"># Data Warehouse</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/02/PgSQL双向同步工具Bucardo——配置/" rel="next" title="PgSQL双向同步工具Bucardo——配置">
+                <i class="fa fa-chevron-left"></i> PgSQL双向同步工具Bucardo——配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/06/数据仓库建模——数据路径/" rel="prev" title="数据仓库建模——数据路径">
+                数据仓库建模——数据路径 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Inmon模式"><span class="nav-number">1.</span> <span class="nav-text"><a href="#Inmon&#x6A21;&#x5F0F;" class="headerlink" title="Inmon&#x6A21;&#x5F0F;"></a>Inmon&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Kimball模式"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Kimball&#x6A21;&#x5F0F;" class="headerlink" title="Kimball&#x6A21;&#x5F0F;"></a>Kimball&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混合模式"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x6DF7;&#x5408;&#x6A21;&#x5F0F;" class="headerlink" title="&#x6DF7;&#x5408;&#x6A21;&#x5F0F;"></a>&#x6DF7;&#x5408;&#x6A21;&#x5F0F;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
