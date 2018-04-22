@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Notes,量化投资," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="阿尔法，投资者获得的与市场波动无关的回报，即相对市场基准额外的回报。（最好当然是扣除偶尔犯错的风险损失和交易成本后仍获得正回报） 核心思想：没有永远好的金融产品，也没有永远坏的金融产品  理论驱动：观察市场后，提出一般性模型的理论，并通过严谨的证明和验证，判断这个理论解释是否有效并符合市场情况的理论 数据驱动（经验驱动）：根据市场的历史数据，发掘出有用的关系和模式，建立关联性映射关系，不注重理论解">
+<meta name="keywords" content="Notes,量化投资">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《打开量化投资的黑箱》Notes-1-阿尔法模型">
+<meta property="og:url" content="http://yoursite.com/2018/03/30/《打开量化投资的黑箱》Notes-1-阿尔法模型/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="阿尔法，投资者获得的与市场波动无关的回报，即相对市场基准额外的回报。（最好当然是扣除偶尔犯错的风险损失和交易成本后仍获得正回报） 核心思想：没有永远好的金融产品，也没有永远坏的金融产品  理论驱动：观察市场后，提出一般性模型的理论，并通过严谨的证明和验证，判断这个理论解释是否有效并符合市场情况的理论 数据驱动（经验驱动）：根据市场的历史数据，发掘出有用的关系和模式，建立关联性映射关系，不注重理论解">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/QI/EP.PNG">
+<meta property="og:updated_time" content="2018-04-11T12:30:15.555Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《打开量化投资的黑箱》Notes-1-阿尔法模型">
+<meta name="twitter:description" content="阿尔法，投资者获得的与市场波动无关的回报，即相对市场基准额外的回报。（最好当然是扣除偶尔犯错的风险损失和交易成本后仍获得正回报） 核心思想：没有永远好的金融产品，也没有永远坏的金融产品  理论驱动：观察市场后，提出一般性模型的理论，并通过严谨的证明和验证，判断这个理论解释是否有效并符合市场情况的理论 数据驱动（经验驱动）：根据市场的历史数据，发掘出有用的关系和模式，建立关联性映射关系，不注重理论解">
+<meta name="twitter:image" content="http://yoursite.com/images/QI/EP.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/30/《打开量化投资的黑箱》Notes-1-阿尔法模型/"/>
+
+
+
+
+
+  <title>《打开量化投资的黑箱》Notes-1-阿尔法模型 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/30/《打开量化投资的黑箱》Notes-1-阿尔法模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《打开量化投资的黑箱》Notes-1-阿尔法模型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T15:35:45+08:00">
+                2018-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/《打开量化投资的黑箱》/" itemprop="url" rel="index">
+                    <span itemprop="name">《打开量化投资的黑箱》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>阿尔法，投资者获得的与市场波动无关的回报，即相对市场基准额外的回报。（最好当然是扣除偶尔犯错的风险损失和交易成本后仍获得正回报）</p>
+<p><strong>核心思想：没有永远好的金融产品，也没有永远坏的金融产品</strong></p>
+<ul>
+<li>理论驱动：观察市场后，提出一般性模型的理论，并通过严谨的证明和验证，判断这个理论解释是否有效并符合市场情况的理论</li>
+<li>数据驱动（经验驱动）：根据市场的历史数据，发掘出有用的关系和模式，建立关联性映射关系，不注重理论解释。</li>
+</ul>
+<h2 id="理论驱动型大致分为5类（和主观判断型交易几乎一样）"><a href="#理论驱动型大致分为5类（和主观判断型交易几乎一样）" class="headerlink" title="理论驱动型大致分为5类（和主观判断型交易几乎一样）"></a>理论驱动型大致分为5类（和主观判断型交易几乎一样）</h2><h3 id="价格相关数据策略"><a href="#价格相关数据策略" class="headerlink" title="价格相关数据策略"></a>价格相关数据策略</h3><h4 id="趋势型（trend）"><a href="#趋势型（trend）" class="headerlink" title="趋势型（trend）"></a>趋势型（trend）</h4><p>市场参与者需要慢慢地形成对金融产品价值的共识，从一个均衡向新的均衡慢慢运动的过程就形成了趋势，而这个过程需要一定的时间。<br>还有一种解释就是“博傻理论”。</p>
+<h4 id="回复型（reversion）"><a href="#回复型（reversion）" class="headerlink" title="回复型（reversion）"></a>回复型（reversion）</h4><p>流动性需求可能导致买者和卖者之间的力量在短期内出现失衡，于是金融产品被超买或超卖。<br>比较典型的就是<strong>统计套利</strong>（标的为相似公司的股票价差）</p>
+<h3 id="基本面相关数据策略"><a href="#基本面相关数据策略" class="headerlink" title="基本面相关数据策略"></a>基本面相关数据策略</h3><h4 id="价值型-收益型（value-yield）："><a href="#价值型-收益型（value-yield）：" class="headerlink" title="价值型/收益型（value/yield）："></a>价值型/收益型（value/yield）：</h4><p>基于市场的风险高估和低估，市场经常会对风险资产的风险作出过高的估计，而低估风险相对低的资产的风险。（高风险资产价格较低，…）。<br>参考市盈率（P/E,price-to-earnings），但一般宽客都是用它的倒数E/P——盈利收益率（earnings yield，原因见下图），金融产品的收益率越高，价格越便宜。也可以参考股利收益率（dividend yield）。<br>当基于一个相对价差来操作时，即同时买入价值相对低估的股票而卖出相对高估的股票，这种策略被称为<strong>携带交易</strong>（carre trade）<br><img src="/images/QI/EP.PNG" alt=""></p>
+<h4 id="成长型（growth）"><a href="#成长型（growth）" class="headerlink" title="成长型（growth）"></a>成长型（growth）</h4><p>基于关于资产的某些变量的增长水平，比如PEG比率，这个指标是指价格除以盈利增长，或者是市盈率除以每股盈利增长率。<br><strong><em>但市场上常见的成长型策略确实简单的买入高增长资产，卖出低增长甚至负增长股票，不考虑当前的价格因素，因为成长型股票的价值是无法确定的。强势增长的公司未来可以夺得更多的市场占有率，可以说是一种着眼于远期的携带交易</em></strong></p>
+<h4 id="品质型（quality）"><a href="#品质型（quality）" class="headerlink" title="品质型（quality）"></a>品质型（quality）</h4><p>根据一些品质信号，比如资产负债率，自由现金流，具体业务指标等。</p>
+<h2 id="数据驱动型"><a href="#数据驱动型" class="headerlink" title="数据驱动型"></a>数据驱动型</h2><p>优势：门槛高，竞争力小；捕获各种市场行为，虽然理论上无法解释。<br>劣势：可能伪显著；可能计算量巨大；需要不断调整而带来风险；输入数据噪声多，导致一些错误信号。</p>
+<h2 id="策略的实施（大概归纳为6点）"><a href="#策略的实施（大概归纳为6点）" class="headerlink" title="策略的实施（大概归纳为6点）"></a>策略的实施（大概归纳为6点）</h2><h3 id="预测目标"><a href="#预测目标" class="headerlink" title="预测目标"></a>预测目标</h3><p>可以是预测方向、幅度、运动的持续时间、以及预测的置信度和概率。<br><strong>信号强度</strong>指更大的期望回报或更高的可能性。在给定的置信水平下，期望回报越大则信号强度越大；在给定的预期回报下，置信度越大则信号强度越大。对应的，可能意味着头寸投注可以越大。</p>
+<h3 id="投资期限"><a href="#投资期限" class="headerlink" title="投资期限"></a>投资期限</h3><p>不同投资期限（长期、短期、超短期）的实施方案可能完全不一样，甚至导致相反头寸。</p>
+<ul>
+<li>高频交易（high-frequency）：不超过当日收盘</li>
+<li>短线策略（short-term）：持仓一天到两周</li>
+<li>中线策略（medium-term）：数周到数月</li>
+<li>长线策略（long-term）：持仓数月或更长</li>
+</ul>
+<h3 id="投注结构"><a href="#投注结构" class="headerlink" title="投注结构"></a>投注结构</h3><h4 id="预测单个金融产品的绝对回报"><a href="#预测单个金融产品的绝对回报" class="headerlink" title="预测单个金融产品的绝对回报"></a>预测单个金融产品的绝对回报</h4><h4 id="预测多个金融产品的相对回报"><a href="#预测多个金融产品的相对回报" class="headerlink" title="预测多个金融产品的相对回报"></a>预测多个金融产品的相对回报</h4><ul>
+<li>较小范围内选取一对金融产品进行配对交易，很少能精确匹配。</li>
+<li>较大范围内选一个门类，消除同组证券间的共同因素。甚至采用多种分组方式共同决定分组，以达到比绝对回报更平稳的回报。</li>
+</ul>
+<h3 id="投资范围"><a href="#投资范围" class="headerlink" title="投资范围"></a>投资范围</h3><p>同一个策略可以用在多个金融产品上，一般需要考虑很多因素。比如，地域，资产类别，金融产品种类。</p>
+<ul>
+<li>需要流动性好的交易标的，交易成本可控；</li>
+<li>需要大量高质量的数据，它们在富有流动性和发达的市场更容易获得；</li>
+<li>需要比较容易用系统化模型来预测的金融产品。</li>
+</ul>
+<h3 id="模型设置"><a href="#模型设置" class="headerlink" title="模型设置"></a>模型设置</h3><p><strong><em>机器学习技术主要是用于寻找量化模型的最优参数设置，其算法主要是用更智能且更科学的方法检验多种潜在可能的参数，同时又不会出现过拟合。</em></strong></p>
+<h3 id="运行频率"><a href="#运行频率" class="headerlink" title="运行频率"></a>运行频率</h3><p>太多的运行导致模型根据毫无用处的噪声而建仓平仓的概率加大，交易成本升高，同时也容易出现过拟合。<br>太少的运行会导致很少的交易，如果订单规模同时很大的话，对市场有较大冲击，进而改变市场，使模型失效。</p>
+<h2 id="策略选择上的多样性"><a href="#策略选择上的多样性" class="headerlink" title="策略选择上的多样性"></a>策略选择上的多样性</h2><p>依据上述实施环节，可以自由组合拼装具体策略。</p>
+<h2 id="混合型模型"><a href="#混合型模型" class="headerlink" title="混合型模型"></a>混合型模型</h2><p>可以使用多种模型的混合</p>
+<h3 id="线性模型"><a href="#线性模型" class="headerlink" title="线性模型"></a>线性模型</h3><p>在线性模型中，由某个因素所推演出来的判断是独立于其他因素所推演出来的，因此所有因素的判断是可加的。根据历史数据回归，对每个阿尔法因素赋予权重，之后线性相加就可以进行混合预测了。<br><strong><em>例：根据E/P收益率因素判断A股票未来上涨20%，根据趋势预测其未来下跌10%，根据历史回归E/P因素权重是70%，则最终的预测为上涨11%</em></strong></p>
+<h3 id="非线性模型"><a href="#非线性模型" class="headerlink" title="非线性模型"></a>非线性模型</h3><p>用来预测时长的变量之间的关系既不是相互独立的，也不是随着时间而一成不变的，此时线性模型就不再适合。</p>
+<h4 id="条件模型（conditional-model）"><a href="#条件模型（conditional-model）" class="headerlink" title="条件模型（conditional model）"></a>条件模型（conditional model）</h4><p>赋予某一阿尔法因素的权重是依赖于如何对其他因素的解释。<br><strong><em>例：如果条件模型认为E/P收益必须在价格趋势一致的时候才有效。那么上例的结果就不再有效了</em></strong></p>
+<h4 id="旋转模型（rotation-model）"><a href="#旋转模型（rotation-model）" class="headerlink" title="旋转模型（rotation model）"></a>旋转模型（rotation model）</h4><p>这种模型与线性模型相似，但权重是随时波动的，即随着时间的演进，最近的数据用来决定各因素新的权重。</p>
+<h3 id="机器学习模型"><a href="#机器学习模型" class="headerlink" title="机器学习模型"></a>机器学习模型</h3><p>通过机器学习来预测混合模型中各因素的最优权重，这种应用比直接用机器学习来生成阿尔法信号（因素）更加常用和成功。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Notes/" rel="tag"># Notes</a>
+          
+            <a href="/tags/量化投资/" rel="tag"># 量化投资</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/27/django-model重复save导致数据不一致/" rel="next" title="django-model重复save导致数据不一致">
+                <i class="fa fa-chevron-left"></i> django-model重复save导致数据不一致
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/03/Logit-or-Logistic-Regression/" rel="prev" title="Logit or Logistic Regression">
+                Logit or Logistic Regression <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#理论驱动型大致分为5类（和主观判断型交易几乎一样）"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x7406;&#x8BBA;&#x9A71;&#x52A8;&#x578B;&#x5927;&#x81F4;&#x5206;&#x4E3A;5&#x7C7B;&#xFF08;&#x548C;&#x4E3B;&#x89C2;&#x5224;&#x65AD;&#x578B;&#x4EA4;&#x6613;&#x51E0;&#x4E4E;&#x4E00;&#x6837;&#xFF09;" class="headerlink" title="&#x7406;&#x8BBA;&#x9A71;&#x52A8;&#x578B;&#x5927;&#x81F4;&#x5206;&#x4E3A;5&#x7C7B;&#xFF08;&#x548C;&#x4E3B;&#x89C2;&#x5224;&#x65AD;&#x578B;&#x4EA4;&#x6613;&#x51E0;&#x4E4E;&#x4E00;&#x6837;&#xFF09;"></a>&#x7406;&#x8BBA;&#x9A71;&#x52A8;&#x578B;&#x5927;&#x81F4;&#x5206;&#x4E3A;5&#x7C7B;&#xFF08;&#x548C;&#x4E3B;&#x89C2;&#x5224;&#x65AD;&#x578B;&#x4EA4;&#x6613;&#x51E0;&#x4E4E;&#x4E00;&#x6837;&#xFF09;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#价格相关数据策略"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x4EF7;&#x683C;&#x76F8;&#x5173;&#x6570;&#x636E;&#x7B56;&#x7565;" class="headerlink" title="&#x4EF7;&#x683C;&#x76F8;&#x5173;&#x6570;&#x636E;&#x7B56;&#x7565;"></a>&#x4EF7;&#x683C;&#x76F8;&#x5173;&#x6570;&#x636E;&#x7B56;&#x7565;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#趋势型（trend）"><span class="nav-number">1.1.1.</span> <span class="nav-text"><a href="#&#x8D8B;&#x52BF;&#x578B;&#xFF08;trend&#xFF09;" class="headerlink" title="&#x8D8B;&#x52BF;&#x578B;&#xFF08;trend&#xFF09;"></a>&#x8D8B;&#x52BF;&#x578B;&#xFF08;trend&#xFF09;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#回复型（reversion）"><span class="nav-number">1.1.2.</span> <span class="nav-text"><a href="#&#x56DE;&#x590D;&#x578B;&#xFF08;reversion&#xFF09;" class="headerlink" title="&#x56DE;&#x590D;&#x578B;&#xFF08;reversion&#xFF09;"></a>&#x56DE;&#x590D;&#x578B;&#xFF08;reversion&#xFF09;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本面相关数据策略"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x57FA;&#x672C;&#x9762;&#x76F8;&#x5173;&#x6570;&#x636E;&#x7B56;&#x7565;" class="headerlink" title="&#x57FA;&#x672C;&#x9762;&#x76F8;&#x5173;&#x6570;&#x636E;&#x7B56;&#x7565;"></a>&#x57FA;&#x672C;&#x9762;&#x76F8;&#x5173;&#x6570;&#x636E;&#x7B56;&#x7565;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#价值型-收益型（value-yield）："><span class="nav-number">1.2.1.</span> <span class="nav-text"><a href="#&#x4EF7;&#x503C;&#x578B;-&#x6536;&#x76CA;&#x578B;&#xFF08;value-yield&#xFF09;&#xFF1A;" class="headerlink" title="&#x4EF7;&#x503C;&#x578B;/&#x6536;&#x76CA;&#x578B;&#xFF08;value/yield&#xFF09;&#xFF1A;"></a>&#x4EF7;&#x503C;&#x578B;/&#x6536;&#x76CA;&#x578B;&#xFF08;value/yield&#xFF09;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#成长型（growth）"><span class="nav-number">1.2.2.</span> <span class="nav-text"><a href="#&#x6210;&#x957F;&#x578B;&#xFF08;growth&#xFF09;" class="headerlink" title="&#x6210;&#x957F;&#x578B;&#xFF08;growth&#xFF09;"></a>&#x6210;&#x957F;&#x578B;&#xFF08;growth&#xFF09;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#品质型（quality）"><span class="nav-number">1.2.3.</span> <span class="nav-text"><a href="#&#x54C1;&#x8D28;&#x578B;&#xFF08;quality&#xFF09;" class="headerlink" title="&#x54C1;&#x8D28;&#x578B;&#xFF08;quality&#xFF09;"></a>&#x54C1;&#x8D28;&#x578B;&#xFF08;quality&#xFF09;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据驱动型"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x9A71;&#x52A8;&#x578B;" class="headerlink" title="&#x6570;&#x636E;&#x9A71;&#x52A8;&#x578B;"></a>&#x6570;&#x636E;&#x9A71;&#x52A8;&#x578B;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略的实施（大概归纳为6点）"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x7B56;&#x7565;&#x7684;&#x5B9E;&#x65BD;&#xFF08;&#x5927;&#x6982;&#x5F52;&#x7EB3;&#x4E3A;6&#x70B9;&#xFF09;" class="headerlink" title="&#x7B56;&#x7565;&#x7684;&#x5B9E;&#x65BD;&#xFF08;&#x5927;&#x6982;&#x5F52;&#x7EB3;&#x4E3A;6&#x70B9;&#xFF09;"></a>&#x7B56;&#x7565;&#x7684;&#x5B9E;&#x65BD;&#xFF08;&#x5927;&#x6982;&#x5F52;&#x7EB3;&#x4E3A;6&#x70B9;&#xFF09;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#预测目标"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x9884;&#x6D4B;&#x76EE;&#x6807;" class="headerlink" title="&#x9884;&#x6D4B;&#x76EE;&#x6807;"></a>&#x9884;&#x6D4B;&#x76EE;&#x6807;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#投资期限"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x6295;&#x8D44;&#x671F;&#x9650;" class="headerlink" title="&#x6295;&#x8D44;&#x671F;&#x9650;"></a>&#x6295;&#x8D44;&#x671F;&#x9650;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#投注结构"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#x6295;&#x6CE8;&#x7ED3;&#x6784;" class="headerlink" title="&#x6295;&#x6CE8;&#x7ED3;&#x6784;"></a>&#x6295;&#x6CE8;&#x7ED3;&#x6784;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预测单个金融产品的绝对回报"><span class="nav-number">3.3.1.</span> <span class="nav-text"><a href="#&#x9884;&#x6D4B;&#x5355;&#x4E2A;&#x91D1;&#x878D;&#x4EA7;&#x54C1;&#x7684;&#x7EDD;&#x5BF9;&#x56DE;&#x62A5;" class="headerlink" title="&#x9884;&#x6D4B;&#x5355;&#x4E2A;&#x91D1;&#x878D;&#x4EA7;&#x54C1;&#x7684;&#x7EDD;&#x5BF9;&#x56DE;&#x62A5;"></a>&#x9884;&#x6D4B;&#x5355;&#x4E2A;&#x91D1;&#x878D;&#x4EA7;&#x54C1;&#x7684;&#x7EDD;&#x5BF9;&#x56DE;&#x62A5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#预测多个金融产品的相对回报"><span class="nav-number">3.3.2.</span> <span class="nav-text"><a href="#&#x9884;&#x6D4B;&#x591A;&#x4E2A;&#x91D1;&#x878D;&#x4EA7;&#x54C1;&#x7684;&#x76F8;&#x5BF9;&#x56DE;&#x62A5;" class="headerlink" title="&#x9884;&#x6D4B;&#x591A;&#x4E2A;&#x91D1;&#x878D;&#x4EA7;&#x54C1;&#x7684;&#x76F8;&#x5BF9;&#x56DE;&#x62A5;"></a>&#x9884;&#x6D4B;&#x591A;&#x4E2A;&#x91D1;&#x878D;&#x4EA7;&#x54C1;&#x7684;&#x76F8;&#x5BF9;&#x56DE;&#x62A5;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#投资范围"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#&#x6295;&#x8D44;&#x8303;&#x56F4;" class="headerlink" title="&#x6295;&#x8D44;&#x8303;&#x56F4;"></a>&#x6295;&#x8D44;&#x8303;&#x56F4;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型设置"><span class="nav-number">3.5.</span> <span class="nav-text"><a href="#&#x6A21;&#x578B;&#x8BBE;&#x7F6E;" class="headerlink" title="&#x6A21;&#x578B;&#x8BBE;&#x7F6E;"></a>&#x6A21;&#x578B;&#x8BBE;&#x7F6E;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运行频率"><span class="nav-number">3.6.</span> <span class="nav-text"><a href="#&#x8FD0;&#x884C;&#x9891;&#x7387;" class="headerlink" title="&#x8FD0;&#x884C;&#x9891;&#x7387;"></a>&#x8FD0;&#x884C;&#x9891;&#x7387;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#策略选择上的多样性"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x7B56;&#x7565;&#x9009;&#x62E9;&#x4E0A;&#x7684;&#x591A;&#x6837;&#x6027;" class="headerlink" title="&#x7B56;&#x7565;&#x9009;&#x62E9;&#x4E0A;&#x7684;&#x591A;&#x6837;&#x6027;"></a>&#x7B56;&#x7565;&#x9009;&#x62E9;&#x4E0A;&#x7684;&#x591A;&#x6837;&#x6027;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混合型模型"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x6DF7;&#x5408;&#x578B;&#x6A21;&#x578B;" class="headerlink" title="&#x6DF7;&#x5408;&#x578B;&#x6A21;&#x578B;"></a>&#x6DF7;&#x5408;&#x578B;&#x6A21;&#x578B;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线性模型"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#&#x7EBF;&#x6027;&#x6A21;&#x578B;" class="headerlink" title="&#x7EBF;&#x6027;&#x6A21;&#x578B;"></a>&#x7EBF;&#x6027;&#x6A21;&#x578B;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非线性模型"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#&#x975E;&#x7EBF;&#x6027;&#x6A21;&#x578B;" class="headerlink" title="&#x975E;&#x7EBF;&#x6027;&#x6A21;&#x578B;"></a>&#x975E;&#x7EBF;&#x6027;&#x6A21;&#x578B;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#条件模型（conditional-model）"><span class="nav-number">5.2.1.</span> <span class="nav-text"><a href="#&#x6761;&#x4EF6;&#x6A21;&#x578B;&#xFF08;conditional-model&#xFF09;" class="headerlink" title="&#x6761;&#x4EF6;&#x6A21;&#x578B;&#xFF08;conditional model&#xFF09;"></a>&#x6761;&#x4EF6;&#x6A21;&#x578B;&#xFF08;conditional model&#xFF09;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#旋转模型（rotation-model）"><span class="nav-number">5.2.2.</span> <span class="nav-text"><a href="#&#x65CB;&#x8F6C;&#x6A21;&#x578B;&#xFF08;rotation-model&#xFF09;" class="headerlink" title="&#x65CB;&#x8F6C;&#x6A21;&#x578B;&#xFF08;rotation model&#xFF09;"></a>&#x65CB;&#x8F6C;&#x6A21;&#x578B;&#xFF08;rotation model&#xFF09;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器学习模型"><span class="nav-number">5.3.</span> <span class="nav-text"><a href="#&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6A21;&#x578B;" class="headerlink" title="&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6A21;&#x578B;"></a>&#x673A;&#x5668;&#x5B66;&#x4E60;&#x6A21;&#x578B;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

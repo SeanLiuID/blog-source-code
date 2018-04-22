@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/24/Django-Database-多数据库/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/02/PgSQL双向同步工具Bucardo——配置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/24/Django-Database-多数据库/" itemprop="url">Django-Database-多数据库</a></h1>
+                <a class="post-title-link" href="/2018/03/02/PgSQL双向同步工具Bucardo——配置/" itemprop="url">PgSQL双向同步工具Bucardo——配置</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,132 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-24T15:41:26+08:00">
-                2018-01-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-02T10:17:48+08:00">
+                2018-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="PgSQL使用Bucardo进行主从同步"><a href="#PgSQL使用Bucardo进行主从同步" class="headerlink" title="PgSQL使用Bucardo进行主从同步"></a>PgSQL使用Bucardo进行主从同步</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="安装依赖包-按顺序"><a href="#安装依赖包-按顺序" class="headerlink" title="安装依赖包(按顺序)"></a>安装依赖包(按顺序)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install perl-boolean</span></span><br><span class="line"><span class="comment"># yum install postgresql-plperl</span></span><br><span class="line"><span class="comment"># wget http://files.directadmin.com/services/9.0/ExtUtils-MakeMaker-6.31.tar.gz</span></span><br><span class="line"><span class="comment"># wget http://search.cpan.org/CPAN/authors/id/E/EX/EXODIST/Test-Simple-1.302125.tar.gz</span></span><br><span class="line"><span class="comment"># wget http://search.cpan.org/CPAN/authors/id/J/JP/JPEACOCK/version-0.9918.tar.gz</span></span><br><span class="line"><span class="comment"># wget http://www.cpan.org/authors/id/T/TU/TURNSTEP/DBD-Pg-3.5.0.tar.gz   </span></span><br><span class="line"><span class="comment"># wget http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-1.630.tar.gz</span></span><br><span class="line"><span class="comment"># wget http://bucardo.org/downloads/dbix_safe.tar.gz</span></span><br></pre></td></tr></table></figure>
+<h3 id="安装Bucardo"><a href="#安装Bucardo" class="headerlink" title="安装Bucardo"></a>安装Bucardo</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># wget http://bucardo.org/downloads/Bucardo-5.4.1.tar.gz</span></span><br></pre></td></tr></table></figure>
+<p><strong><em>以上perl模块安装步骤</em></strong><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tar xvf (...)</span></span><br><span class="line"><span class="comment"># cd (...)</span></span><br><span class="line"><span class="comment"># perl Makefile.PL</span></span><br><span class="line"><span class="comment"># make</span></span><br><span class="line"><span class="comment"># make install</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="创建配置文件"><a href="#创建配置文件" class="headerlink" title="创建配置文件"></a>创建配置文件</h3><p>在系统用户的home目录下创建.bucardorc文件，内容如下：<br>log_conflict_file    = /home/devops/bucardo/log/bucardo_conflict.log<br>piddir                = /home/devops/bucardo/run<br>reason_file            = /home/devops/bucardo/log/bucardo.restart.reason.log<br>warning_file        = /home/devops/bucardo/log/bucardo.warning.log<br>syslog_facility        = LOG_LOCAL</p>
+<h3 id="运行bucardo-install（-user-local-bin）"><a href="#运行bucardo-install（-user-local-bin）" class="headerlink" title="运行bucardo install（/user/local/bin）"></a>运行bucardo install（/user/local/bin）</h3><h2 id="安装perl模块过程中报错解决"><a href="#安装perl模块过程中报错解决" class="headerlink" title="安装perl模块过程中报错解决"></a>安装perl模块过程中报错解决</h2><h3 id="出现Could-not-open-‘’-No-such-file-or-directory-at-lib-ExtUtils-MM-Unix-pm"><a href="#出现Could-not-open-‘’-No-such-file-or-directory-at-lib-ExtUtils-MM-Unix-pm" class="headerlink" title="出现Could not open ‘’: No such file or directory at lib/ExtUtils/MM_Unix.pm"></a>出现Could not open ‘’: No such file or directory at lib/ExtUtils/MM_Unix.pm</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install perl-ExtUtils-MakeMaker</span></span><br></pre></td></tr></table></figure>
+<h3 id="出现Can’t-locate-Data-Dumper-pm-in-INC"><a href="#出现Can’t-locate-Data-Dumper-pm-in-INC" class="headerlink" title="出现Can’t locate Data/Dumper.pm in @INC"></a>出现Can’t locate Data/Dumper.pm in @INC</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># yum install ‘perl(Data::Dumper)’</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/pgSQL集群工具PLproxy——基本代理函数/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/28/pgSQL集群工具PLproxy——基本代理函数/" itemprop="url">pgSQL集群工具PLproxy——基本代理函数</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T17:44:56+08:00">
+                2018-02-28
               </time>
             
 
@@ -303,8 +427,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
                   </a>
                 </span>
 
@@ -314,8 +438,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Database/" itemprop="url" rel="index">
-                    <span itemprop="name">Database</span>
+                  <a href="/categories/PostgreSQL/Extension/" itemprop="url" rel="index">
+                    <span itemprop="name">Extension</span>
                   </a>
                 </span>
 
@@ -353,14 +477,44 @@
       
         
           
-            <p>Django可以在settings.py中的DATABASES中设置多个数据库，将多个应用关联在不同数据库上。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'app_data'</span>,</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.postgresql'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'postgres_user'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'s3krit'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'users'</span>: &#123;</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'user_data'</span>,</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'mysql_user'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'priv4te'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>default是默认数据库，当没有选择其他数据库是，默认使用default。<br>Django要求default数据库必须定义，因此可以使用{}留空</p>
-<h2 id="同步数据库"><a href="#同步数据库" class="headerlink" title="同步数据库"></a>同步数据库</h2><p>migrate命令一次操作一个数据库，默认操作default，可以通过–database设置<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./manage.py migrate --database=users</span><br></pre></td></tr></table></figure></p>
-<h2 id="数据库路由"><a href="#数据库路由" class="headerlink" title="数据库路由"></a>数据库路由</h2><p>使用settings.py中的DATABASE_ROUTERS设置，这个设置定义一个类名的列表，其中每个类表示一个路由。<br>它们将被主路由（django.db.route）使用。<br>主路由按照列表的顺序逐个查询使用哪个路由。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;&#125;,</span><br><span class="line">    <span class="string">'auth_db'</span>: &#123;</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'auth_db'</span>,</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'mysql_user'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'swordfish'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'primary'</span>: &#123;</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'primary'</span>,</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'mysql_user'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'spam'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'replica1'</span>: &#123;</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'replica1'</span>,</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'mysql_user'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'eggs'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">'replica2'</span>: &#123;</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'replica2'</span>,</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</span><br><span class="line">        <span class="string">'USER'</span>: <span class="string">'mysql_user'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'bacon'</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DATABASE_ROUTERS = [<span class="string">'path.to.AuthRouter'</span>, <span class="string">'path.to.PrimaryReplicaRouter'</span>]</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AuthRouter</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    A router to control all database operations on models in the</span></span><br><span class="line"><span class="string">    auth application.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">db_for_read</span><span class="params">(self, model, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Attempts to read auth models go to auth_db.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> model._meta.app_label == <span class="string">'auth'</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'auth_db'</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">db_for_write</span><span class="params">(self, model, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Attempts to write auth models go to auth_db.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> model._meta.app_label == <span class="string">'auth'</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'auth_db'</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allow_relation</span><span class="params">(self, obj1, obj2, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Allow relations if a model in the auth app is involved.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> obj1._meta.app_label == <span class="string">'auth'</span> <span class="keyword">or</span> \</span><br><span class="line">           obj2._meta.app_label == <span class="string">'auth'</span>:</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allow_migrate</span><span class="params">(self, db, app_label, model_name=None, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Make sure the auth app only appears in the 'auth_db'</span></span><br><span class="line"><span class="string">        database.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">if</span> app_label == <span class="string">'auth'</span>:</span><br><span class="line">            <span class="keyword">return</span> db == <span class="string">'auth_db'</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PrimaryReplicaRouter</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">db_for_read</span><span class="params">(self, model, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Reads go to a randomly-chosen replica.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> random.choice([<span class="string">'replica1'</span>, <span class="string">'replica2'</span>])</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">db_for_write</span><span class="params">(self, model, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Writes always go to primary.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'primary'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allow_relation</span><span class="params">(self, obj1, obj2, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Relations between objects are allowed if both objects are</span></span><br><span class="line"><span class="string">        in the primary/replica pool.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        db_list = (<span class="string">'primary'</span>, <span class="string">'replica1'</span>, <span class="string">'replica2'</span>)</span><br><span class="line">        <span class="keyword">if</span> obj1._state.db <span class="keyword">in</span> db_list <span class="keyword">and</span> obj2._state.db <span class="keyword">in</span> db_list:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">allow_migrate</span><span class="params">(self, db, app_label, model_name=None, **hints)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        All non-auth models end up in this pool.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
-<h2 id="多数据库的限制"><a href="#多数据库的限制" class="headerlink" title="多数据库的限制"></a>多数据库的限制</h2><h4 id="跨数据库关系"><a href="#跨数据库关系" class="headerlink" title="跨数据库关系"></a>跨数据库关系</h4><p>Django目前不提供跨多个数据库的外键或多对多关系的支持</p>
+            <h2 id="准备工作参见《部署》"><a href="#准备工作参见《部署》" class="headerlink" title="准备工作参见《部署》"></a>准备工作参见《部署》</h2><p>假设基本配置如下：</p>
+<ol>
+<li>server name: cluster_zly</li>
+<li>proxy db role:proxy –\du</li>
+<li>proxy db name:proxy –\l</li>
+<li>data db role:zlyadmin（数据节点操作用户） –\du</li>
+<li>data db name:zlydb0,zlydb1（双数据节点） –\l</li>
+<li>schema:zly –\dn</li>
+</ol>
+<h2 id="PL-Proxy语言详解"><a href="#PL-Proxy语言详解" class="headerlink" title="PL/Proxy语言详解"></a>PL/Proxy语言详解</h2><ul>
+<li>共支持下列4个语句：CONNECT,CLUSTER,RUN,SELECT;</li>
+<li>每个函数要么包含CONNECT,要么包含CLUSTER+RUN</li>
+<li>SELECT可选，如果不使用SELECT，会调用数据节点的同名函数；若使用则在数据节点直接执行此SQL；</li>
+<li>RUN语句也可以不使用，等价于RUN ON ANY；</li>
+</ul>
+<h3 id="CONNECT"><a href="#CONNECT" class="headerlink" title="CONNECT"></a>CONNECT</h3><figure class="highlight sql"><figcaption><span>grammar</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONNECT 'libpg connstr' | CONNECT connect_func(...) | argname;</span><br></pre></td></tr></table></figure>
+<p>CONNECT后面可以直接跟一个libpq的连接字符串，也可跟一个函数，由其返回一个libpq连接串；或跟一个函数参数名,指定连接哪一个数据库。<br>一个proxy函数中只能出现一条connect语句<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONNECT 'hostaddr=172.16.3.150 dbname=db0 user=digoal port=1921';</span><br></pre></td></tr></table></figure></p>
+<h3 id="CLUSTER"><a href="#CLUSTER" class="headerlink" title="CLUSTER"></a>CLUSTER</h3><figure class="highlight sql"><figcaption><span>grammar</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CLUSTER 'cluster_name' | CLUSTER connect_func(...) | argname;</span><br></pre></td></tr></table></figure>
+<p>CLUSTER后面跟一个标识集群名称的字符串，也可以跟一个函数，由其返回一个集群名称；还可跟一个参数名，参数内容为一个集群名称。</p>
+<h3 id="RUN-ON"><a href="#RUN-ON" class="headerlink" title="RUN ON"></a>RUN ON</h3><figure class="highlight"><figcaption><span>grammar</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUN ON ALL | ANY | &lt;NR&gt; | partition_func(...);</span><br></pre></td></tr></table></figure>
+<ol>
+<li>RUN ON ALL 表示在集群每个数据节点并行执行,必须returns setof</li>
+<li>RUN ON ANY 表示随机挑选一个节点执行</li>
+<li>RUN ON <nr> 表示指定某一数据节点的数字（0…n-1）执行</nr></li>
+<li>RUN ON partition_func(…) 表示有函数particion_func()返回一个或多个hash值后将请求转到对应的后端数据节点上，如果是多个hash值，也是并行执行。</li>
+</ol>
+<h3 id="SPLIT"><a href="#SPLIT" class="headerlink" title="SPLIT"></a>SPLIT</h3><h3 id="TARGET"><a href="#TARGET" class="headerlink" title="TARGET"></a>TARGET</h3><figure class="highlight sql"><figcaption><span>grammar</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TARGET other_function;</span><br></pre></td></tr></table></figure>
+<p>可以让后端的函数名与Proxy节点的函数名不一样，如：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> get_user_email(i_username <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">text</span> <span class="keyword">AS</span> $$</span><br><span class="line">	CLUSTER <span class="string">'cluster_zly'</span>;</span><br><span class="line">    RUN ON hashtext(i_username);</span><br><span class="line">    TARGET get_customer_email;</span><br><span class="line">$$ LANGUAGE plproxy</span><br></pre></td></tr></table></figure></p>
+<h2 id="proxy节点函数"><a href="#proxy节点函数" class="headerlink" title="proxy节点函数"></a>proxy节点函数</h2><h3 id="ddl函数"><a href="#ddl函数" class="headerlink" title="ddl函数"></a>ddl函数</h3><figure class="highlight sql"><figcaption><span>ddl</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.ddlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">integer</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line">CLUSTER <span class="string">'cluster_zly'</span>;</span><br><span class="line">RUN ON ALL;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE plproxy VOLATILE</span><br><span class="line">COST 100</span><br><span class="line">ROWS 1000;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">FUNCTION</span> zly.ddlexec(<span class="built_in">text</span>)</span><br><span class="line">OWNER <span class="keyword">TO</span> postgres;</span><br></pre></td></tr></table></figure>
+<h3 id="dml函数（随机insert，不适用update，delete）"><a href="#dml函数（随机insert，不适用update，delete）" class="headerlink" title="dml函数（随机insert，不适用update，delete）"></a>dml函数（随机insert，不适用update，delete）</h3><figure class="highlight sql"><figcaption><span>dml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.dmlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">integer</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line">CLUSTER <span class="string">'cluster_zly'</span>;</span><br><span class="line">RUN ON ANY;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE plproxy VOLATILE</span><br><span class="line">COST 100</span><br><span class="line">ROWS 1000;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">FUNCTION</span> zly.dmlexec(<span class="built_in">text</span>) OWNER <span class="keyword">TO</span> postgres;</span><br></pre></td></tr></table></figure>
+<h3 id="dql函数（查询）"><a href="#dql函数（查询）" class="headerlink" title="dql函数（查询）"></a>dql函数（查询）</h3><figure class="highlight sql"><figcaption><span>dql</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.dqlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">record</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line">CLUSTER <span class="string">'cluster_zly'</span>;</span><br><span class="line">RUN ON ALL;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE plproxy VOLATILE</span><br><span class="line">COST 100</span><br><span class="line">ROWS 1000;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">FUNCTION</span> zly.dqlexec(<span class="built_in">text</span>) OWNER <span class="keyword">TO</span> postgres;</span><br></pre></td></tr></table></figure>
+<h2 id="data节点函数"><a href="#data节点函数" class="headerlink" title="data节点函数"></a>data节点函数</h2><h3 id="ddl函数-1"><a href="#ddl函数-1" class="headerlink" title="ddl函数"></a>ddl函数</h3><figure class="highlight sql"><figcaption><span>ddl</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.ddlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="built_in">integer</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line">ret <span class="built_in">integer</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">execute</span> <span class="keyword">query</span>;</span><br><span class="line">return 1;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE 'plpgsql' VOLATILE</span><br><span class="line">COST 100;</span><br></pre></td></tr></table></figure>
+<h3 id="dml函数（插入）"><a href="#dml函数（插入）" class="headerlink" title="dml函数（插入）"></a>dml函数（插入）</h3><figure class="highlight sql"><figcaption><span>dml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.dmlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> <span class="built_in">integer</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line">ret <span class="built_in">integer</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">execute</span> <span class="keyword">query</span>;</span><br><span class="line">return 1;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE 'plpgsql' VOLATILE</span><br><span class="line">COST 100;</span><br></pre></td></tr></table></figure>
+<h3 id="dql函数（查询）-1"><a href="#dql函数（查询）-1" class="headerlink" title="dql函数（查询）"></a>dql函数（查询）</h3><figure class="highlight sql"><figcaption><span>dql</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">OR</span> <span class="keyword">REPLACE</span> <span class="keyword">FUNCTION</span> zly.dqlexec(<span class="keyword">query</span> <span class="built_in">text</span>)</span><br><span class="line"><span class="keyword">RETURNS</span> SETOF <span class="built_in">record</span> <span class="keyword">AS</span></span><br><span class="line">$<span class="keyword">BODY</span>$</span><br><span class="line"><span class="keyword">declare</span></span><br><span class="line">ret <span class="built_in">record</span>;</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">for</span> ret <span class="keyword">in</span> <span class="keyword">execute</span> <span class="keyword">query</span> </span><br><span class="line"><span class="keyword">loop</span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">next</span> ret;</span><br><span class="line"><span class="keyword">end</span> <span class="keyword">loop</span>;</span><br><span class="line">return;</span><br><span class="line"><span class="keyword">end</span>;</span><br><span class="line">$BODY$</span><br><span class="line">LANGUAGE 'plpgsql' VOLATILE</span><br><span class="line">COST 100</span><br><span class="line">ROWS 1000;</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="批量建表："><a href="#批量建表：" class="headerlink" title="批量建表："></a>批量建表：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> zly.ddlexec(<span class="string">'create table t1(id integer,name varchar(100))'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="插入数据："><a href="#插入数据：" class="headerlink" title="插入数据："></a>插入数据：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> zly.dmlexec(<span class="string">'insert into t1 values(0,'</span>aaa<span class="string">')'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="查询数据数量："><a href="#查询数据数量：" class="headerlink" title="查询数据数量："></a>查询数据数量：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> zly.dqlexec(<span class="string">'select cast(count(id) as int) as cnt  from t1 '</span>) <span class="keyword">as</span> (cnt <span class="built_in">int</span>) ;</span><br></pre></td></tr></table></figure>
+<h3 id="查询数据内容："><a href="#查询数据内容：" class="headerlink" title="查询数据内容："></a>查询数据内容：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> zly.dqlexec(<span class="string">'select * from t1'</span>) <span class="keyword">as</span> (<span class="keyword">id</span>  <span class="built_in">integer</span>, <span class="keyword">name</span> <span class="built_in">varchar</span> );</span><br></pre></td></tr></table></figure>
 
           
         
@@ -409,7 +563,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/23/Django-ORM-RawSQL/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/28/SQL-MED/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -428,7 +582,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/23/Django-ORM-RawSQL/" itemprop="url">Django-ORM-RawSQL</a></h1>
+                <a class="post-title-link" href="/2018/02/28/SQL-MED/" itemprop="url">SQL/MED</a></h1>
         
 
         <div class="post-meta">
@@ -440,136 +594,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-23T17:47:17+08:00">
-                2018-01-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>对于复杂的查询，可能出现API不够用的情况，Django提供rawsql查询<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Manager.raw(raw_query, params=<span class="keyword">None</span>, translations=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure></p>
-<h3 id="将长训字段映射到模型字段"><a href="#将长训字段映射到模型字段" class="headerlink" title="将长训字段映射到模型字段"></a>将长训字段映射到模型字段</h3><p>可以使用rawsql把某个表的数据映射到一个model上，要求字段名要映射一致<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    first_name = models.CharField(...)</span><br><span class="line">    last_name = models.CharField(...)</span><br><span class="line">    birth_date = models.DateField(...)</span><br><span class="line"></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Person.objects.raw(<span class="string">'SELECT id, first_name, last_name, birth_date FROM myapp_person'</span>)</span><br><span class="line">...</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Person.objects.raw(<span class="string">'''SELECT first AS first_name,</span></span><br><span class="line"><span class="string"><span class="meta">... </span>                             last AS last_name,</span></span><br><span class="line"><span class="string"><span class="meta">... </span>                             bd AS birth_date,</span></span><br><span class="line"><span class="string"><span class="meta">... </span>                             pk AS id,</span></span><br><span class="line"><span class="string"><span class="meta">... </span>                      FROM some_other_table'''</span>)</span><br></pre></td></tr></table></figure></p>
-<p>sql语句中的字段顺序不重要，与返回结果无关<br>可以使用raw()方法中的reanslations参数做字段映射：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>name_map = &#123;<span class="string">'first'</span>: <span class="string">'first_name'</span>, <span class="string">'last'</span>: <span class="string">'last_name'</span>, <span class="string">'bd'</span>: <span class="string">'birth_date'</span>, <span class="string">'pk'</span>: <span class="string">'id'</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Person.objects.raw(<span class="string">'SELECT * FROM some_other_table'</span>, translations=name_map)</span><br></pre></td></tr></table></figure></p>
-<h3 id="索引和切片"><a href="#索引和切片" class="headerlink" title="索引和切片"></a>索引和切片</h3><p>raw()支持索引和切片，但不是在数据库层面上操作，最好使用limit限制在sql语句中</p>
-<h3 id="延迟模型字段"><a href="#延迟模型字段" class="headerlink" title="延迟模型字段"></a>延迟模型字段</h3><p>sql中可以省略字段，如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> p <span class="keyword">in</span> Person.objects.raw(<span class="string">'SELECT id, first_name FROM myapp_person'</span>):</span><br><span class="line"><span class="meta">... </span>    print(p.first_name, <span class="comment"># 这将在开始的查询获取到</span></span><br><span class="line"><span class="meta">... </span>          p.last_name) <span class="comment"># 这将根据需要获取</span></span><br><span class="line">...</span><br><span class="line">John Smith</span><br><span class="line">Jane Jones</span><br></pre></td></tr></table></figure></p>
-<p>被省略的字段也会通过查询出的model查询出来，但其实是又执行了一次query。<br>主键不能被省略，必须写在sql中</p>
-<h3 id="添加注释"><a href="#添加注释" class="headerlink" title="添加注释"></a>添加注释</h3><p>也可以在查询中包含模型中没有定义的字段<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>people = Person.objects.raw(<span class="string">'SELECT *, age(birth_date) AS age FROM myapp_person'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> p <span class="keyword">in</span> people:</span><br><span class="line"><span class="meta">... </span>    print(<span class="string">"%s is %s."</span> % (p.first_name, p.age))</span><br><span class="line">John <span class="keyword">is</span> <span class="number">37.</span></span><br><span class="line">Jane <span class="keyword">is</span> <span class="number">42.</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
-<h3 id="将参数传递给raw"><a href="#将参数传递给raw" class="headerlink" title="将参数传递给raw()"></a>将参数传递给raw()</h3><p>使用params参数可以防止注入攻击,使用占位符 %s<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>lname = <span class="string">'Doe'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>Person.objects.raw(<span class="string">'SELECT * FROM myapp_person WHERE last_name = %s'</span>, [lname])</span><br></pre></td></tr></table></figure></p>
-<p>也可以使用%(key)s,使用字典来占位</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/23/Django-manager（管理器）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/23/Django-manager（管理器）/" itemprop="url">Django-manager（管理器）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-23T09:42:48+08:00">
-                2018-01-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T10:02:44+08:00">
+                2018-02-28
               </time>
             
 
@@ -591,8 +617,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
                   </a>
                 </span>
 
@@ -602,8 +628,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
-                    <span itemprop="name">Model</span>
+                  <a href="/categories/PostgreSQL/Extension/" itemprop="url" rel="index">
+                    <span itemprop="name">Extension</span>
                   </a>
                 </span>
 
@@ -640,288 +666,16 @@
 
       
         
-          
-            <p>Manager是Django的模型进行数据库查询操作的接口，每个model至少拥有一个Manager。</p>
-<h2 id="自定义Manager名称"><a href="#自定义Manager名称" class="headerlink" title="自定义Manager名称"></a>自定义Manager名称</h2><p>Django默认为每个model添加一个名为objects的Manager，可以通过下面代码修改Manager名称：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    people = models.Manager()</span><br></pre></td></tr></table></figure></p>
-<p>此后使用Person.objects会抛出异常，但可以使用Person.people.all()查询</p>
-<h2 id="添加额外的Manager"><a href="#添加额外的Manager" class="headerlink" title="添加额外的Manager"></a>添加额外的Manager</h2><p>目的是为Model增加“表级”的功能<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PollManager</span><span class="params">(models.Manager)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">with_counts</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">from</span> django.db <span class="keyword">import</span> connection</span><br><span class="line">        <span class="keyword">with</span> connection.cursor() <span class="keyword">as</span> cursor:</span><br><span class="line">            cursor.execute(<span class="string">"""</span></span><br><span class="line"><span class="string">                SELECT p.id, p.question, p.poll_date, COUNT(*)</span></span><br><span class="line"><span class="string">                FROM polls_opinionpoll p, polls_response r</span></span><br><span class="line"><span class="string">                WHERE p.id = r.poll_id</span></span><br><span class="line"><span class="string">                GROUP BY p.id, p.question, p.poll_date</span></span><br><span class="line"><span class="string">                ORDER BY p.poll_date DESC"""</span>)</span><br><span class="line">            result_list = []</span><br><span class="line">            <span class="keyword">for</span> row <span class="keyword">in</span> cursor.fetchall():</span><br><span class="line">                p = self.model(id=row[<span class="number">0</span>], question=row[<span class="number">1</span>], poll_date=row[<span class="number">2</span>])</span><br><span class="line">                p.num_responses = row[<span class="number">3</span>]</span><br><span class="line">                result_list.append(p)</span><br><span class="line">        <span class="keyword">return</span> result_list</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OpinionPoll</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    question = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">    poll_date = models.DateField()</span><br><span class="line">    objects = PollManager()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Response</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    poll = models.ForeignKey(OpinionPoll, on_delete=models.CASCADE)</span><br><span class="line">    person_name = models.CharField(max_length=<span class="number">50</span>)</span><br><span class="line">    response = models.TextField()</span><br></pre></td></tr></table></figure></p>
-<h2 id="修改Manager的初始QuerySet"><a href="#修改Manager的初始QuerySet" class="headerlink" title="修改Manager的初始QuerySet"></a>修改Manager的初始QuerySet</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AuthorManager</span><span class="params">(models.Manager)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_queryset</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> super(AuthorManager, self).get_queryset().filter(role=<span class="string">'A'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EditorManager</span><span class="params">(models.Manager)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_queryset</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> super(EditorManager, self).get_queryset().filter(role=<span class="string">'E'</span>)</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    first_name = models.CharField(max_length=<span class="number">50</span>)</span><br><span class="line">    last_name = models.CharField(max_length=<span class="number">50</span>)</span><br><span class="line">    role = models.CharField(max_length=<span class="number">1</span>, choices=((<span class="string">'A'</span>, _(<span class="string">'Author'</span>)), (<span class="string">'E'</span>, _(<span class="string">'Editor'</span>))))</span><br><span class="line">    people = models.Manager()</span><br><span class="line">    authors = AuthorManager()</span><br><span class="line">    editors = EditorManager()</span><br></pre></td></tr></table></figure>
-<h2 id="默认管理器"><a href="#默认管理器" class="headerlink" title="默认管理器"></a>默认管理器</h2><p>Model._defult_manager<br>如果使用自定义的Manager对象，要注意Django遇到的第一个Manager会成为默认Manager，拥有特殊地位，有些部分只能使用默认Manager.<br>可以使用Meta.default_manager_name自定义默认管理器</p>
-<h2 id="基管理器"><a href="#基管理器" class="headerlink" title="基管理器"></a>基管理器</h2><p>Mode._base_manager</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/03/Notes《系统架构设计师-希赛》（二）操作系统/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/03/Notes《系统架构设计师-希赛》（二）操作系统/" itemprop="url">Notes《系统架构设计师-希赛》（二）操作系统</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T17:02:41+08:00">
-                2018-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/03/Django-ORM-HstoreExtension/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/03/Django-ORM-HstoreExtension/" itemprop="url">Django-ORM-HstoreExtension</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T15:08:47+08:00">
-                2018-01-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/ORM/" itemprop="url" rel="index">
-                    <span itemprop="name">ORM</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>使用HstoreField创建Model字段,使用前必须保证数据库已经安装扩展，详见Django-DB-Migration-Operations<br><figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.postgres.fields <span class="keyword">import</span> HStoreField</span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    name = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">    data = HStoreField()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>  <span class="comment"># __unicode__ on Python 2</span></span><br><span class="line">        <span class="keyword">return</span> self.name</span><br></pre></td></tr></table></figure></p>
+          <p>SQL/MED是SQL语言中管理外部数据的一个扩展标准，MED=‘Management of External Data’。PgSQL可以通过SQL/MED访问其他各种异构数据库或其他PgSQL。</p>
+<h2 id="SQL-MED标准中的四类数据库对象"><a href="#SQL-MED标准中的四类数据库对象" class="headerlink" title="SQL/MED标准中的四类数据库对象"></a>SQL/MED标准中的四类数据库对象</h2><ol>
+<li>Foreign Data Wrapper：外部数据包装器（FDW），相当于定义外部数据驱动；</li>
+<li>Server：外部数据服务器，相当于定义一个外部数据源，需要指定它的FDW；</li>
+<li>User Mapping：用户映射，把Server的用户映射到本地用户，用户控制权限；</li>
+<li>Foreign Table：外部表，把外部数据源应设成数据库中的一张外部表；</li>
+</ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/03/Django-ORM-HstoreExtension/#more" rel="contents">
+            <a class="btn" href="/2018/02/28/SQL-MED/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -972,7 +726,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/03/Django-DB-Migration-Operations/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/pgSQL集群工具PLproxy——部署/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -991,7 +745,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/03/Django-DB-Migration-Operations/" itemprop="url">Django-DB-Migration-Operations</a></h1>
+                <a class="post-title-link" href="/2018/02/27/pgSQL集群工具PLproxy——部署/" itemprop="url">pgSQL集群工具PLproxy——部署</a></h1>
         
 
         <div class="post-meta">
@@ -1003,8 +757,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-03T14:20:05+08:00">
-                2018-01-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T17:00:48+08:00">
+                2018-02-27
               </time>
             
 
@@ -1026,8 +780,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
                   </a>
                 </span>
 
@@ -1037,8 +791,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/DB/" itemprop="url" rel="index">
-                    <span itemprop="name">DB</span>
+                  <a href="/categories/PostgreSQL/Extension/" itemprop="url" rel="index">
+                    <span itemprop="name">Extension</span>
                   </a>
                 </span>
 
@@ -1075,14 +829,174 @@
 
       
         
-          <p>本文主要讲述使用迁移文件对PostgreSQL创建扩展，比如hstore扩展：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> django.contrib.postgres.operations <span class="keyword">import</span> HStoreExtension</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Migration</span><span class="params">(migrations.Migration)</span>:</span></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    operations = [</span><br><span class="line">        HStoreExtension(),</span><br><span class="line">        ...</span><br><span class="line">    ]</span><br></pre></td></tr></table></figure></p>
+          <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><h3 id="下载安装pgsql-9-6"><a href="#下载安装pgsql-9-6" class="headerlink" title="下载安装pgsql-9.6"></a>下载安装pgsql-9.6</h3><p>(可根据需要版本替换命令中的版本号)<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm</span><br><span class="line">yum install postgresql96</span><br><span class="line">yum install postgresql96-server</span><br></pre></td></tr></table></figure></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/27/pgSQL集群工具PLproxy——部署/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/PL-pgSQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/26/PL-pgSQL/" itemprop="url">PL/pgSQL</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-26T14:05:09+08:00">
+                2018-02-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/Usage/" itemprop="url" rel="index">
+                    <span itemprop="name">Usage</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>PL/pgSQL是PstgreSQL数据库系统的一个可加载的过程语言，可以：</p>
 <ul>
-<li>创建扩展需要db的superuser权限，否则在migrate时报错；</li>
-<li>请在创建HStoreField前执行上述代码，或手动在psql中创建 create extension if not exists hstore;</li>
+<li>用于创建函数和触发器过程</li>
+<li>为SQL语言增加控制结构</li>
+<li>执行复杂的计算</li>
+<li>继承所有用户定义类型、函数、操作符</li>
+<li>定义为被服务器信任的语言</li>
 </ul>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/03/Django-DB-Migration-Operations/#more" rel="contents">
+            <a class="btn" href="/2018/02/26/PL-pgSQL/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1133,7 +1047,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/Django-Model-Field-Types/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/23/《数据仓库》第三章-设计数据仓库2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -1152,7 +1066,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/01/02/Django-Model-Field-Types/" itemprop="url">Django-Model-Field-Types</a></h1>
+                <a class="post-title-link" href="/2018/02/23/《数据仓库》第三章-设计数据仓库2/" itemprop="url">《数据仓库》第三章-设计数据仓库2</a></h1>
         
 
         <div class="post-meta">
@@ -1164,322 +1078,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T16:52:25+08:00">
-                2018-01-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
-                    <span itemprop="name">Model</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Django默认提供多种字段类型，如CharField，BooleanField等，也可以扩展字段类型；</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/02/Django-Model-Field-Types/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/02/Django-Model-Field-Options/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/02/Django-Model-Field-Options/" itemprop="url">Django-Model-Field-Options</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-02T15:44:26+08:00">
-                2018-01-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
-                    <span itemprop="name">Model</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>所有字段都可以通过选项进行约束和控制<br><figure class="highlight python"><figcaption><span>models.py</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Content</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    title = models.CharField(_(<span class="string">'Title'</span>), max_length=<span class="number">500</span>)</span><br><span class="line">    description = models.TextField(_(<span class="string">'Description'</span>), blank=<span class="keyword">True</span>)</span><br><span class="line">    created_at = models.DateTimeField(_(<span class="string">'Created At'</span>), null=<span class="keyword">True</span>, editable=<span class="keyword">False</span>, default=timezone.now)</span><br><span class="line">    author = models.ForeignKey(User, verbose_name=_(<span class="string">'Author'</span>), related_name=<span class="string">'posted_articles'</span>, null=<span class="keyword">True</span>)</span><br><span class="line">    source_name = models.CharField(_(<span class="string">'Article Source'</span>), null=<span class="keyword">True</span>, blank=<span class="keyword">True</span>, default=<span class="string">''</span>, max_length=<span class="number">100</span>,</span><br><span class="line">                                   help_text=_(<span class="string">'Input source of the article, e.g. 39health, for App showcasing.'</span>))</span><br><span class="line">    review_status = models.IntegerField(_(<span class="string">'Review Status'</span>),</span><br><span class="line">                                        choices=REVIEW_STATUS_CHOICES, default=REVIEW_STATUS.NOT_YET)</span><br><span class="line">    reviewer = models.ForeignKey(User, verbose_name=_(<span class="string">'Reviewer'</span>), related_name=<span class="string">'reviewed_articles'</span>, null=<span class="keyword">True</span>)</span><br><span class="line">    reviewed_at = models.DateTimeField(_(<span class="string">'Reviewed At'</span>), null=<span class="keyword">True</span>, editable=<span class="keyword">False</span>)</span><br></pre></td></tr></table></figure></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/02/Django-Model-Field-Options/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/" itemprop="url">Notes《系统架构设计师-希赛》（一）计算机组成与体系结构</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-01T18:02:34+08:00">
-                2018-01-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-23T17:06:27+08:00">
+                2018-02-23
               </time>
             
 
@@ -1512,8 +1112,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Notes/《系统架构设计师》（希赛）/" itemprop="url" rel="index">
-                    <span itemprop="name">《系统架构设计师》（希赛）</span>
+                  <a href="/categories/Notes/《数据仓库》/" itemprop="url" rel="index">
+                    <span itemprop="name">《数据仓库》</span>
                   </a>
                 </span>
 
@@ -1550,31 +1150,22 @@
 
       
         
-          <h1 id="第一章-计算机组成与体系结构"><a href="#第一章-计算机组成与体系结构" class="headerlink" title="第一章 计算机组成与体系结构"></a>第一章 计算机组成与体系结构</h1><h2 id="1-1-计算机系统组成"><a href="#1-1-计算机系统组成" class="headerlink" title="1.1 计算机系统组成"></a>1.1 计算机系统组成</h2><p>计算机系统是一个硬件和软件的综合体。</p>
-<h3 id="1-1-1-计算机硬件的组成"><a href="#1-1-1-计算机硬件的组成" class="headerlink" title="1.1.1 计算机硬件的组成"></a>1.1.1 计算机硬件的组成</h3><p>以运算器为中心 -&gt; 以存储器为中心</p>
+          <h2 id="转换和集成的复杂性"><a href="#转换和集成的复杂性" class="headerlink" title="转换和集成的复杂性"></a>转换和集成的复杂性</h2><p>在数据从操作型环境到数据仓库环境的转换和集成中需要完成的一些功能（ETL）：</p>
 <ol>
-<li>控制器：分析和执行指令<ul>
-<li>程序计数器PC：存储下一条执行指令的地址</li>
-<li>指令寄存器IR：存储即将执行的指令</li>
-<li>指令译码器ID：对指令中的操作码字段进行分析解释</li>
-<li>时序部件：提供时序控制信号</li>
-</ul>
-</li>
-<li>运算器：<ul>
-<li>算术逻辑单元ALU：数据的算术运算和逻辑运算</li>
-<li>累加寄存器AC：通用寄存器，为ALU提供一个工作区暂存数据</li>
-<li>数据缓冲寄存器DR：写内存时，暂存指令或数据</li>
-<li>状态条件寄存器PSW：存状态标志和控制标志</li>
-</ul>
-</li>
-<li>主存储器（内存）：存储现场操作的信息与中间结果</li>
-<li>辅助存储器（外存）</li>
-<li>输入设备</li>
-<li>输出设备</li>
+<li>操作型数据库数据查询，数据仓库的数据写入</li>
+<li>操作型数据库多表联合查询</li>
+<li>加入时间成分</li>
+<li>非关键字数据格式化</li>
+<li>数据清理：取值范围检查、交叉记录验证、格式验证</li>
+<li>多数据源合并</li>
+<li>多数据源的关键字解析、排序</li>
+<li>多个输出结果（因为产生不同的综合层次）</li>
+<li>提供默认值</li>
+<li>…</li>
 </ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/01/01/Notes《系统架构设计师-希赛》（一）计算机组成与体系结构/#more" rel="contents">
+            <a class="btn" href="/2018/02/23/《数据仓库》第三章-设计数据仓库2/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1625,7 +1216,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/Django-Model-Inheritance/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/11/《数据仓库》第三章-设计数据仓库1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -1644,7 +1235,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/28/Django-Model-Inheritance/" itemprop="url">Django-Model-Inheritance(模型继承)</a></h1>
+                <a class="post-title-link" href="/2018/02/11/《数据仓库》第三章-设计数据仓库1/" itemprop="url">《数据仓库》第三章-设计数据仓库1</a></h1>
         
 
         <div class="post-meta">
@@ -1656,8 +1247,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-28T16:20:44+08:00">
-                2017-12-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-11T23:41:26+08:00">
+                2018-02-11
               </time>
             
 
@@ -1679,8 +1270,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
                   </a>
                 </span>
 
@@ -1690,8 +1281,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Model/" itemprop="url" rel="index">
-                    <span itemprop="name">Model</span>
+                  <a href="/categories/Notes/《数据仓库》/" itemprop="url" rel="index">
+                    <span itemprop="name">《数据仓库》</span>
                   </a>
                 </span>
 
@@ -1728,19 +1319,457 @@
 
       
         
-          <p>所有的类都继承自django.db.models.Model<br>Django中由三种风格的继承：</p>
+          <p>建造数据仓库主要包括两个部分的工作:</p>
 <ol>
-<li>如果只想使用父类来持有一些信息供多子类继承，则把父类定义成<strong>抽象基类</strong>（不自动生成数据表）</li>
-<li>如果继承一个非抽象的基类，则两个模型都有自己的数据表，那么应该是用<strong>多表继承</strong></li>
-<li>如果只是想改变一个模块python级别的行为，而不用修改模型的字段，可以使用<strong>代理模型</strong></li>
+<li>与操作型系统结构的设计</li>
+<li>数据仓库本身的设计</li>
 </ol>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/12/28/Django-Model-Inheritance/#more" rel="contents">
+            <a class="btn" href="/2018/02/11/《数据仓库》第三章-设计数据仓库1/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/《数据仓库》第二章-数据仓库环境/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/09/《数据仓库》第二章-数据仓库环境/" itemprop="url">《数据仓库》第二章-数据仓库环境</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T16:24:10+08:00">
+                2018-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Notes</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Notes/《数据仓库》/" itemprop="url" rel="index">
+                    <span itemprop="name">《数据仓库》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>数据仓库不是一次建成的，因为用户是在发现模式下，只有通过开发迭代，才能确定数据仓库应该包含什么，怎么处理数据。</p>
+<h2 id="数据仓库的特性"><a href="#数据仓库的特性" class="headerlink" title="数据仓库的特性"></a>数据仓库的特性</h2><ul>
+<li>面向主题</li>
+<li>数据集成，从操作型环境传输进来时对数据进行集成（统一编码，统一单位，统一关键字类型，多数据源等）</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/09/《数据仓库》第二章-数据仓库环境/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/09/Postgresql-WAL日志/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/09/Postgresql-WAL日志/" itemprop="url">Postgresql-WAL日志</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-09T11:23:18+08:00">
+                2018-02-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">PostgreSQL</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PostgreSQL/Configure/" itemprop="url" rel="index">
+                    <span itemprop="name">Configure</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>WAL(Write Ahead Log)，类似oracle中的redo log，作用是保证数据的一致性和事务的完整性，防止系统崩溃时最近的事务无法恢复；不同点是，可以关闭WAL来提高保存性能，但可用性会降低。</p>
+<p>WAL信息一般记录在pg_xlog文件中，默认大小是16M，源码安装时可以更改其大小。这些信息通常是名字类似’000000010000000000000013’这样的文件。</p>
+<h2 id="WAL相关的参数："><a href="#WAL相关的参数：" class="headerlink" title="WAL相关的参数："></a>WAL相关的参数：</h2>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/09/Postgresql-WAL日志/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/Django-QuerySet-API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/25/Django-QuerySet-API/" itemprop="url">Django-QuerySet-API</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-25T15:11:21+08:00">
+                2018-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
         
       
     </div>
@@ -1778,7 +1807,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1828,7 +1857,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1839,7 +1868,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1850,7 +1879,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
