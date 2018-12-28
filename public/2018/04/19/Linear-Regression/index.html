@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Sean&#39;s Notes">
 <meta property="og:description" content="基本形式$$f(x)=\omega^Tx+b$$线性回归试图学得 $f(x_i)=\omega^Tx_i+b$ ,使得 $f(x_i)\approx y_i$  一元线性回归使用最小二乘法（least square method）进行参数估计（parameter estimation）$$(\omega^*,b^*)=arg min\sum_{i=1}^m{(f(x_i)-y_i)^2}=arg">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-20T02:40:33.406Z">
+<meta property="og:updated_time" content="2018-04-23T03:23:25.738Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linear_Regression">
 <meta name="twitter:description" content="基本形式$$f(x)=\omega^Tx+b$$线性回归试图学得 $f(x_i)=\omega^Tx_i+b$ ,使得 $f(x_i)\approx y_i$  一元线性回归使用最小二乘法（least square method）进行参数估计（parameter estimation）$$(\omega^*,b^*)=arg min\sum_{i=1}^m{(f(x_i)-y_i)^2}=arg">
@@ -359,7 +359,7 @@
 
       
         <h2 id="基本形式"><a href="#基本形式" class="headerlink" title="基本形式"></a>基本形式</h2><p>$$f(x)=\omega^Tx+b$$<br>线性回归试图学得 $f(x_i)=\omega^Tx_i+b$ ,使得 $f(x_i)\approx y_i$ </p>
-<h2 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h2><p>使用最小二乘法（least square method）进行参数估计（parameter estimation）<br><span>$$(\omega^*,b^*)=arg min\sum_{i=1}^m{(f(x_i)-y_i)^2}=arg min\sum_{i=1}^m{(y_i-\omegax_i-b)^2}$$</span><!-- Has MathJax --></p>
+<h2 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h2><p>使用最小二乘法（least square method）进行参数估计（parameter estimation）<br><span>$$(\omega^*,b^*)=arg min\sum_{i=1}^m{(f(x_i)-y_i)^2}=arg min\sum_{i=1}^m{(y_i-\omega x_i-b)^2}$$</span><!-- Has MathJax --></p>
 <p>基于上式对$\omega和b$求偏导，并令其为0，可得到$\omega和b$的最有闭式解</p>
 <h2 id="多元线性回归（multivariate-linear-regression）"><a href="#多元线性回归（multivariate-linear-regression）" class="headerlink" title="多元线性回归（multivariate linear regression）"></a>多元线性回归（multivariate linear regression）</h2><p>更一般的，样本有多个属性描述（多个特征）<br>简化一下公式，可以把$\omega和b$吸收入向量形式$\hat{\omega}=(\omega;b)$，把数据集D表示成为一个m*（d+1）矩阵<br><span>$$X=\begin{bmatrix}
 {x_{11}}&amp;{x_{12}}&amp;{\cdots}&amp;{x_{1n}}&amp;{1}\\
@@ -367,7 +367,14 @@
 {\vdots}&amp;{\vdots}&amp;{\ddots}&amp;{\vdots}&amp;{\vdots}\\
 {x_{m1}}&amp;{x_{m2}}&amp;{\cdots}&amp;{x_{mn}}&amp;{1}\\
 \end{bmatrix}$$</span><!-- Has MathJax --></p>
-<p>此时，$f(x_i)=\omega^Tx_i+b_i=X\hat{\omega}$</p>
+<p>此时，$f(x_i)=\omega^Tx_i+b_i=X\hat{\omega}$<br><span>$\hat{\omega}^*=argmin(y-X\hat{\omega})^T(y-X\hat{\omega})$</span><!-- Has MathJax --></p>
+<h2 id="广义线性模型（generalized-linear-model）"><a href="#广义线性模型（generalized-linear-model）" class="headerlink" title="广义线性模型（generalized linear model）"></a>广义线性模型（generalized linear model）</h2><p>$g(y)=\omega^Tx+b$ 或者 $y=g^{-1}(\omega^Tx+b)$,其中g为联系函数（link function）<br>例如：对数线性回归（log-linear regression）：$lny=\omega^Tx+b$</p>
+<p>为了解决二分类问题，从线性回归$z=\omega^Tx+b$出发，定义“单位阶跃函数”（unit-step function）<br><span>$$y=\begin{cases}
+0,\quad z&lt;0;\\
+0.5,\quad&Tab;z=0;\\
+1,\quad&Tab;&Tab;z&gt;0;\\
+\end{cases}$$</span><!-- Has MathJax --></p>
+<p>但是单位阶跃函数不是连续的，不可微，因此需要找一个替代函数（surrogate function）<br>对数几率行数（logistic function） $y=\frac{1}{1+e^{-z}}$ 符合条件并比较常用，它是一种“Sigmoid函数”,代入得到下式：<br>$$y=\frac{1}{1+e^{-(\omega^Tx+b)}} \quad或者\quad ln{\frac{y}{1-y}}=\omega^Tx+b$$<br>若将y视为样本x作为正例的可能性，则1-y则是反例可能性，两者的比值$\frac{y}{1-y}$称为“几率”（odds）,$ln{\frac{y}{1-y}}$称为“对数几率”（logit）</p>
 
       
     </div>
@@ -410,8 +417,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/20/极大似然法/" rel="prev" title="极大似然法">
-                极大似然法 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/04/20/极大似然法/" rel="prev" title="极大似然法和最小二乘法">
+                极大似然法和最小二乘法 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -491,7 +498,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">67</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -502,7 +509,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -513,7 +520,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -548,7 +555,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本形式"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x57FA;&#x672C;&#x5F62;&#x5F0F;" class="headerlink" title="&#x57FA;&#x672C;&#x5F62;&#x5F0F;"></a>&#x57FA;&#x672C;&#x5F62;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一元线性回归"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E00;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;" class="headerlink" title="&#x4E00;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;"></a>&#x4E00;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多元线性回归（multivariate-linear-regression）"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x591A;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#xFF08;multivariate-linear-regression&#xFF09;" class="headerlink" title="&#x591A;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#xFF08;multivariate linear regression&#xFF09;"></a>&#x591A;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#xFF08;multivariate linear regression&#xFF09;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本形式"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x57FA;&#x672C;&#x5F62;&#x5F0F;" class="headerlink" title="&#x57FA;&#x672C;&#x5F62;&#x5F0F;"></a>&#x57FA;&#x672C;&#x5F62;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一元线性回归"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E00;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;" class="headerlink" title="&#x4E00;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;"></a>&#x4E00;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多元线性回归（multivariate-linear-regression）"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x591A;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#xFF08;multivariate-linear-regression&#xFF09;" class="headerlink" title="&#x591A;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#xFF08;multivariate linear regression&#xFF09;"></a>&#x591A;&#x5143;&#x7EBF;&#x6027;&#x56DE;&#x5F52;&#xFF08;multivariate linear regression&#xFF09;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#广义线性模型（generalized-linear-model）"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#xFF08;generalized-linear-model&#xFF09;" class="headerlink" title="&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#xFF08;generalized linear model&#xFF09;"></a>&#x5E7F;&#x4E49;&#x7EBF;&#x6027;&#x6A21;&#x578B;&#xFF08;generalized linear model&#xFF09;</span></a></li></ol></div>
             
 
           </div>

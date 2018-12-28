@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,Grammer," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="属性动态语言：可以在运行的过程中，修改代码静态语言：编译时已经确定好代码，运行过程中不能修改 为对象动态添加属性类外使用点语法直接增加实例属性，类属性 为对象动态添加方法123456789101112class Person(object):	def __init__(self, name=None, age=None):    	self.name=name        self.age=ag">
+<meta name="keywords" content="Python,Grammer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python语法小结（二）属性和内存管理">
+<meta property="og:url" content="http://yoursite.com/2018/05/08/python语法小结（二）/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="属性动态语言：可以在运行的过程中，修改代码静态语言：编译时已经确定好代码，运行过程中不能修改 为对象动态添加属性类外使用点语法直接增加实例属性，类属性 为对象动态添加方法123456789101112class Person(object):	def __init__(self, name=None, age=None):    	self.name=name        self.age=ag">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-09T05:52:06.781Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python语法小结（二）属性和内存管理">
+<meta name="twitter:description" content="属性动态语言：可以在运行的过程中，修改代码静态语言：编译时已经确定好代码，运行过程中不能修改 为对象动态添加属性类外使用点语法直接增加实例属性，类属性 为对象动态添加方法123456789101112class Person(object):	def __init__(self, name=None, age=None):    	self.name=name        self.age=ag">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/08/python语法小结（二）/"/>
+
+
+
+
+
+  <title>python语法小结（二）属性和内存管理 | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/08/python语法小结（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python语法小结（二）属性和内存管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-08T16:47:48+08:00">
+                2018-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Grammer/" itemprop="url" rel="index">
+                    <span itemprop="name">Grammer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>动态语言：可以在运行的过程中，修改代码<br>静态语言：编译时已经确定好代码，运行过程中不能修改</p>
+<h3 id="为对象动态添加属性"><a href="#为对象动态添加属性" class="headerlink" title="为对象动态添加属性"></a>为对象动态添加属性</h3><p>类外使用点语法直接增加实例属性，类属性</p>
+<h3 id="为对象动态添加方法"><a href="#为对象动态添加方法" class="headerlink" title="为对象动态添加方法"></a>为对象动态添加方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name=None, age=None)</span>:</span></span><br><span class="line">    	self.name=name</span><br><span class="line">        self.age=age</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, speed)</span>:</span></span><br><span class="line">	print(<span class="string">'123'</span>)</span><br><span class="line">    </span><br><span class="line">P1 = Person(<span class="string">'zs'</span>, <span class="string">'25'</span>)</span><br><span class="line"><span class="keyword">import</span> types</span><br><span class="line">P1.run = types.MethodType(run, P1)</span><br><span class="line">P1.run(<span class="number">180</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="为类添加类方法-静态方法"><a href="#为类添加类方法-静态方法" class="headerlink" title="为类添加类方法/静态方法"></a>为类添加类方法/静态方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@classmethod/@staticmethod</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(cls)</span>:</span></span><br><span class="line">	print(<span class="string">'classmethod/staticmethod'</span>)</span><br><span class="line">Person.fun = fun</span><br></pre></td></tr></table></figure>
+<h3 id="限制修改对象的属性"><a href="#限制修改对象的属性" class="headerlink" title="限制修改对象的属性"></a>限制修改对象的属性</h3><p><strong>slots</strong>只对当前类起作用，继承的子类不受影响<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line">	__slots__ = (<span class="string">'name'</span>,<span class="string">'age'</span>)</span><br><span class="line"></span><br><span class="line">p = Person()</span><br><span class="line">p.score = <span class="number">100</span> <span class="comment">#报错，无法添加</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h3><ul>
+<li>装饰器函数其实是这样一个接口约束，它必须接受一个callable对象作为参数，然后返回一个callable对象。</li>
+<li>一般callable对象都是函数，但也有例外。只要某个对象重写了<strong>call</strong>()方法，那么这个对象就是callable的</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self)</span>:</span></span><br><span class="line">    	print(<span class="string">'call me!'</span>)</span><br><span class="line">t = Test()</span><br><span class="line">t()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, func)</span>:</span></span><br><span class="line">        print(<span class="string">'init'</span>)</span><br><span class="line">        print(<span class="string">'func name is %s'</span>%func.__name__)</span><br><span class="line">        self.__func = func</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        print(<span class="string">'decorator'</span>)</span><br><span class="line">        self.__func()</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test #生成Test的一个对象，所以会调用__init__方法，并且把下面装饰的函数作为参数传进去</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'---test---'</span>)</span><br><span class="line"></span><br><span class="line">test() <span class="comment">#实际调用的是Test一个对象的__call__方法</span></span><br></pre></td></tr></table></figure>
+<h3 id="属性访问拦截器"><a href="#属性访问拦截器" class="headerlink" title="属性访问拦截器"></a>属性访问拦截器</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">School</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, subject1)</span>:</span></span><br><span class="line">        self.subject1 = subject1</span><br><span class="line">        self.subject2 = <span class="string">'cpp'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattribute__</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> item == <span class="string">'subject1'</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'redirect python'</span> <span class="comment"># 拦截并修改返回值</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> object.__getattribute__(self, item) <span class="comment">#正常返回值</span></span><br><span class="line"></span><br><span class="line">s = School(<span class="string">'python'</span>)</span><br><span class="line">print(s.subject1)</span><br><span class="line">print(s.subject2)</span><br></pre></td></tr></table></figure>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><h3 id="对象池"><a href="#对象池" class="headerlink" title="对象池"></a>对象池</h3><p>python为了优化速度，使用对象池，即等值变量使用引用计数，不重复开辟内存空间</p>
+<h3 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h3><p>引用计数+1：</p>
+<ul>
+<li>对象被创建，a=24</li>
+<li>对象被引用, b=a</li>
+<li>对象呗作为参数传入到一个函数中, func(a)</li>
+<li>对象作为一个元素，存储在容器中, list = [a]</li>
+</ul>
+<p>引用计数-1：</p>
+<ul>
+<li>对象的别名被显式小会，del a</li>
+<li>对象别名被赋予新的对象，a=24</li>
+<li>对象离开作用域，函数func执行完毕</li>
+<li>对象所在容器被销毁，或从容器中删除对象</li>
+</ul>
+<p>查看引用计数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.getrefcount(arg)</span><br></pre></td></tr></table></figure></p>
+<h3 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h3><p>gc模块唯一处理不了的是循环引用的类都有<strong>del</strong>方法，所以在项目中要避免定义<strong>del</strong>方法<br>触发点：</p>
+<ul>
+<li>调用gc.collect()</li>
+<li>当gc模块的技术器达到阈值的时候</li>
+<li>程序退出的时候</li>
+</ul>
+<h2 id="内建函数"><a href="#内建函数" class="headerlink" title="内建函数"></a>内建函数</h2><h3 id="高级函数"><a href="#高级函数" class="headerlink" title="高级函数"></a>高级函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">range(start, stop [, step]) <span class="comment">#默认是从0开始，左闭右开</span></span><br><span class="line">map(function, sequence[, sequence, ...])</span><br><span class="line">filter(function <span class="keyword">or</span> <span class="keyword">None</span>, sequence)</span><br><span class="line"><span class="comment"># reduce函数在python3中需要引用 from functools import reduce</span></span><br><span class="line">reduce(function, sequence[, initial])</span><br></pre></td></tr></table></figure>
+<h3 id="partial偏函数"><a href="#partial偏函数" class="headerlink" title="partial偏函数"></a>partial偏函数</h3><p>把一个函数的某些参数设置成默认值，返回一个新的函数，调用这个新函数会更简单<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">showarg</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    print(args)</span><br><span class="line">    print(kwargs)</span><br><span class="line"></span><br><span class="line">p1 = functools.partial(showarg, <span class="number">1</span>, a=<span class="string">'zs'</span>)</span><br><span class="line">p1()</span><br><span class="line">p1(<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="wraps包装器函数"><a href="#wraps包装器函数" class="headerlink" title="wraps包装器函数"></a>wraps包装器函数</h3><p>使用装饰器是，被装饰后的函数其实已经是另外一个函数了（函数名等函数属性会发生改变），wraps的装饰器可以消除这样的副作用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">note</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="string">"note function"</span></span><br><span class="line"><span class="meta">    @functools.wraps(func)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="string">"wrapper function"</span></span><br><span class="line">        print(<span class="string">"note something"</span>)</span><br><span class="line">        <span class="keyword">return</span> func()</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@note</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"test function"</span></span><br><span class="line">    print(<span class="string">"i am test"</span>)</span><br><span class="line">    </span><br><span class="line">test()</span><br><span class="line">print(test.__doc__)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Grammer/" rel="tag"># Grammer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/05/python语法小结（一）/" rel="next" title="python语法小结（一）">
+                <i class="fa fa-chevron-left"></i> python语法小结（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/09/python语法小结（三）进程和线程/" rel="prev" title="python语法小结（三）进程、线程和协程">
+                python语法小结（三）进程、线程和协程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#属性"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x5C5E;&#x6027;" class="headerlink" title="&#x5C5E;&#x6027;"></a>&#x5C5E;&#x6027;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为对象动态添加属性"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x4E3A;&#x5BF9;&#x8C61;&#x52A8;&#x6001;&#x6DFB;&#x52A0;&#x5C5E;&#x6027;" class="headerlink" title="&#x4E3A;&#x5BF9;&#x8C61;&#x52A8;&#x6001;&#x6DFB;&#x52A0;&#x5C5E;&#x6027;"></a>&#x4E3A;&#x5BF9;&#x8C61;&#x52A8;&#x6001;&#x6DFB;&#x52A0;&#x5C5E;&#x6027;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为对象动态添加方法"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x4E3A;&#x5BF9;&#x8C61;&#x52A8;&#x6001;&#x6DFB;&#x52A0;&#x65B9;&#x6CD5;" class="headerlink" title="&#x4E3A;&#x5BF9;&#x8C61;&#x52A8;&#x6001;&#x6DFB;&#x52A0;&#x65B9;&#x6CD5;"></a>&#x4E3A;&#x5BF9;&#x8C61;&#x52A8;&#x6001;&#x6DFB;&#x52A0;&#x65B9;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为类添加类方法-静态方法"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x4E3A;&#x7C7B;&#x6DFB;&#x52A0;&#x7C7B;&#x65B9;&#x6CD5;-&#x9759;&#x6001;&#x65B9;&#x6CD5;" class="headerlink" title="&#x4E3A;&#x7C7B;&#x6DFB;&#x52A0;&#x7C7B;&#x65B9;&#x6CD5;/&#x9759;&#x6001;&#x65B9;&#x6CD5;"></a>&#x4E3A;&#x7C7B;&#x6DFB;&#x52A0;&#x7C7B;&#x65B9;&#x6CD5;/&#x9759;&#x6001;&#x65B9;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#限制修改对象的属性"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x9650;&#x5236;&#x4FEE;&#x6539;&#x5BF9;&#x8C61;&#x7684;&#x5C5E;&#x6027;" class="headerlink" title="&#x9650;&#x5236;&#x4FEE;&#x6539;&#x5BF9;&#x8C61;&#x7684;&#x5C5E;&#x6027;"></a>&#x9650;&#x5236;&#x4FEE;&#x6539;&#x5BF9;&#x8C61;&#x7684;&#x5C5E;&#x6027;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类装饰器"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x7C7B;&#x88C5;&#x9970;&#x5668;" class="headerlink" title="&#x7C7B;&#x88C5;&#x9970;&#x5668;"></a>&#x7C7B;&#x88C5;&#x9970;&#x5668;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性访问拦截器"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#&#x5C5E;&#x6027;&#x8BBF;&#x95EE;&#x62E6;&#x622A;&#x5668;" class="headerlink" title="&#x5C5E;&#x6027;&#x8BBF;&#x95EE;&#x62E6;&#x622A;&#x5668;"></a>&#x5C5E;&#x6027;&#x8BBF;&#x95EE;&#x62E6;&#x622A;&#x5668;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x5185;&#x5B58;&#x7BA1;&#x7406;" class="headerlink" title="&#x5185;&#x5B58;&#x7BA1;&#x7406;"></a>&#x5185;&#x5B58;&#x7BA1;&#x7406;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象池"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x5BF9;&#x8C61;&#x6C60;" class="headerlink" title="&#x5BF9;&#x8C61;&#x6C60;"></a>&#x5BF9;&#x8C61;&#x6C60;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x5F15;&#x7528;&#x8BA1;&#x6570;" class="headerlink" title="&#x5F15;&#x7528;&#x8BA1;&#x6570;"></a>&#x5F15;&#x7528;&#x8BA1;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#垃圾回收"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x5783;&#x573E;&#x56DE;&#x6536;" class="headerlink" title="&#x5783;&#x573E;&#x56DE;&#x6536;"></a>&#x5783;&#x573E;&#x56DE;&#x6536;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内建函数"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x5185;&#x5EFA;&#x51FD;&#x6570;" class="headerlink" title="&#x5185;&#x5EFA;&#x51FD;&#x6570;"></a>&#x5185;&#x5EFA;&#x51FD;&#x6570;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#高级函数"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x9AD8;&#x7EA7;&#x51FD;&#x6570;" class="headerlink" title="&#x9AD8;&#x7EA7;&#x51FD;&#x6570;"></a>&#x9AD8;&#x7EA7;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#partial偏函数"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#partial&#x504F;&#x51FD;&#x6570;" class="headerlink" title="partial&#x504F;&#x51FD;&#x6570;"></a>partial&#x504F;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wraps包装器函数"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#wraps&#x5305;&#x88C5;&#x5668;&#x51FD;&#x6570;" class="headerlink" title="wraps&#x5305;&#x88C5;&#x5668;&#x51FD;&#x6570;"></a>wraps&#x5305;&#x88C5;&#x5668;&#x51FD;&#x6570;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>

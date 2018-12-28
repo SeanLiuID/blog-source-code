@@ -249,7 +249,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/22/《大家的日语》初级1-第10课-方位/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/08/mongodb-charts Installation guide/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -268,7 +268,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/22/《大家的日语》初级1-第10课-方位/" itemprop="url">《大家的日语》初级1-第10课-方位</a></h1>
+                <a class="post-title-link" href="/2018/11/08/mongodb-charts Installation guide/" itemprop="url">Mongodb-Charts Installation guide</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +280,353 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-22T11:21:28+08:00">
-                2018-04-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-08T10:30:59+08:00">
+                2018-11-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/" itemprop="url" rel="index">
+                    <span itemprop="name">DW</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/Mongodb/" itemprop="url" rel="index">
+                    <span itemprop="name">Mongodb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><h4 id="安装Docker-CE"><a href="#安装Docker-CE" class="headerlink" title="安装Docker CE"></a>安装Docker CE</h4><p>选择清华的<a href="https://mirrors.tuna.tsinghua.edu.cn/help/docker-ce/" target="_blank" rel="noopener">镜像网站</a>会快一些,按步骤安装就好了</p>
+<h4 id="如果安装过mongodb-charts旧版本需要先卸载"><a href="#如果安装过mongodb-charts旧版本需要先卸载" class="headerlink" title="如果安装过mongodb-charts旧版本需要先卸载"></a>如果安装过mongodb-charts旧版本需要先卸载</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stack rm mongodb-charts</span><br></pre></td></tr></table></figure>
+<h3 id="安装mongodb-charts"><a href="#安装mongodb-charts" class="headerlink" title="安装mongodb-charts"></a>安装mongodb-charts</h3><h4 id="创建新文件夹"><a href="#创建新文件夹" class="headerlink" title="创建新文件夹"></a>创建新文件夹</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir mongodb-charts</span><br><span class="line">cd mongodb-charts</span><br></pre></td></tr></table></figure>
+<h4 id="下载最新版的Charts-Docker-Compose"><a href="#下载最新版的Charts-Docker-Compose" class="headerlink" title="下载最新版的Charts Docker Compose"></a>下载最新版的<a href="https://www.mongodb.com/download-center/charts" target="_blank" rel="noopener">Charts Docker Compose</a></h4><p>放入新创建的文件夹中</p>
+<h4 id="启动-Docker-Swarm"><a href="#启动-Docker-Swarm" class="headerlink" title="启动 Docker Swarm"></a>启动 Docker Swarm</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker swarm init</span><br></pre></td></tr></table></figure>
+<h4 id="拉取Charts-image"><a href="#拉取Charts-image" class="headerlink" title="拉取Charts image"></a>拉取Charts image</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull quay.io/mongodb/charts:v0.10.0</span><br></pre></td></tr></table></figure>
+<h3 id="使用mongo数据库账号测试连接"><a href="#使用mongo数据库账号测试连接" class="headerlink" title="使用mongo数据库账号测试连接"></a>使用mongo数据库账号测试连接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm quay.io/mongodb/charts:v0.10.0 charts-cli test-connection mongodb://&lt;username&gt;:&lt;password&gt;@dds-2ze66**********26-pub.mongodb.rds.aliyuncs.com:3717,dds-2ze6653********642845-pub.mongodb.rds.aliyuncs.com:3717/admin[?replicaSet=mgset-2813849]</span><br></pre></td></tr></table></figure>
+<p><strong><em>注意:</em></strong><br><strong><em>1. 如果是replica主从复制的库，要加上replicaSet参数</em></strong><br><strong><em>2. 连接的mongo用户需要有readWriteAnyDatabase权限</em></strong></p>
+<h3 id="为Charts数据源库创建一个Docker-secret"><a href="#为Charts数据源库创建一个Docker-secret" class="headerlink" title="为Charts数据源库创建一个Docker secret"></a>为Charts数据源库创建一个Docker secret</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo "mongodb://&lt;username&gt;:&lt;password&gt;@dds-2ze66**********26-pub.mongodb.rds.aliyuncs.com:3717,dds-2ze6653********642845-pub.mongodb.rds.aliyuncs.com:3717/admin[?replicaSet=mgset-2813849]" | docker secret create charts-mongodb-uri -</span><br></pre></td></tr></table></figure>
+<h3 id="为当前用户赋予docker权限"><a href="#为当前用户赋予docker权限" class="headerlink" title="为当前用户赋予docker权限"></a>为当前用户赋予docker权限</h3><p>docker守护进程启动的时候，会默认赋予名字为docker的用户组读写Unix socket的权限，因此只要创建docker用户组，并将当前用户加入到docker用户组中，那么当前用户就有权限访问Unix socket了，进而也就可以执行docker相关命令<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd docker     #添加docker用户组</span><br><span class="line">sudo gpasswd -a $USER docker     #将登陆用户加入到docker用户组中</span><br><span class="line">newgrp docker     #更新用户组</span><br><span class="line">docker ps    #测试docker命令是否可以使用sudo正常使用</span><br></pre></td></tr></table></figure></p>
+<h3 id="启动Mongodb-Charts"><a href="#启动Mongodb-Charts" class="headerlink" title="启动Mongodb-Charts"></a>启动Mongodb-Charts</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stack deploy -c charts-docker-compose-v0.10.0.yml mongodb-charts</span><br></pre></td></tr></table></figure>
+<p>检验是否启动<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker service ls</span><br></pre></td></tr></table></figure></p>
+<h3 id="创建Charts用户"><a href="#创建Charts用户" class="headerlink" title="创建Charts用户"></a>创建Charts用户</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it \</span><br><span class="line"><span class="meta">  $</span><span class="bash">(docker container ls --filter name=_charts -q) \</span></span><br><span class="line">  charts-cli add-user --first-name "&lt;First&gt;" --last-name "&lt;Last&gt;" \</span><br><span class="line">  --email "&lt;user@example.com&gt;" --password "&lt;Password&gt;" \</span><br><span class="line">  --role "&lt;UserAdmin|User&gt;"</span><br></pre></td></tr></table></figure>
+<p>接下来就可以通过80端口访问mongodb-charts了</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/Mongodb BI Connector Installation Guide/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/07/Mongodb BI Connector Installation Guide/" itemprop="url">Mongodb BI Connector Installation guide</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-07T10:30:59+08:00">
+                2018-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/" itemprop="url" rel="index">
+                    <span itemprop="name">DW</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DW/Mongodb/" itemprop="url" rel="index">
+                    <span itemprop="name">Mongodb</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Make-sure-OpenSSL-installed-on-your-host"><a href="#Make-sure-OpenSSL-installed-on-your-host" class="headerlink" title="Make sure OpenSSL installed on your host"></a>Make sure OpenSSL installed on your host</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br><span class="line">brew update</span><br><span class="line">brew install openssl</span><br></pre></td></tr></table></figure>
+<h3 id="Install-the-BI-Connector"><a href="#Install-the-BI-Connector" class="headerlink" title="Install the BI Connector"></a>Install the BI Connector</h3><p>Download the <a href="https://www.mongodb.com/download-center/bi-connector" target="_blank" rel="noopener">MongoDB Connector for BI</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvzf mongodb-bi-osx-x86_64-&#123;version&#125;.tgz</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo install -m755 bin/mongo* /usr/local/bin/</span><br></pre></td></tr></table></figure>
+<h3 id="Launch-the-BI-Connector"><a href="#Launch-the-BI-Connector" class="headerlink" title="Launch the BI Connector"></a>Launch the BI Connector</h3><h4 id="Create-schema-file-with-mongodrdl"><a href="#Create-schema-file-with-mongodrdl" class="headerlink" title="Create schema file with mongodrdl"></a>Create schema file with <a href="https://docs.mongodb.com/bi-connector/current/reference/mongodrdl" target="_blank" rel="noopener">mongodrdl</a></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// mongodb without authentication</span><br><span class="line">mongodrdl -d zly -o schema.drdl</span><br><span class="line"></span><br><span class="line">// mongodb with authentication</span><br><span class="line">sudo mongodrdl --host &lt;host:port&gt; -d &lt;databaseName&gt; -c &lt;collectionName&gt; -u opadmin -p 123456 --authenticationDatabase zlydata -o patientInfo.drdl</span><br><span class="line"></span><br><span class="line">//--host	-h	//默认localhost</span><br><span class="line">//--port 	-p	//默认27017</span><br><span class="line">//--db	-d	//指定database</span><br><span class="line">//--collecion		-c		//指定集合，默认db中的所有集合</span><br><span class="line">//--out			-o		//指定输出schema文件</span><br><span class="line"></span><br><span class="line">//--username		-u		//用户名</span><br><span class="line">//--password		-p		//密码</span><br><span class="line">//--authenticationDatabase &lt;dbname&gt;	//指定用户创建的db</span><br><span class="line">//--authenticationMechanism &lt;name&gt;	//指定认证机制，默认SCRAM-SHA-1</span><br></pre></td></tr></table></figure>
+<p><strong><em>you can create lots of schema file for different collection</em></strong></p>
+<h4 id="Starting-mongosqld-with-a-Schema-File"><a href="#Starting-mongosqld-with-a-Schema-File" class="headerlink" title="Starting mongosqld with a Schema File"></a>Starting <a href="https://docs.mongodb.com/bi-connector/current/reference/mongosqld/" target="_blank" rel="noopener">mongosqld</a> with a Schema File</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongosqld --schema schema.drdl</span><br></pre></td></tr></table></figure>
+<h4 id="OR-Starting-mongosqld-with-a-Config-File"><a href="#OR-Starting-mongosqld-with-a-Config-File" class="headerlink" title="OR Starting mongosqld with a Config File"></a>OR Starting mongosqld with a Config File</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">//mongosqld.config</span></span><br><span class="line"><span class="attr">mongodb:</span></span><br><span class="line"><span class="attr">  net:</span></span><br><span class="line"><span class="attr">    uri:</span> <span class="string">dds-2ze665***********6-pub.mongodb.rds.aliyuncs.com:3717</span></span><br><span class="line"><span class="attr">    auth:</span></span><br><span class="line"><span class="attr">      username:</span> <span class="string">"opadmin"</span></span><br><span class="line"><span class="attr">      password:</span> <span class="string">"123456"</span></span><br><span class="line"><span class="attr">      mechanism:</span> <span class="string">"SCRAM-SHA-1"</span></span><br><span class="line"><span class="attr">      source:</span> <span class="string">"zlydata"</span></span><br><span class="line"><span class="attr">security:</span></span><br><span class="line"><span class="attr">  enabled:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">net:</span></span><br><span class="line"><span class="attr">  bindIp:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">3307</span></span><br><span class="line"> </span><br><span class="line"><span class="attr">schema:</span></span><br><span class="line"><span class="attr">  path:</span> <span class="string">"/opt/mongo_bi/schema"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongosqld --config mongosqld.config</span><br></pre></td></tr></table></figure>
+<h4 id="OR-Starting-mongosqld-with-systemd-on-linux"><a href="#OR-Starting-mongosqld-with-systemd-on-linux" class="headerlink" title="OR Starting mongosqld with systemd on linux"></a>OR Starting mongosqld with systemd on linux</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mongosqld install --config mongosqld.config</span><br><span class="line">service mongosql start</span><br></pre></td></tr></table></figure>
+<p><strong><em>sorry, i didn’t start it successful, there’s a failure i didn’t konw why</em></strong></p>
+<h3 id="Connect-from-MySQL-shell"><a href="#Connect-from-MySQL-shell" class="headerlink" title="Connect from MySQL shell"></a>Connect from MySQL shell</h3><h4 id="Install-the-C-Authentication-Plugin-and-MySQL-client"><a href="#Install-the-C-Authentication-Plugin-and-MySQL-client" class="headerlink" title="Install the C Authentication Plugin and MySQL client"></a>Install the C Authentication Plugin and MySQL client</h4><ol>
+<li>Download the <a href="https://dev.mysql.com/downloads/mysql/" target="_blank" rel="noopener">MySQL5.7.x</a> installer<br>and install the MySQL Community Server, which includes the MySQL shell</li>
+<li>Download the <a href="https://github.com/mongodb/mongosql-auth-c/releases" target="_blank" rel="noopener">C Authentication</a> Plugin</li>
+<li>Move the file <strong>mongosql_auth.so</strong> to mysql plugin directory.<mysql-home>/lib/plugin/,you can find it by running the following command:<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql_config --plugindir</span><br></pre></td></tr></table></figure>
+</mysql-home></li>
+</ol>
+<h4 id="Connect"><a href="#Connect" class="headerlink" title="Connect"></a>Connect</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// mongo without authentication</span><br><span class="line">mysql --protocol tcp --port 3307</span><br><span class="line"></span><br><span class="line">// mongodb with authentication</span><br><span class="line">mysql --protocol tcp --host 172.0.0.1 --port 3307 '--user=opadmin?source=zlydata' --default-auth=mongosql_auth -p</span><br></pre></td></tr></table></figure>
+<h3 id="Connect-from-Other-Client"><a href="#Connect-from-Other-Client" class="headerlink" title="Connect from Other Client"></a>Connect from Other Client</h3><h4 id="Install-the-JDBC-Authentication-Plugin"><a href="#Install-the-JDBC-Authentication-Plugin" class="headerlink" title="Install the JDBC Authentication Plugin"></a>Install the JDBC Authentication Plugin</h4><ol>
+<li>you can either download the plugin <a href="https://github.com/mongodb/mongosql-auth-java/releases/" target="_blank" rel="noopener">.jar</a> file directly or use Maven</li>
+<li>save it to a local directory, and select it as a jdbc driver to de client.</li>
+<li><p>add the authentication plugin in the MySQL connection string:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jdbc:mysql://127.0.0.1:3307?useSSL=false&amp;authenticationPlugins=org.mongodb.mongosql.auth.plugin.MongoSqlAuthenticationPlugin</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>you may also specify the authentication mechanism and authentication source as a query parameter on the <strong>username</strong>, for example:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;username&#125;?mechanism=PLAIN</span><br><span class="line">&#123;username&#125;?source=&#123;dbname&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/22/《大家的日语》初级1-第13课-想要-想做-去做/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/22/《大家的日语》初级1-第13课-想要-想做-去做/" itemprop="url">《大家的日语》初级1-第13课-想要/想做/去做</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T11:06:38+08:00">
+                2018-05-22
               </time>
             
 
@@ -342,7 +687,7 @@
       
         
           
-            <p><img src="/images/IMG_1020.PNG" alt=""></p>
+            <p><img src="/images/IMG_1022.PNG" alt=""></p>
 <h2 id="単語"><a href="#単語" class="headerlink" title="単語"></a>単語</h2><table>
 <thead>
 <tr>
@@ -360,244 +705,94 @@
 <td></td>
 </tr>
 <tr>
-<td>コンビニ</td>
-<td>ko n bi ni</td>
-<td>０</td>
-<td>便利店</td>
-</tr>
-<tr>
-<td>デイズニーランド</td>
-<td>de i zu ni ra n do</td>
-<td></td>
-<td>迪士尼乐园（disneyland）</td>
-</tr>
-<tr>
-<td>県</td>
-<td>けん</td>
-<td>１</td>
-<td>县</td>
-</tr>
-<tr>
-<td>猫</td>
-<td>ねこ</td>
-<td>１</td>
-<td>猫</td>
-</tr>
-<tr>
-<td>犬</td>
-<td>いぬ</td>
-<td>２</td>
-<td>狗</td>
-</tr>
-<tr>
-<td>箱</td>
-<td>はこ</td>
-<td>０</td>
-<td>箱子</td>
-</tr>
-<tr>
-<td>ナンプラー</td>
-<td>na n pu ra -</td>
-<td>１</td>
-<td>鱼酱（namplaa）</td>
-</tr>
-<tr>
-<td>ストア</td>
-<td>su to a</td>
-<td>２</td>
-<td>商店（store）</td>
-</tr>
-<tr>
-<td>コーナー</td>
-<td>ko - na -</td>
-<td>１</td>
-<td>柜台（corner）</td>
-</tr>
-<tr>
-<td>公園</td>
-<td>こうえん</td>
-<td>０</td>
-<td>公园</td>
-</tr>
-<tr>
-<td>喫茶店</td>
-<td>きっさてん</td>
-<td>０３</td>
-<td>咖啡店</td>
-</tr>
-<tr>
-<td>ポスト</td>
-<td>po su to</td>
-<td>１</td>
-<td>信箱（post）</td>
-</tr>
-<tr>
-<td>ドア</td>
-<td>do a</td>
-<td>１</td>
-<td>门（door）</td>
-</tr>
-<tr>
-<td>スイッチ</td>
-<td>su i . chi</td>
-<td>２１</td>
-<td>开关（switch）</td>
-</tr>
-<tr>
-<td>木</td>
-<td>き</td>
-<td>１</td>
-<td>树木</td>
-</tr>
-<tr>
-<td>冷蔵庫</td>
-<td>れいぞうこ</td>
-<td>3</td>
-<td>冰箱</td>
-</tr>
-<tr>
-<td>物</td>
-<td>もの</td>
-<td>２</td>
-<td>东西</td>
-</tr>
-<tr>
-<td>乗り場</td>
-<td>のりば</td>
-<td>０</td>
-<td>~站（出租车站、电车站等）</td>
-</tr>
-<tr>
-<td>パンダ</td>
-<td>pa n da</td>
-<td>１</td>
-<td>熊猫</td>
-</tr>
-<tr>
-<td>象</td>
-<td>ぞう</td>
-<td>１</td>
-<td>大象</td>
-</tr>
-<tr>
-<td>〜屋</td>
-<td>〜や</td>
-<td></td>
-<td>~店</td>
-</tr>
-<tr>
-<td>棚</td>
-<td>たな</td>
-<td>０</td>
-<td>架子</td>
-</tr>
-<tr>
-<td>テープル</td>
-<td>te - pu ru</td>
-<td>０</td>
-<td>桌子（table）</td>
-</tr>
-<tr>
-<td>ベッド</td>
-<td>be . do</td>
-<td>１</td>
-<td>床（bed）</td>
-</tr>
-<tr>
-<td>窓</td>
-<td>まど</td>
-<td>１</td>
-<td>窗</td>
-</tr>
-<tr>
-<td>男の人</td>
-<td>おとこのひと</td>
-<td>２</td>
-<td>男人</td>
-</tr>
-<tr>
-<td>女の人</td>
-<td>おんなのひと</td>
+<td>夏休み</td>
+<td>なつやすみ</td>
 <td>３</td>
-<td>女人</td>
+<td>暑假</td>
 </tr>
 <tr>
-<td>男の子</td>
-<td>おとこのこ</td>
-<td></td>
-<td>男孩儿</td>
+<td>冬休み</td>
+<td>ふゆやすみ</td>
+<td>３</td>
+<td>寒假</td>
 </tr>
 <tr>
-<td>女の子</td>
-<td>おんあのこ</td>
-<td></td>
-<td>女孩儿</td>
+<td>沖縄</td>
+<td>おきなわ</td>
+<td>０</td>
+<td>冲绳</td>
 </tr>
 <tr>
-<td>中</td>
-<td>なか</td>
+<td>週末</td>
+<td>しゅうまつ</td>
+<td>０</td>
+<td>周末</td>
+</tr>
+<tr>
+<td>美術</td>
+<td>びじゅつ</td>
 <td>１</td>
-<td>里面</td>
+<td>美术</td>
 </tr>
 <tr>
-<td>外</td>
-<td>そと</td>
+<td>注文</td>
+<td>ちゅうもん</td>
+<td>０</td>
+<td>订货</td>
+</tr>
+<tr>
+<td>定食</td>
+<td>ていしょく</td>
+<td>０</td>
+<td>套餐</td>
+</tr>
+<tr>
+<td>牛丼</td>
+<td>ぎゅうどん</td>
+<td>０</td>
+<td>牛肉盖饭</td>
+</tr>
+<tr>
+<td>川</td>
+<td>かわ</td>
+<td>２</td>
+<td>河流</td>
+</tr>
+<tr>
+<td>釣り</td>
+<td>つり</td>
+<td>０</td>
+<td>钓鱼</td>
+</tr>
+<tr>
+<td>プール</td>
+<td>pu - ru</td>
 <td>１</td>
-<td>外面</td>
+<td>游泳池 pool</td>
 </tr>
 <tr>
-<td>近く</td>
-<td>ちかく</td>
-<td>２１</td>
-<td>附近</td>
-</tr>
-<tr>
-<td>隣</td>
-<td>となり</td>
-<td>０</td>
-<td>隔壁</td>
-</tr>
-<tr>
-<td>前</td>
-<td>まえ</td>
+<td>喉</td>
+<td>のど</td>
 <td>１</td>
-<td>前</td>
+<td>喉咙</td>
 </tr>
 <tr>
-<td>後ろ</td>
-<td>うしろ</td>
+<td>お腹</td>
+<td>おなか</td>
 <td>０</td>
-<td>后</td>
+<td>肚子</td>
 </tr>
 <tr>
-<td>上</td>
-<td>うえ</td>
+<td>[お]正月</td>
+<td>[お]しょうがつ</td>
 <td>０</td>
-<td>上</td>
+<td>新年</td>
 </tr>
 <tr>
-<td>下</td>
-<td>した</td>
-<td>０</td>
-<td>下</td>
-</tr>
-<tr>
-<td>左</td>
-<td>ひだり</td>
-<td>０</td>
-<td>左</td>
-</tr>
-<tr>
-<td>右</td>
-<td>みぎ</td>
-<td>０</td>
-<td>右</td>
-</tr>
-<tr>
-<td>間</td>
-<td>あいだ</td>
-<td>０</td>
-<td>之间</td>
+<td>スキー</td>
+<td>su ki -</td>
+<td>２</td>
+<td>滑雪</td>
 </tr>
 <tr>
 <td><strong>形容词</strong></td>
@@ -606,10 +801,64 @@
 <td></td>
 </tr>
 <tr>
-<td>色々</td>
-<td>いろいろ</td>
+<td>欲しい</td>
+<td>ほしい</td>
+<td>２</td>
+<td>想要</td>
+</tr>
+<tr>
+<td>大変</td>
+<td>たいへん</td>
 <td>０</td>
-<td>各种各样</td>
+<td>很、相当（不好的状态）</td>
+</tr>
+<tr>
+<td>広い</td>
+<td>ひろい</td>
+<td>２</td>
+<td>宽</td>
+</tr>
+<tr>
+<td>狭い</td>
+<td>せまい</td>
+<td>２</td>
+<td>窄</td>
+</tr>
+<tr>
+<td><strong>连词</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>どこか</td>
+<td></td>
+<td></td>
+<td>哪里</td>
+</tr>
+<tr>
+<td>〜頃</td>
+<td>〜ごろ</td>
+<td></td>
+<td>左右（表示时间）</td>
+</tr>
+<tr>
+<td><strong>副词</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>別々に</td>
+<td>べつべつに</td>
+<td>０</td>
+<td>分别</td>
+</tr>
+<tr>
+<td>少々</td>
+<td>しょうしょう</td>
+<td>１</td>
+<td>稍微</td>
 </tr>
 <tr>
 <td><strong>动词</strong></td>
@@ -618,16 +867,94 @@
 <td></td>
 </tr>
 <tr>
-<td>あります</td>
-<td>１</td>
-<td></td>
-<td>在，有（非活物）</td>
+<td>疲れます</td>
+<td>つかれます</td>
+<td>３</td>
+<td>累</td>
 </tr>
 <tr>
-<td>います</td>
+<td>結婚します</td>
+<td>けっこんします</td>
 <td>０</td>
+<td>结婚</td>
+</tr>
+<tr>
+<td>遊びます</td>
+<td>あそびます</td>
+<td>０</td>
+<td>玩耍</td>
+</tr>
+<tr>
+<td>迎えます</td>
+<td>むかえます</td>
+<td>０</td>
+<td>迎接</td>
+</tr>
+<tr>
+<td>散歩します</td>
+<td>さんぽします</td>
+<td>０</td>
+<td>散步</td>
+</tr>
+<tr>
+<td>買い物します</td>
+<td>かいものします</td>
+<td>０</td>
+<td>买东西</td>
+</tr>
+<tr>
+<td>食事します</td>
+<td>しょくじします</td>
+<td>０</td>
+<td>吃饭、用餐</td>
+</tr>
+<tr>
+<td>泳ぎます</td>
+<td>およぎます</td>
+<td>２</td>
+<td>有用</td>
+</tr>
+<tr>
+<td>渇きます</td>
+<td>かわきます</td>
+<td>２</td>
+<td>干、渴</td>
+</tr>
+<tr>
+<td>空きます</td>
+<td>すきます</td>
+<td>０</td>
+<td>空、饿</td>
+</tr>
+<tr>
+<td><strong>短句</strong></td>
 <td></td>
-<td>在，有（活物）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ご注文は</td>
+<td></td>
+<td></td>
+<td>点些什么？</td>
+</tr>
+<tr>
+<td>[少々]お待ちください</td>
+<td></td>
+<td></td>
+<td>请稍等</td>
+</tr>
+<tr>
+<td>〜でございます</td>
+<td></td>
+<td></td>
+<td>です的礼貌用法</td>
+</tr>
+<tr>
+<td>そうしましょう</td>
+<td></td>
+<td></td>
+<td>就这样干吧</td>
 </tr>
 </tbody>
 </table>
@@ -640,56 +967,52 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>名词が　います </strong></td>
-<td><strong>表示人和动物存在</strong></td>
+<td><strong>名词 が 欲しいです</strong></td>
+<td><strong>想要~</strong></td>
 </tr>
 <tr>
-<td>犬がいます</td>
-<td>有一只狗</td>
+<td>私は　友達が　欲しいです</td>
+<td>我想交朋友</td>
 </tr>
 <tr>
-<td><strong>名词が あります</strong></td>
-<td><strong>表示物品的存在</strong></td>
+<td>今　何が　一番　欲しいですか</td>
+<td>现在最想要什么？</td>
 </tr>
 <tr>
-<td>公園があります</td>
-<td>有一个公园</td>
+<td>いいえ、欲しくないです</td>
+<td>不，不想要</td>
 </tr>
 <tr>
-<td><strong>场所に 名词が あります/います</strong></td>
-<td><strong>强调某个场所有什么人/物</strong></td>
+<td><strong>动词 </strong></td>
+<td><strong>想做~</strong></td>
 </tr>
 <tr>
-<td>地下に何がありますか</td>
-<td>地下有什么</td>
+<td>私は　てんぷらお　食べたいです</td>
+<td>我想吃天妇罗</td>
 </tr>
 <tr>
-<td><strong>名词が 场所に あります/います</strong></td>
-<td><strong>强调每个人/物在什么场所</strong></td>
+<td>神戸で　何を　買いたいですか</td>
+<td>想在神户买什么？</td>
 </tr>
 <tr>
-<td>東京デイズニーランドは千葉県にあります</td>
-<td>东京迪士尼乐园在千叶县</td>
+<td>お腹が　痛いですから　何も　食べたくないです</td>
+<td>因为肚子痛，所以不想吃任何东西</td>
 </tr>
 <tr>
-<td><strong>名词（人/物/场所） の 名词（位置）</strong></td>
-<td></td>
+<td><strong>名词（场所）へ 动词ます形/名词 に　行きます/来ます/帰ります</strong></td>
+<td><strong>去做~</strong></td>
 </tr>
 <tr>
-<td>机の上に写真があります</td>
-<td>桌子上有照片</td>
+<td>神戸へ　買い物に　行きます</td>
+<td>去神户买东西</td>
 </tr>
 <tr>
-<td>本屋は花屋とスーバーの間にあります</td>
-<td>书店在花店和超市之间</td>
+<td>日本へ　美術の勉強に　来ました</td>
+<td>来日本学习美术的</td>
 </tr>
 <tr>
-<td><strong>名词　や　名词[など]</strong></td>
-<td><strong>「と」全部列举所有物品、「や」列举一部分、还有其他物品</strong></td>
-</tr>
-<tr>
-<td>箱の中に手紙や写真などがあります</td>
-<td>箱子里有信和照片等物品</td>
+<td>神戸へ　インド料理を　食べに　行きます</td>
+<td>去神户吃印度菜</td>
 </tr>
 </tbody>
 </table>
@@ -741,7 +1064,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/22/《大家的日语》初级1-第9课-状态动词/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/21/《大家的日语》初级1-第12课-比较级和最高级/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -760,7 +1083,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/22/《大家的日语》初级1-第9课-状态动词/" itemprop="url">《大家的日语》初级1-第9课-状态动词</a></h1>
+                <a class="post-title-link" href="/2018/05/21/《大家的日语》初级1-第12课-比较级和最高级/" itemprop="url">《大家的日语》初级1-第12课-比较级和最高级</a></h1>
         
 
         <div class="post-meta">
@@ -772,8 +1095,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-22T00:17:07+08:00">
-                2018-04-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T15:12:53+08:00">
+                2018-05-21
               </time>
             
 
@@ -834,7 +1157,7 @@
       
         
           
-            <p><img src="/images/IMG_1019.PNG" alt=""></p>
+            <p><img src="/images/IMG_1022.PNG" alt=""></p>
 <h2 id="単語"><a href="#単語" class="headerlink" title="単語"></a>単語</h2><table>
 <thead>
 <tr>
@@ -852,172 +1175,214 @@
 <td></td>
 </tr>
 <tr>
-<td>料理</td>
-<td>りょうり</td>
+<td>天気</td>
+<td>てんき</td>
 <td>１</td>
-<td>菜肴</td>
+<td>天气</td>
 </tr>
 <tr>
-<td>子供</td>
-<td>こども</td>
-<td>０</td>
-<td>孩子</td>
+<td>雨</td>
+<td>あめ</td>
+<td>１</td>
+<td>雨</td>
 </tr>
 <tr>
-<td>スポーツ</td>
-<td>su po - tsu</td>
+<td>雪</td>
+<td>ゆき</td>
 <td>２</td>
-<td>运动、体育（sports）</td>
+<td>雪</td>
 </tr>
 <tr>
-<td>絵</td>
-<td>え</td>
-<td>１</td>
-<td>画</td>
-</tr>
-<tr>
-<td>時間</td>
-<td>じかん</td>
-<td>０</td>
-<td>时间</td>
-</tr>
-<tr>
-<td>用事</td>
-<td>ようじ</td>
-<td>０</td>
-<td>事情</td>
-</tr>
-<tr>
-<td>クラシック</td>
-<td>ku ra si . ku</td>
-<td>３２</td>
-<td>古典音乐（classic）</td>
-</tr>
-<tr>
-<td>コンサート</td>
-<td>ko n sa - to</td>
-<td>１</td>
-<td>音乐会、演唱会（concert）</td>
-</tr>
-<tr>
-<td>約束</td>
-<td>やくそく</td>
-<td>０</td>
-<td>约定</td>
-</tr>
-<tr>
-<td>平仮名</td>
-<td>ひらがな</td>
-<td>３０</td>
-<td>平假名</td>
-</tr>
-<tr>
-<td>片仮名</td>
-<td>かたかな</td>
-<td>３２</td>
-<td>片假名</td>
-</tr>
-<tr>
-<td>ローマ字</td>
-<td>ro - ma ji</td>
+<td>曇り</td>
+<td>くもり</td>
 <td>３</td>
-<td>罗马字</td>
+<td>阴</td>
 </tr>
 <tr>
-<td>字</td>
-<td>じ</td>
+<td>季節</td>
+<td>きせつ</td>
+<td>１２</td>
+<td>季节</td>
+</tr>
+<tr>
+<td>春</td>
+<td>はる</td>
 <td>１</td>
-<td>字</td>
+<td>春</td>
 </tr>
 <tr>
-<td>漢字</td>
-<td>かんじ</td>
-<td>０</td>
-<td>汉字</td>
-</tr>
-<tr>
-<td>ダンス</td>
-<td>da n su</td>
-<td>１</td>
-<td>跳舞（dance）</td>
-</tr>
-<tr>
-<td>カラオケ</td>
-<td>ka ra o ke</td>
-<td>０</td>
-<td>卡拉OK</td>
-</tr>
-<tr>
-<td>旅行</td>
-<td>りょこう</td>
-<td>０</td>
-<td>旅行</td>
-</tr>
-<tr>
-<td>野球</td>
-<td>やきゅう</td>
-<td>０</td>
-<td>垒球</td>
-</tr>
-<tr>
-<td>飲み物</td>
-<td>のみもの</td>
+<td>夏</td>
+<td>なつ</td>
 <td>２</td>
-<td>饮料</td>
+<td>夏</td>
 </tr>
 <tr>
-<td>ジャズ</td>
-<td>jya zu</td>
+<td>秋</td>
+<td>あき</td>
 <td>１</td>
-<td>爵士乐（jazz）</td>
+<td>秋</td>
 </tr>
 <tr>
-<td>歌</td>
-<td>うた</td>
+<td>冬</td>
+<td>ふゆ</td>
 <td>２</td>
-<td>歌曲</td>
+<td>冬</td>
 </tr>
 <tr>
-<td>音楽</td>
-<td>おんがく</td>
+<td>紅葉</td>
+<td>もみじ</td>
+<td>１</td>
+<td>红叶</td>
+</tr>
+<tr>
+<td>生花</td>
+<td>いけばな</td>
+<td>２</td>
+<td>插花（します）</td>
+</tr>
+<tr>
+<td>世界</td>
+<td>せかい</td>
+<td>１２</td>
+<td>世界</td>
+</tr>
+<tr>
+<td>海</td>
+<td>うみ</td>
+<td>１</td>
+<td>海</td>
+</tr>
+<tr>
+<td>空港</td>
+<td>くうこう</td>
+<td>０</td>
+<td>机场</td>
+</tr>
+<tr>
+<td>北海道</td>
+<td>ほっかいどう</td>
+<td>３</td>
+<td>北海道</td>
+</tr>
+<tr>
+<td>香港/ホンコン</td>
+<td>ho n ko n</td>
+<td>１</td>
+<td>香港</td>
+</tr>
+<tr>
+<td>シンガポール</td>
+<td>si n ga po - ru</td>
+<td>４</td>
+<td>新加坡 singapore</td>
+</tr>
+<tr>
+<td>祇園祭</td>
+<td>ぎおんまつり</td>
+<td>４</td>
+<td>（京都最有名的庙会）</td>
+</tr>
+<tr>
+<td>ホテル</td>
+<td>ho te ru</td>
+<td>１</td>
+<td>饭店 hotel</td>
+</tr>
+<tr>
+<td>天麩羅</td>
+<td>てんぷら</td>
+<td>０</td>
+<td>天妇罗</td>
+</tr>
+<tr>
+<td>牛肉</td>
+<td>ぎゅうにく</td>
+<td>０</td>
+<td>牛肉</td>
+</tr>
+<tr>
+<td>鶏肉</td>
+<td>とりにく</td>
+<td>０</td>
+<td>鸡肉</td>
+</tr>
+<tr>
+<td>豚肉</td>
+<td>ぶたにく</td>
+<td>０</td>
+<td>猪肉</td>
+</tr>
+<tr>
+<td>寿司</td>
+<td>すし</td>
+<td>２</td>
+<td>寿司</td>
+</tr>
+<tr>
+<td>レモン</td>
+<td>re mo n</td>
 <td>１０</td>
-<td>音乐</td>
+<td>柠檬 lemon</td>
 </tr>
 <tr>
-<td>アルバイト</td>
-<td>a ru ba i to</td>
+<td>刺身</td>
+<td>さしみ</td>
 <td>３</td>
-<td>临时工（arbeit）</td>
+<td>生鱼片</td>
 </tr>
 <tr>
-<td>奥さん</td>
-<td>おくさん</td>
-<td>１</td>
-<td>别人的妻子</td>
-</tr>
-<tr>
-<td>妻</td>
-<td>つま</td>
-<td>１</td>
-<td>妻子</td>
-</tr>
-<tr>
-<td>ご主人</td>
-<td>ごしゅじん</td>
-<td>３</td>
-<td>别人的丈夫</td>
-</tr>
-<tr>
-<td>夫</td>
-<td>おっと</td>
+<td>すき焼き</td>
+<td>すきやき</td>
 <td>０</td>
-<td>丈夫</td>
+<td>鸡素烧</td>
 </tr>
 <tr>
-<td>歌舞伎</td>
-<td>かぶき</td>
+<td>どちら</td>
+<td></td>
+<td>１</td>
+<td>哪一个</td>
+</tr>
+<tr>
+<td>パーテイー</td>
+<td>pa - te i -</td>
+<td>１</td>
+<td>晚会、派对</td>
+</tr>
+<tr>
+<td><strong>助词</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>〜より</td>
+<td></td>
+<td></td>
+<td>比~</td>
+</tr>
+<tr>
+<td><strong>副词</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>一番</td>
+<td>いちばん</td>
 <td>０</td>
-<td>歌舞伎</td>
+<td>最</td>
+</tr>
+<tr>
+<td>ずっと</td>
+<td></td>
+<td>０</td>
+<td>~得多</td>
+</tr>
+<tr>
+<td>初めて</td>
+<td>はじめて</td>
+<td>２</td>
+<td>初次</td>
 </tr>
 <tr>
 <td><strong>形容词</strong></td>
@@ -1026,212 +1391,158 @@
 <td></td>
 </tr>
 <tr>
-<td>好き</td>
-<td>すき</td>
+<td>早い/速い</td>
+<td>はやい</td>
 <td>２</td>
-<td>喜欢</td>
+<td>快、早</td>
 </tr>
 <tr>
-<td>嫌い</td>
-<td>きらい</td>
-<td>０</td>
-<td>不喜欢</td>
+<td>遅い</td>
+<td>おそい</td>
+<td>２</td>
+<td>晚</td>
 </tr>
 <tr>
-<td>上手</td>
-<td>じょうず</td>
+<td>涼しい</td>
+<td>すずしい</td>
 <td>３</td>
-<td>擅长</td>
+<td>凉快</td>
 </tr>
 <tr>
-<td>下手</td>
-<td>へた</td>
-<td>２</td>
-<td>不擅长</td>
+<td>暖かい</td>
+<td>あたたかい</td>
+<td>４</td>
+<td>暖和</td>
 </tr>
 <tr>
-<td>細かい</td>
-<td>こまかい</td>
+<td>多い</td>
+<td>おおい</td>
+<td>１</td>
+<td>多</td>
+</tr>
+<tr>
+<td>少ない</td>
+<td>すくない</td>
 <td>３</td>
-<td>细小的</td>
+<td>少</td>
 </tr>
 <tr>
-<td>細かいお金</td>
-<td></td>
-<td></td>
-<td>零钱</td>
-</tr>
-<tr>
-<td>駄目</td>
-<td>だめ</td>
-<td>２</td>
-<td>不行、不好</td>
-</tr>
-<tr>
-<td><strong>副词</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>少し</td>
-<td>すこし</td>
-<td>２</td>
-<td>一些、一点儿</td>
-</tr>
-<tr>
-<td>早く</td>
-<td>はやく</td>
-<td>１</td>
-<td>早、快</td>
-</tr>
-<tr>
-<td>全然</td>
-<td>ぜんぜん</td>
+<td>簡単</td>
+<td>かんたん</td>
 <td>０</td>
-<td>完全~（后接否定式）</td>
+<td>简单</td>
 </tr>
 <tr>
-<td>どうして</td>
-<td></td>
-<td>１</td>
-<td>怎么、为什么</td>
-</tr>
-<tr>
-<td>よく</td>
-<td></td>
-<td>１</td>
-<td>很</td>
-</tr>
-<tr>
-<td>大体</td>
-<td>だいたい</td>
-<td>０</td>
-<td>大致、大略</td>
-</tr>
-<tr>
-<td>沢山</td>
-<td>たくさん</td>
-<td>０</td>
-<td>很多</td>
-</tr>
-<tr>
-<td><strong>动词</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>分かります</td>
-<td>わかります</td>
+<td>辛い</td>
+<td>からい</td>
 <td>２</td>
-<td>懂、明白</td>
+<td>辣</td>
 </tr>
 <tr>
-<td>あります</td>
-<td></td>
-<td>１</td>
-<td>有</td>
+<td>甘い</td>
+<td>あまい</td>
+<td>０</td>
+<td>甜</td>
 </tr>
 <tr>
-<td><strong>短语</strong></td>
+<td>軽い</td>
+<td>かるい</td>
+<td>０</td>
+<td>轻</td>
+</tr>
+<tr>
+<td>重い</td>
+<td>おもい</td>
+<td>０</td>
+<td>重</td>
+</tr>
+<tr>
+<td>遠い</td>
+<td>とおい</td>
+<td>０</td>
+<td>远</td>
+</tr>
+<tr>
+<td>近い</td>
+<td>ちかい</td>
+<td>２</td>
+<td>近</td>
+</tr>
+<tr>
+<td><strong>短句</strong></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td>〜から</td>
+<td>ただいま</td>
 <td></td>
-<td></td>
-<td>因为~</td>
+<td>２</td>
+<td>我回来了</td>
 </tr>
 <tr>
-<td>一緒にいかがですか</td>
-<td>いっしょに</td>
+<td>お帰りなさい</td>
 <td></td>
-<td>一起怎么样？</td>
+<td></td>
+<td>回来啦</td>
 </tr>
 <tr>
-<td>ちょっと</td>
+<td>わあ、すごい人ですね</td>
 <td></td>
 <td></td>
-<td>有点（婉拒时使用）</td>
+<td>哇、人好多啊</td>
 </tr>
 <tr>
-<td>だめですか</td>
+<td>疲れました</td>
 <td></td>
 <td></td>
-<td>不行吗？</td>
-</tr>
-<tr>
-<td>残念です、〜</td>
-<td>ざんねんです</td>
-<td></td>
-<td>非常遗憾，不过~</td>
-</tr>
-<tr>
-<td>貸してください</td>
-<td></td>
-<td></td>
-<td>请借给我吧</td>
-</tr>
-<tr>
-<td>いいですよ</td>
-<td></td>
-<td></td>
-<td>可以</td>
+<td>我累了</td>
 </tr>
 </tbody>
 </table>
-<h2 id="文法"><a href="#文法" class="headerlink" title="文法"></a>文法</h2><h3 id="副词修饰动词"><a href="#副词修饰动词" class="headerlink" title="副词修饰动词"></a>副词修饰动词</h3><table>
+<h2 id="文法"><a href="#文法" class="headerlink" title="文法"></a>文法</h2><h3 id="名词句、な形容词局的时态：肯定-否定"><a href="#名词句、な形容词局的时态：肯定-否定" class="headerlink" title="名词句、な形容词局的时态：肯定+否定"></a>名词句、な形容词局的时态：肯定+否定</h3><table>
 <thead>
 <tr>
 <th></th>
-<th>表示<strong>程度</strong>的副词</th>
-<th></th>
-<th>表示<strong>数量</strong>的副词</th>
-<th></th>
+<th>非过去（现在、未来）</th>
+<th>过去</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>和<strong>肯定形</strong>一起用</td>
-<td>よく　わかります</td>
-<td>精通~</td>
-<td>たくさん　あります</td>
-<td>有很多~</td>
+<td>肯定</td>
+<td>〜です</td>
+<td>〜でした</td>
 </tr>
 <tr>
-<td></td>
-<td>だいたい　わかります</td>
-<td>大概了解~</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>すこし　わかります</td>
-<td>知道一点儿~</td>
-<td>すこし　あります</td>
-<td>有一点~</td>
-</tr>
-<tr>
-<td>和<strong>否定形</strong>一起用</td>
-<td>あまり　わかりません</td>
-<td>不太懂~</td>
-<td>あまり　ありません</td>
-<td>几乎没有~</td>
-</tr>
-<tr>
-<td></td>
-<td>ぜんぜん　わかりません</td>
-<td>完全不懂</td>
-<td>ぜんぜん　ありません</td>
-<td>一点儿没有~</td>
+<td>否定</td>
+<td>〜じゃ　ありません</td>
+<td>〜じゃ　ありませんでした</td>
 </tr>
 </tbody>
 </table>
-<table>
+<h3 id="い形容词局的时态：肯定-否定"><a href="#い形容词局的时态：肯定-否定" class="headerlink" title="い形容词局的时态：肯定+否定"></a>い形容词局的时态：肯定+否定</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>非过去（现在、未来）</th>
+<th>过去</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>肯定</td>
+<td>暑いです</td>
+<td>〜暑かったです</td>
+</tr>
+<tr>
+<td>否定</td>
+<td>暑くないです</td>
+<td>あつくなかったです</td>
+</tr>
+</tbody>
+</table>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><table>
 <thead>
 <tr>
 <th>文法</th>
@@ -1240,44 +1551,48 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>形容词 です</strong></td>
-<td><strong>形容词动词化，宾语用「が」连接</strong></td>
+<td><strong>名词1　は　名词2　より　形容词です</strong></td>
+<td><strong>以名词2为标准陈述名词1的性质和状态（比较级）</strong></td>
 </tr>
 <tr>
-<td>私は　イタリア料理が好きです</td>
-<td>我喜欢意大利菜</td>
+<td>この　車は　あの　車より　大きいです</td>
+<td>这辆车比那辆车大</td>
 </tr>
 <tr>
-<td><strong>名词が　あります/わかります</strong></td>
-<td><strong>一部分动词的宾语也用「が」连接</strong></td>
+<td><strong>名词1 と 名词2　と　どちらが　形容词ですか</strong></td>
+<td><strong>将两者加以比较的疑问句</strong></td>
 </tr>
 <tr>
-<td>私は　日本語が　わかります</td>
-<td>我懂日语</td>
+<td>北海道と　大阪と　どちらが　涼しいですか</td>
+<td>北海道和大阪哪里凉快？</td>
 </tr>
 <tr>
-<td><strong>どんな　</strong></td>
-<td><strong>什么样的 名词</strong></td>
+<td>春と　秋と　どちらが　好きですか</td>
+<td>春天和秋天喜欢哪个？</td>
 </tr>
 <tr>
-<td>どんな　スポーツが　好きですか</td>
-<td>喜欢什么样的运动？</td>
+<td><strong>名词 の　ほうが　形容词です</strong></td>
+<td><strong>回答上句</strong></td>
 </tr>
 <tr>
-<td><strong>〜から</strong></td>
-<td><strong>因为~</strong></td>
+<td>春の方が　好きです</td>
+<td>喜欢春天</td>
 </tr>
 <tr>
-<td>時間が　ありませんから、新聞を読むません</td>
-<td>因为没有时间，所以没有看报纸</td>
+<td><strong>名词1 [の中] で　何/どこ/だれ/いつ　が いちばん　形容词ですか</strong></td>
+<td><strong>名词1范围中最高级疑问句（注意对应的疑问词）</strong></td>
 </tr>
 <tr>
-<td><strong>どうして</strong></td>
-<td><strong>表示询问原因的疑问句，答语的结尾要加「から」</strong></td>
+<td>日本料理の中で　何が　一番　美味しいですか</td>
+<td>日本菜（中）什么最好吃？</td>
 </tr>
 <tr>
-<td>どうして　朝新聞を読みませんか</td>
-<td>早上为什么不看报？</td>
+<td>家族で　誰が　一番　背が　高いです</td>
+<td>家里谁最高？</td>
+</tr>
+<tr>
+<td>一年で　いつが　一番　寒いですか</td>
+<td>一年中什么时候最冷</td>
 </tr>
 </tbody>
 </table>
@@ -1329,7 +1644,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/20/极大似然法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/20/《大家的日语》初级1-第11课-数量词/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sean Liu">
@@ -1348,7 +1663,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/20/极大似然法/" itemprop="url">极大似然法</a></h1>
+                <a class="post-title-link" href="/2018/05/20/《大家的日语》初级1-第11课-数量词/" itemprop="url">《大家的日语》初级1-第11课-数量词</a></h1>
         
 
         <div class="post-meta">
@@ -1360,289 +1675,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T11:48:09+08:00">
-                2018-04-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/19/Linear-Regression/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/19/Linear-Regression/" itemprop="url">Linear_Regression</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-19T10:01:48+08:00">
-                2018-04-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-learning/" itemprop="url" rel="index">
-                    <span itemprop="name">Machine learning</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-learning/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="基本形式"><a href="#基本形式" class="headerlink" title="基本形式"></a>基本形式</h2><p>$$f(x)=\omega^Tx+b$$<br>线性回归试图学得 $f(x_i)=\omega^Tx_i+b$ ,使得 $f(x_i)\approx y_i$ </p>
-<h2 id="一元线性回归"><a href="#一元线性回归" class="headerlink" title="一元线性回归"></a>一元线性回归</h2><p>使用最小二乘法（least square method）进行参数估计（parameter estimation）<br><span>$$(\omega^*,b^*)=arg min\sum_{i=1}^m{(f(x_i)-y_i)^2}=arg min\sum_{i=1}^m{(y_i-\omegax_i-b)^2}$$</span><!-- Has MathJax --></p>
-<p>基于上式对$\omega和b$求偏导，并令其为0，可得到$\omega和b$的最有闭式解</p>
-<h2 id="多元线性回归（multivariate-linear-regression）"><a href="#多元线性回归（multivariate-linear-regression）" class="headerlink" title="多元线性回归（multivariate linear regression）"></a>多元线性回归（multivariate linear regression）</h2><p>更一般的，样本有多个属性描述（多个特征）<br>简化一下公式，可以把$\omega和b$吸收入向量形式$\hat{\omega}=(\omega;b)$，把数据集D表示成为一个m*（d+1）矩阵<br><span>$$X=\begin{bmatrix}
-{x_{11}}&amp;{x_{12}}&amp;{\cdots}&amp;{x_{1n}}&amp;{1}\\
-{x_{21}}&amp;{x_{22}}&amp;{\cdots}&amp;{x_{2n}}&amp;{1}\\
-{\vdots}&amp;{\vdots}&amp;{\ddots}&amp;{\vdots}&amp;{\vdots}\\
-{x_{m1}}&amp;{x_{m2}}&amp;{\cdots}&amp;{x_{mn}}&amp;{1}\\
-\end{bmatrix}$$</span><!-- Has MathJax --></p>
-<p>此时，$f(x_i)=\omega^Tx_i+b_i=X\hat{\omega}$</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/14/《大家的日语》初级1-第8课-形容词1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/14/《大家的日语》初级1-第8课-形容词1/" itemprop="url">《大家的日语》初级1-第8课-形容词1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-14T21:25:50+08:00">
-                2018-04-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-20T20:35:12+08:00">
+                2018-05-20
               </time>
             
 
@@ -1703,7 +1737,8 @@
       
         
           
-            <p><img src="/images/IMG_1018.PNG" alt=""></p>
+            <p><img src="/images/IMG_1021.PNG" alt=""></p>
+<p><img src="/images/JAP/number.PNG" alt=""></p>
 <h2 id="単語"><a href="#単語" class="headerlink" title="単語"></a>単語</h2><table>
 <thead>
 <tr>
@@ -1721,1889 +1756,400 @@
 <td></td>
 </tr>
 <tr>
-<td>桜</td>
-<td>さくら</td>
-<td>０</td>
-<td>樱花</td>
-</tr>
-<tr>
-<td>富士山</td>
-<td>ふじさん</td>
+<td>幾つ</td>
+<td>いくつ</td>
 <td>１</td>
-<td>富士山</td>
+<td>几个</td>
 </tr>
 <tr>
-<td>山</td>
-<td>やま</td>
+<td>１つ</td>
+<td>ひとつ</td>
 <td>２</td>
-<td>山</td>
+<td>1个</td>
 </tr>
 <tr>
-<td>シャンハイ</td>
-<td>sya n ha i</td>
-<td>１３</td>
-<td>上海</td>
-</tr>
-<tr>
-<td>寮</td>
-<td>りょう</td>
-<td>１</td>
-<td>宿舍</td>
-</tr>
-<tr>
-<td>生活</td>
-<td>せいかつ</td>
-<td>０</td>
-<td>生活</td>
-</tr>
-<tr>
-<td>お仕事</td>
-<td>おしごと</td>
-<td>０</td>
-<td>工作</td>
-</tr>
-<tr>
-<td>町</td>
-<td>まち</td>
-<td>２</td>
-<td>街</td>
-</tr>
-<tr>
-<td>レストラン</td>
-<td>re su to ra n</td>
-<td>１</td>
-<td>餐厅</td>
-</tr>
-<tr>
-<td>食べ物</td>
-<td>たべもの</td>
-<td>３２</td>
-<td>事务</td>
-</tr>
-<tr>
-<td>所</td>
-<td>ところ</td>
+<td>２つ</td>
+<td>ふたつ</td>
 <td>３</td>
-<td>地方</td>
+<td>2个</td>
 </tr>
 <tr>
-<td>奈良公園</td>
-<td>ならこうえん</td>
-<td></td>
-<td>奈良公园</td>
-</tr>
-<tr>
-<td>長崎</td>
-<td>ながさき</td>
-<td>２</td>
-<td>长崎</td>
-</tr>
-<tr>
-<td><strong>形容词（な型）</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>素敵</td>
-<td>すてき</td>
-<td>０</td>
-<td>特别好的</td>
-</tr>
-<tr>
-<td>暇</td>
-<td>ひま</td>
-<td>０</td>
-<td>有时间，有空儿</td>
-</tr>
-<tr>
-<td>親切</td>
-<td>しんせつ</td>
-<td>１</td>
-<td>亲切的（不用于自己的家属）</td>
-</tr>
-<tr>
-<td>静か</td>
-<td>しずか</td>
-<td>１</td>
-<td>安静的</td>
-</tr>
-<tr>
-<td>元気</td>
-<td>げんき</td>
-<td>１</td>
-<td>健康的</td>
-</tr>
-<tr>
-<td>便利</td>
-<td>べんり</td>
-<td>１</td>
-<td>方便的</td>
-</tr>
-<tr>
-<td>有名</td>
-<td>ゆうめい</td>
-<td>０</td>
-<td>有名的</td>
-</tr>
-<tr>
-<td>賑やか</td>
-<td>にぎやか</td>
-<td>２</td>
-<td>热闹的</td>
-</tr>
-<tr>
-<td>綺麗</td>
-<td>きれい</td>
-<td>１</td>
-<td>漂亮的</td>
-</tr>
-<tr>
-<td><strong>形容词（い型）</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>高い</td>
-<td>たかい</td>
-<td>２</td>
-<td>高的</td>
-</tr>
-<tr>
-<td>低い</td>
-<td>ひくい</td>
-<td>２</td>
-<td>低的</td>
-</tr>
-<tr>
-<td>熱い/暑い</td>
-<td>あつい</td>
-<td>２</td>
-<td>热的</td>
-</tr>
-<tr>
-<td>寒い</td>
-<td>さむい</td>
-<td>２</td>
-<td>冷的</td>
-</tr>
-<tr>
-<td>冷たい</td>
-<td>つめたい</td>
-<td>２</td>
-<td>凉的</td>
-</tr>
-<tr>
-<td>新しい</td>
-<td>あたらしい</td>
-<td>４</td>
-<td>新的，新鲜的</td>
-</tr>
-<tr>
-<td>古い</td>
-<td>ふるい</td>
-<td>２</td>
-<td>旧的</td>
-</tr>
-<tr>
-<td>大きい</td>
-<td>おおきい</td>
+<td>３つ</td>
+<td>みっつ</td>
 <td>３</td>
-<td>大的</td>
+<td>3个</td>
 </tr>
 <tr>
-<td>小さい</td>
-<td>ちいさい</td>
+<td>４つ</td>
+<td>よっつ</td>
 <td>３</td>
-<td>小的</td>
+<td>4个</td>
 </tr>
 <tr>
-<td>忙しい</td>
-<td>いそがしい</td>
-<td>４</td>
-<td>忙</td>
-</tr>
-<tr>
-<td>いい</td>
-<td></td>
-<td></td>
-<td>好的</td>
-</tr>
-<tr>
-<td>悪い</td>
-<td>わるい</td>
+<td>５つ</td>
+<td>いつつ</td>
 <td>２</td>
-<td>坏的</td>
+<td>5个</td>
 </tr>
 <tr>
-<td>易しい</td>
-<td>やさしい</td>
-<td>０</td>
-<td>容易的</td>
-</tr>
-<tr>
-<td>難しい</td>
-<td>むずかしい</td>
-<td>４０</td>
-<td>难的</td>
-</tr>
-<tr>
-<td>赤い</td>
-<td>あかい</td>
-<td>０</td>
-<td>红色的</td>
-</tr>
-<tr>
-<td>青い</td>
-<td>あおい</td>
-<td>２</td>
-<td>蓝色的</td>
-</tr>
-<tr>
-<td>白い</td>
-<td>しろい</td>
-<td>２</td>
-<td>白色的</td>
-</tr>
-<tr>
-<td>黒い</td>
-<td>くろい</td>
-<td>２</td>
-<td>黑色的</td>
-</tr>
-<tr>
-<td>楽しい</td>
-<td>たのしい</td>
+<td>６つ</td>
+<td>むっつ</td>
 <td>３</td>
-<td>愉快的，高兴的</td>
+<td>6个</td>
 </tr>
 <tr>
-<td>面白い</td>
-<td>おもしろい</td>
-<td>４</td>
-<td>有意思的</td>
-</tr>
-<tr>
-<td>安い</td>
-<td>やすい</td>
+<td>７つ</td>
+<td>ななつ</td>
 <td>２</td>
-<td>便宜的</td>
+<td>7个</td>
 </tr>
 <tr>
-<td>美味しい</td>
-<td>おいしい</td>
+<td>８つ</td>
+<td>やっつ</td>
+<td>３</td>
+<td>8个</td>
+</tr>
+<tr>
+<td>９つ</td>
+<td>ここのつ</td>
+<td>２</td>
+<td>9个</td>
+</tr>
+<tr>
+<td>10</td>
+<td>とお</td>
+<td>１</td>
+<td>10个</td>
+</tr>
+<tr>
+<td>何人</td>
+<td>なんにん</td>
+<td></td>
+<td>几个人</td>
+</tr>
+<tr>
+<td>一人</td>
+<td>ひとり</td>
+<td></td>
+<td>一个人</td>
+</tr>
+<tr>
+<td>二人</td>
+<td>ふたり</td>
+<td>３</td>
+<td>两个人</td>
+</tr>
+<tr>
+<td>四人</td>
+<td>よにん</td>
+<td>２</td>
+<td>四个人</td>
+</tr>
+<tr>
+<td>林檎</td>
+<td>りんご</td>
+<td>０</td>
+<td>苹果</td>
+</tr>
+<tr>
+<td>蜜柑</td>
+<td>みかん</td>
+<td>１</td>
+<td>橘子</td>
+</tr>
+<tr>
+<td>切手</td>
+<td>きって</td>
 <td>０３</td>
-<td>好吃的</td>
+<td>邮票</td>
 </tr>
 <tr>
-<td><strong>形容词（外来语）</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>ハンサム</td>
-<td>ha n sa mu</td>
-<td></td>
-<td>英俊的</td>
-</tr>
-<tr>
-<td><strong>副词</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>また</td>
-<td></td>
+<td>葉書</td>
+<td>はがき</td>
 <td>０</td>
-<td>再，又</td>
+<td>明信片</td>
 </tr>
 <tr>
-<td>どう</td>
-<td></td>
+<td>封筒</td>
+<td>ふうとう</td>
+<td>０</td>
+<td>信封</td>
+</tr>
+<tr>
+<td>外国</td>
+<td>がいこく</td>
+<td>０</td>
+<td>外国</td>
+</tr>
+<tr>
+<td>兄弟</td>
+<td>きょうだい</td>
 <td>１</td>
-<td>怎么样</td>
+<td>兄弟姐妹</td>
 </tr>
 <tr>
-<td>余り</td>
-<td>あまり</td>
+<td>姉</td>
+<td>あね</td>
 <td>０</td>
-<td>太~</td>
-</tr>
-<tr>
-<td>とても</td>
-<td></td>
-<td>０</td>
-<td>非常</td>
-</tr>
-<tr>
-<td><strong>短语</strong></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>そろそろ失礼ます</td>
-<td></td>
-<td></td>
-<td>该告辞了</td>
-</tr>
-<tr>
-<td>そうですね</td>
-<td></td>
-<td></td>
-<td>哦</td>
-</tr>
-<tr>
-<td>またいらっしゃってください</td>
-<td></td>
-<td></td>
-<td>请再来</td>
-</tr>
-</tbody>
-</table>
-<h2 id="文法"><a href="#文法" class="headerlink" title="文法"></a>文法</h2><p>形容词分为「な」形容词，和「い」形容词</p>
-<h3 id="名词は形容词です形式"><a href="#名词は形容词です形式" class="headerlink" title="名词は形容词です形式"></a>名词は形容词です形式</h3><table>
-<thead>
-<tr>
-<th>　</th>
-<th>「な」形容词</th>
-<th>「い」形容词</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>非过去肯定</td>
-<td><strong>〜です（去掉な）</strong></td>
-<td><strong>〜です</strong></td>
-</tr>
-<tr>
-<td></td>
-<td>しんせつです</td>
-<td>高いです</td>
-</tr>
-<tr>
-<td>非过去否定</td>
-<td><strong>じゃ（では）ありません</strong></td>
-<td><strong>くないです（去掉い）</strong></td>
-</tr>
-<tr>
-<td></td>
-<td>静かじゃありません</td>
-<td>面白くないです</td>
-</tr>
-</tbody>
-</table>
-<h3 id="形容词-名词-形式"><a href="#形容词-名词-形式" class="headerlink" title="形容词+名词 形式"></a>形容词+名词 形式</h3><p>親切な先生です<br>高い山です</p>
-<table>
-<thead>
-<tr>
-<th>文法</th>
-<th>意思</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>〜が、〜</strong></td>
-<td><strong>虽然~，但是~</strong></td>
-</tr>
-<tr>
-<td>日本の食べ物は美味しいですが、高いです</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>そして</strong></td>
-<td><strong>于是~</strong></td>
-</tr>
-<tr>
-<td><strong>とても/あまり</strong></td>
-<td><strong>非常/不太</strong></td>
-</tr>
-<tr>
-<td>とても寒いです</td>
-<td>非常冷</td>
-</tr>
-<tr>
-<td>あまり寒くないです</td>
-<td>不太冷</td>
-</tr>
-<tr>
-<td><strong>名词は　どうですか</strong></td>
-<td><strong>怎么样</strong></td>
-</tr>
-<tr>
-<td>日本の生活はどうですか</td>
-<td>日本的生活怎么样</td>
-</tr>
-<tr>
-<td><strong>名词は　どんな　名词　ですか</strong></td>
-<td><strong>什么样的~</strong></td>
-</tr>
-<tr>
-<td>奈良は　どんな　町ですか</td>
-<td>奈良是个什么样的城市</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/14/《大家的日语》初级1-第7课-动词2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/14/《大家的日语》初级1-第7课-动词2/" itemprop="url">《大家的日语》初级1-第7课-动词2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-14T00:05:57+08:00">
-                2018-04-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/日本語/" itemprop="url" rel="index">
-                    <span itemprop="name">日本語</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="/images/IMG_1017.PNG" alt=""></p>
-<h2 id="単語"><a href="#単語" class="headerlink" title="単語"></a>単語</h2><table>
-<thead>
-<tr>
-<th>书写</th>
-<th>平假名</th>
-<th>音调</th>
-<th>词意</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>パソコン</td>
-<td>pa so ko n</td>
-<td>０</td>
-<td>电脑</td>
-</tr>
-<tr>
-<td>花</td>
-<td>はな</td>
-<td>２</td>
-<td>花</td>
-</tr>
-<tr>
-<td>メール</td>
-<td>me - ru</td>
-<td>１０</td>
-<td>邮件mail</td>
-</tr>
-<tr>
-<td>年賀状</td>
-<td>ねんがじょう</td>
-<td>３０</td>
-<td>贺年卡</td>
-</tr>
-<tr>
-<td>切符</td>
-<td>きっぷ</td>
-<td>０</td>
-<td>车票</td>
-</tr>
-<tr>
-<td>スプーン</td>
-<td>su pu - n</td>
-<td>2</td>
-<td>勺子spoon</td>
-</tr>
-<tr>
-<td>箸</td>
-<td>はし</td>
-<td>１</td>
-<td>筷子</td>
-</tr>
-<tr>
-<td>フォーク</td>
-<td>hu o - ku</td>
-<td>１</td>
-<td>叉子fork</td>
-</tr>
-<tr>
-<td>ナイフ</td>
-<td>na i hu</td>
-<td>１</td>
-<td>刀knief</td>
-</tr>
-<tr>
-<td>スペイン</td>
-<td>su pe i n</td>
-<td>3</td>
-<td>西班牙spain</td>
-</tr>
-<tr>
-<td>荷物</td>
-<td>にもつ</td>
-<td>１</td>
-<td>行李</td>
-</tr>
-<tr>
-<td>プレゼント</td>
-<td>pu re ze n to</td>
-<td>２</td>
-<td>礼物present</td>
-</tr>
-<tr>
-<td>紙</td>
-<td>かみ</td>
-<td>２</td>
-<td>纸</td>
-</tr>
-<tr>
-<td>鋏</td>
-<td>はさみ</td>
-<td>３</td>
-<td>剪子</td>
-</tr>
-<tr>
-<td>手</td>
-<td>て</td>
-<td>１</td>
-<td>手</td>
-</tr>
-<tr>
-<td>携帯</td>
-<td>けいたい</td>
-<td>０</td>
-<td>手机</td>
-</tr>
-<tr>
-<td>パンチ</td>
-<td>pa n chi</td>
-<td>1</td>
-<td>打孔机punch</td>
-</tr>
-<tr>
-<td>シャツ</td>
-<td>sya tu</td>
-<td>１</td>
-<td>T恤shirt</td>
-</tr>
-<tr>
-<td>お金</td>
-<td>おかね</td>
-<td>０</td>
-<td>钱</td>
-</tr>
-<tr>
-<td>クリスマス</td>
-<td>ku ri su ma su</td>
-<td>３</td>
-<td>圣诞节christmas</td>
-</tr>
-<tr>
-<td>あげます</td>
-<td></td>
-<td>０</td>
-<td>给</td>
-</tr>
-<tr>
-<td>もらいます</td>
-<td></td>
-<td>０</td>
-<td>收</td>
-</tr>
-<tr>
-<td>送ります</td>
-<td>おくります</td>
-<td>０</td>
-<td>寄、送</td>
-</tr>
-<tr>
-<td>切ります</td>
-<td>きります</td>
-<td>１</td>
-<td>切、剪</td>
-</tr>
-<tr>
-<td>貸します</td>
-<td>かします</td>
-<td>０</td>
-<td>借出</td>
-</tr>
-<tr>
-<td>教えます</td>
-<td>おしえます</td>
-<td>０</td>
-<td>教</td>
-</tr>
-<tr>
-<td>借ります</td>
-<td>かります</td>
-<td>２</td>
-<td>借入</td>
-</tr>
-<tr>
-<td>習います</td>
-<td>ならいます</td>
-<td>２</td>
-<td>学</td>
-</tr>
-<tr>
-<td>かけます</td>
-<td></td>
-<td>２</td>
-<td>打（电话）</td>
-</tr>
-<tr>
-<td>母</td>
-<td>はは</td>
-<td>１</td>
-<td>母亲（正式）</td>
-</tr>
-<tr>
-<td>父</td>
-<td>ちち</td>
-<td>２１</td>
-<td>父亲（正式）</td>
-</tr>
-<tr>
-<td>お母さん</td>
-<td>おかあさん</td>
-<td>２</td>
-<td>妈妈</td>
-</tr>
-<tr>
-<td>お父さん</td>
-<td>おとうさん</td>
-<td>２</td>
-<td>妈妈</td>
-</tr>
-<tr>
-<td>お兄さん</td>
-<td>おにいさん</td>
-<td>２</td>
-<td>哥哥</td>
+<td>自己的姐姐</td>
 </tr>
 <tr>
 <td>お姉さん</td>
 <td>おねえさん</td>
 <td>２</td>
-<td>姐姐</td>
+<td>他人的姐姐</td>
 </tr>
 <tr>
-<td>もう</td>
-<td></td>
+<td>兄</td>
+<td>あに</td>
 <td>１</td>
-<td>已经</td>
+<td>自己的哥哥</td>
 </tr>
 <tr>
-<td>まだ</td>
-<td></td>
-<td>１</td>
-<td>还没、尚未</td>
-</tr>
-<tr>
-<td>これから</td>
-<td></td>
-<td>０</td>
-<td>现在（马上去做某事）</td>
-</tr>
-<tr>
-<td>さようなら</td>
-<td></td>
-<td>４５</td>
-<td>再见</td>
-</tr>
-<tr>
-<td>いらっしゃい</td>
-<td></td>
-<td></td>
-<td>欢迎</td>
-</tr>
-<tr>
-<td>どうぞお上がりください</td>
-<td>あがり</td>
-<td></td>
-<td>请进</td>
-</tr>
-<tr>
-<td>失礼します</td>
-<td>しつれいします</td>
-<td></td>
-<td>打搅了</td>
-</tr>
-<tr>
-<td>[~は]如何ですが</td>
-<td>[~は]いかがですか</td>
-<td></td>
-<td>怎么样？</td>
-</tr>
-<tr>
-<td>いただきます</td>
-<td></td>
-<td></td>
-<td>我吃啦、我喝啦（吃喝之前）</td>
-</tr>
-<tr>
-<td>ごちそうさま[でした]</td>
-<td></td>
-<td></td>
-<td>吃好啦（吃喝之后）</td>
-</tr>
-<tr>
-<td>素敵ですね</td>
-<td>すてきですね</td>
-<td></td>
-<td>真棒啊！</td>
-</tr>
-</tbody>
-</table>
-<h2 id="文法"><a href="#文法" class="headerlink" title="文法"></a>文法</h2><table>
-<thead>
-<tr>
-<th>文法</th>
-<th>意思</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>名词（工具/手段）で 动词</strong></td>
-<td><strong>用~做某事</strong></td>
-</tr>
-<tr>
-<td>箸で食べます</td>
-<td>用筷子吃饭</td>
-</tr>
-<tr>
-<td><strong>词/句は　〜語で　何ですか</strong></td>
-<td><strong>~用~语怎么说</strong></td>
-</tr>
-<tr>
-<td>「thanks」は日本語でなんですか</td>
-<td>thanks用日语怎么说？</td>
-</tr>
-<tr>
-<td><strong>名词1（人）に　名词2を　あげます</strong></td>
-<td><strong>向外提供事物</strong></td>
-</tr>
-<tr>
-<td>私は山田さんに英語を教えます</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>名词1（人）に　名词2を　もらいます</strong></td>
-<td><strong>向内得到事物，可以用から替代に</strong></td>
-</tr>
-<tr>
-<td>私は鈴木さんに花をもらいます</td>
-<td></td>
-</tr>
-<tr>
-<td>私は私は木村さんから本を貸しました</td>
-<td></td>
-</tr>
-<tr>
-<td><strong>もう 动词ました</strong></td>
-<td><strong>已经做某事</strong></td>
-</tr>
-<tr>
-<td>もう荷物を送りましたか</td>
-<td>行李已经寄走了吗？</td>
-</tr>
-<tr>
-<td>はい、[もう]送りました</td>
-<td>是的，已经寄走了</td>
-</tr>
-<tr>
-<td>いいえ、まだです</td>
-<td>没有，还没寄</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/03/Logit-or-Logistic-Regression/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/04/03/Logit-or-Logistic-Regression/" itemprop="url">Logit or Logistic Regression</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-03T20:05:56+08:00">
-                2018-04-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-learning/" itemprop="url" rel="index">
-                    <span itemprop="name">Machine learning</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Machine-learning/Alogrithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Alogrithm</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/30/《打开量化投资的黑箱》Notes-1-阿尔法模型/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/30/《打开量化投资的黑箱》Notes-1-阿尔法模型/" itemprop="url">《打开量化投资的黑箱》Notes-1-阿尔法模型</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-30T15:35:45+08:00">
-                2018-03-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Notes/" itemprop="url" rel="index">
-                    <span itemprop="name">Notes</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Notes/《打开量化投资的黑箱》/" itemprop="url" rel="index">
-                    <span itemprop="name">《打开量化投资的黑箱》</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>阿尔法，投资者获得的与市场波动无关的回报，即相对市场基准额外的回报。（最好当然是扣除偶尔犯错的风险损失和交易成本后仍获得正回报）</p>
-<p><strong>核心思想：没有永远好的金融产品，也没有永远坏的金融产品</strong></p>
-<ul>
-<li>理论驱动：观察市场后，提出一般性模型的理论，并通过严谨的证明和验证，判断这个理论解释是否有效并符合市场情况的理论</li>
-<li>数据驱动（经验驱动）：根据市场的历史数据，发掘出有用的关系和模式，建立关联性映射关系，不注重理论解释。</li>
-</ul>
-<h2 id="理论驱动型大致分为5类（和主观判断型交易几乎一样）"><a href="#理论驱动型大致分为5类（和主观判断型交易几乎一样）" class="headerlink" title="理论驱动型大致分为5类（和主观判断型交易几乎一样）"></a>理论驱动型大致分为5类（和主观判断型交易几乎一样）</h2><h3 id="价格相关数据策略"><a href="#价格相关数据策略" class="headerlink" title="价格相关数据策略"></a>价格相关数据策略</h3><h4 id="趋势型（trend）"><a href="#趋势型（trend）" class="headerlink" title="趋势型（trend）"></a>趋势型（trend）</h4><p>市场参与者需要慢慢地形成对金融产品价值的共识，从一个均衡向新的均衡慢慢运动的过程就形成了趋势，而这个过程需要一定的时间。<br>还有一种解释就是“博傻理论”。</p>
-<h4 id="回复型（reversion）"><a href="#回复型（reversion）" class="headerlink" title="回复型（reversion）"></a>回复型（reversion）</h4><p>流动性需求可能导致买者和卖者之间的力量在短期内出现失衡，于是金融产品被超买或超卖。<br>比较典型的就是<strong>统计套利</strong>（标的为相似公司的股票价差）</p>
-<h3 id="基本面相关数据策略"><a href="#基本面相关数据策略" class="headerlink" title="基本面相关数据策略"></a>基本面相关数据策略</h3><h4 id="价值型-收益型（value-yield）："><a href="#价值型-收益型（value-yield）：" class="headerlink" title="价值型/收益型（value/yield）："></a>价值型/收益型（value/yield）：</h4><p>基于市场的风险高估和低估，市场经常会对风险资产的风险作出过高的估计，而低估风险相对低的资产的风险。（高风险资产价格较低，…）。<br>参考市盈率（P/E,price-to-earnings），但一般宽客都是用它的倒数E/P——盈利收益率（earnings yield，原因见下图），金融产品的收益率越高，价格越便宜。也可以参考股利收益率（dividend yield）。<br>当基于一个相对价差来操作时，即同时买入价值相对低估的股票而卖出相对高估的股票，这种策略被称为<strong>携带交易</strong>（carre trade）<br><img src="/images/QI/EP.PNG" alt=""></p>
-<h4 id="成长型（growth）"><a href="#成长型（growth）" class="headerlink" title="成长型（growth）"></a>成长型（growth）</h4><p>基于关于资产的某些变量的增长水平，比如PEG比率，这个指标是指价格除以盈利增长，或者是市盈率除以每股盈利增长率。<br><strong><em>但市场上常见的成长型策略确实简单的买入高增长资产，卖出低增长甚至负增长股票，不考虑当前的价格因素，因为成长型股票的价值是无法确定的。强势增长的公司未来可以夺得更多的市场占有率，可以说是一种着眼于远期的携带交易</em></strong></p>
-<h4 id="品质型（quality）"><a href="#品质型（quality）" class="headerlink" title="品质型（quality）"></a>品质型（quality）</h4><p>根据一些品质信号，比如资产负债率，自由现金流，具体业务指标等。</p>
-<h2 id="数据驱动型"><a href="#数据驱动型" class="headerlink" title="数据驱动型"></a>数据驱动型</h2><p>优势：门槛高，竞争力小；捕获各种市场行为，虽然理论上无法解释。<br>劣势：可能伪显著；可能计算量巨大；需要不断调整而带来风险；输入数据噪声多，导致一些错误信号。</p>
-<h2 id="策略的实施（大概归纳为6点）"><a href="#策略的实施（大概归纳为6点）" class="headerlink" title="策略的实施（大概归纳为6点）"></a>策略的实施（大概归纳为6点）</h2><h3 id="预测目标"><a href="#预测目标" class="headerlink" title="预测目标"></a>预测目标</h3><p>可以是预测方向、幅度、运动的持续时间、以及预测的置信度和概率。<br><strong>信号强度</strong>指更大的期望回报或更高的可能性。在给定的置信水平下，期望回报越大则信号强度越大；在给定的预期回报下，置信度越大则信号强度越大。对应的，可能意味着头寸投注可以越大。</p>
-<h3 id="投资期限"><a href="#投资期限" class="headerlink" title="投资期限"></a>投资期限</h3><p>不同投资期限（长期、短期、超短期）的实施方案可能完全不一样，甚至导致相反头寸。</p>
-<ul>
-<li>高频交易（high-frequency）：不超过当日收盘</li>
-<li>短线策略（short-term）：持仓一天到两周</li>
-<li>中线策略（medium-term）：数周到数月</li>
-<li>长线策略（long-term）：持仓数月或更长</li>
-</ul>
-<h3 id="投注结构"><a href="#投注结构" class="headerlink" title="投注结构"></a>投注结构</h3><h4 id="预测单个金融产品的绝对回报"><a href="#预测单个金融产品的绝对回报" class="headerlink" title="预测单个金融产品的绝对回报"></a>预测单个金融产品的绝对回报</h4><h4 id="预测多个金融产品的相对回报"><a href="#预测多个金融产品的相对回报" class="headerlink" title="预测多个金融产品的相对回报"></a>预测多个金融产品的相对回报</h4><ul>
-<li>较小范围内选取一对金融产品进行配对交易，很少能精确匹配。</li>
-<li>较大范围内选一个门类，消除同组证券间的共同因素。甚至采用多种分组方式共同决定分组，以达到比绝对回报更平稳的回报。</li>
-</ul>
-<h3 id="投资范围"><a href="#投资范围" class="headerlink" title="投资范围"></a>投资范围</h3><p>同一个策略可以用在多个金融产品上，一般需要考虑很多因素。比如，地域，资产类别，金融产品种类。</p>
-<ul>
-<li>需要流动性好的交易标的，交易成本可控；</li>
-<li>需要大量高质量的数据，它们在富有流动性和发达的市场更容易获得；</li>
-<li>需要比较容易用系统化模型来预测的金融产品。</li>
-</ul>
-<h3 id="模型设置"><a href="#模型设置" class="headerlink" title="模型设置"></a>模型设置</h3><p><strong><em>机器学习技术主要是用于寻找量化模型的最优参数设置，其算法主要是用更智能且更科学的方法检验多种潜在可能的参数，同时又不会出现过拟合。</em></strong></p>
-<h3 id="运行频率"><a href="#运行频率" class="headerlink" title="运行频率"></a>运行频率</h3><p>太多的运行导致模型根据毫无用处的噪声而建仓平仓的概率加大，交易成本升高，同时也容易出现过拟合。<br>太少的运行会导致很少的交易，如果订单规模同时很大的话，对市场有较大冲击，进而改变市场，使模型失效。</p>
-<h2 id="策略选择上的多样性"><a href="#策略选择上的多样性" class="headerlink" title="策略选择上的多样性"></a>策略选择上的多样性</h2><p>依据上述实施环节，可以自由组合拼装具体策略。</p>
-<h2 id="混合型模型"><a href="#混合型模型" class="headerlink" title="混合型模型"></a>混合型模型</h2><p>可以使用多种模型的混合</p>
-<h3 id="线性模型"><a href="#线性模型" class="headerlink" title="线性模型"></a>线性模型</h3><p>在线性模型中，由某个因素所推演出来的判断是独立于其他因素所推演出来的，因此所有因素的判断是可加的。根据历史数据回归，对每个阿尔法因素赋予权重，之后线性相加就可以进行混合预测了。<br><strong><em>例：根据E/P收益率因素判断A股票未来上涨20%，根据趋势预测其未来下跌10%，根据历史回归E/P因素权重是70%，则最终的预测为上涨11%</em></strong></p>
-<h3 id="非线性模型"><a href="#非线性模型" class="headerlink" title="非线性模型"></a>非线性模型</h3><p>用来预测时长的变量之间的关系既不是相互独立的，也不是随着时间而一成不变的，此时线性模型就不再适合。</p>
-<h4 id="条件模型（conditional-model）"><a href="#条件模型（conditional-model）" class="headerlink" title="条件模型（conditional model）"></a>条件模型（conditional model）</h4><p>赋予某一阿尔法因素的权重是依赖于如何对其他因素的解释。<br><strong><em>例：如果条件模型认为E/P收益必须在价格趋势一致的时候才有效。那么上例的结果就不再有效了</em></strong></p>
-<h4 id="旋转模型（rotation-model）"><a href="#旋转模型（rotation-model）" class="headerlink" title="旋转模型（rotation model）"></a>旋转模型（rotation model）</h4><p>这种模型与线性模型相似，但权重是随时波动的，即随着时间的演进，最近的数据用来决定各因素新的权重。</p>
-<h3 id="机器学习模型"><a href="#机器学习模型" class="headerlink" title="机器学习模型"></a>机器学习模型</h3><p>通过机器学习来预测混合模型中各因素的最优权重，这种应用比直接用机器学习来生成阿尔法信号（因素）更加常用和成功。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/27/django-model重复save导致数据不一致/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/27/django-model重复save导致数据不一致/" itemprop="url">django-model重复save导致数据不一致</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-27T23:44:50+08:00">
-                2018-03-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/Q-A/" itemprop="url" rel="index">
-                    <span itemprop="name">Q&A</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>今天新项目出现了一个神奇的bug，有个功能需要对文章的点赞数加1，可是每次执行后，文章的点赞数加了2。按理说这个项目基本复用了旧项目中的相同功能，竟然出现这种神奇问题也是够纠结了。<br>没有办法，打开源码查看一下吧，首先定位到增加点赞数的地方：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 记录用户点赞文章行为</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">record_user_action_like_article</span><span class="params">(article, user_identifier=None)</span>:</span></span><br><span class="line">    user = AppUser.safe_get_or_create(user_identifier=user_identifier)</span><br><span class="line">    actions = UserActionLikePost.objects.filter(article=article, appuser=user)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> actions:</span><br><span class="line">        UserActionLikePost.objects.create(article=article, appuser=user)</span><br><span class="line">        article.like_count = F(<span class="string">'like_count'</span>) + <span class="number">1</span></span><br><span class="line">        article.save()</span><br></pre></td></tr></table></figure>
-<p>很明显，就是使用F函数对点赞数增加了一下，然后保存。旧项目也是这么写的，因此问题肯定不是出现在这里。<br><strong><em>注：简单说一下，使用F函数是因为生成的sql为<br>“update article set like_count=like_count+1”。<br>如果直接写article.like_count += 1,生成的sql为<br>“update article set like_count=数值”。<br>这会使得高并发时数据更新出现不一致</em></strong></p>
-<p>猛然想起新项目在signal里写了新逻辑，再次定位发现post_save signal代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@receiver(post_save, sender=Content)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">content_post_save</span><span class="params">(sender, instance, **kwargs)</span>:</span></span><br><span class="line">    article = instance</span><br><span class="line">    <span class="keyword">if</span> article.cover_image:</span><br><span class="line">        url = article.cover_image.url + <span class="string">'?imageInfo'</span></span><br><span class="line">        request = urllib2.Request(url)</span><br><span class="line">        response = urllib2.urlopen(request, timeout=<span class="number">5</span>)</span><br><span class="line">        <span class="keyword">if</span> response.getcode() == <span class="number">200</span>:</span><br><span class="line">            result = json.loads(response.read())</span><br><span class="line">            article.cover_image_width = result.get(<span class="string">'width'</span>, <span class="keyword">None</span>)</span><br><span class="line">            article.cover_image_height = result.get(<span class="string">'height'</span>, <span class="keyword">None</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        article.cover_image_width = <span class="keyword">None</span></span><br><span class="line">        article.cover_image_height = <span class="keyword">None</span></span><br><span class="line">    <span class="comment"># 避免不断的调用save()函数造成死循环</span></span><br><span class="line">    post_save.disconnect(content_post_save, sender=Content)</span><br><span class="line">--&gt; article.save()</span><br><span class="line">    post_save.connect(content_post_save, sender=Content)</span><br></pre></td></tr></table></figure></p>
-<p>分析了一下，因为要在model save后对其他字段做修改，所以要再次save。估计就是又调用了一次save()函数作怪。而再次save时article.like_count字段的值是F(‘like_count’) + 1,于是bug出现了，save两次就加了两次。此时第一个直觉是，这里就不要加了，修改成如下形式：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@receiver(post_save, sender=Content)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">content_post_save</span><span class="params">(sender, instance, **kwargs)</span>:</span></span><br><span class="line">    article = instance</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment"># 避免不断的调用save()函数造成死循环</span></span><br><span class="line">    post_save.disconnect(content_post_save, sender=Content)</span><br><span class="line">    <span class="comment"># 之前通过F函数+1的方式更新相关数据时调用了save()方法，如果不修改回来就会因为再次调用save()方法继续加1</span></span><br><span class="line">    article.like_count = F(<span class="string">'like_count'</span>)</span><br><span class="line">    article.save()</span><br><span class="line">    post_save.connect(content_post_save, sender=Content)</span><br></pre></td></tr></table></figure>
-<p>简单测了测没什么问题了，点赞数只加了1次，长舒了一口气，但总觉得怪怪的。果然，第二个bug出现了，前端反馈偶尔会有获取数据异常情况出现，查了一下api log。果然，报错如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2575 14342 worker main loop exit UnknownSerializerError()</span><br><span class="line">2576 24934 worker(14342) died. fork a new...</span><br></pre></td></tr></table></figure>
-<p>这个error似曾相识啊，明显是返给前端的数据无法序列化啊。看看到底返给前端什么东西了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Tue Mar 27 18:31:16 2018 CST 10.162.201.58:44727 REPLY &#123;&apos;_id&apos;: 81, &apos;error_code&apos;: 0, &apos;result&apos;: &#123;&apos;source_name&apos;: u&apos;搜狐焦点&apos;, &apos;abstract&apos;: u     &apos;随着“住房不炒”的热议，结合当下的大环境，我们可做几点预测：1、从推高地价到征收房产税，是中国房地产经济的必然走向；2、不断推高的房价一定&gt;     程度上是以资产泡沫替代通胀压力；3、“ 学区房”是张迟早过期的粮票；4、城市流入人口非接盘侠；5、投机性需求堆起来&apos;, &apos;author_name&apos;: u&apos;飞腾&apos;, &apos;     like_count&apos;: F(like_count), &apos;id&apos;: 7, &apos;view_count&apos;: 14</span><br></pre></td></tr></table></figure>
-<p>截取了一段，果然，F(like_count)被当做值返给了前端，这东西包进dict当然无法序列化了。问题是这东西怎么来的呢，上面的解决方案变成了罪魁祸首。F函数是为生成sql使用的，但是刚刚好用F函数对字段进行赋值后才返给前端数据。于是，新bug来势更汹，上述方案无法实行。</p>
-<p>又回到了第一个问题。。。。。。</p>
-<p>蓦然回首，灵光乍现，原来答案是如此原始并简单：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@receiver(post_save, sender=Content)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">content_post_save</span><span class="params">(sender, instance, **kwargs)</span>:</span></span><br><span class="line">    article = instance</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment"># 避免不断的调用save()函数造成死循环</span></span><br><span class="line">    post_save.disconnect(content_post_save, sender=Content)</span><br><span class="line">    article.save(update_fields=[<span class="string">"cover_image_width"</span>, <span class="string">"cover_image_height"</span>])</span><br><span class="line">    post_save.connect(content_post_save, sender=Content)</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/25/《大家的日语》初级1-第6课/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sean Liu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sean's Notes">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/25/《大家的日语》初级1-第6课/" itemprop="url">《大家的日语》初级1-第6课</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-25T11:50:56+08:00">
-                2018-03-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/日本語/" itemprop="url" rel="index">
-                    <span itemprop="name">日本語</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="/images/IMG_1016.PNG" alt=""></p>
-<h2 id="単語"><a href="#単語" class="headerlink" title="単語"></a>単語</h2><table>
-<thead>
-<tr>
-<th>书写</th>
-<th>平假名</th>
-<th>音调</th>
-<th>词意</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>読みます</td>
-<td>よみます</td>
-<td>１</td>
-<td>读</td>
-</tr>
-<tr>
-<td>買います</td>
-<td>かいます</td>
-<td>０</td>
-<td>买</td>
-</tr>
-<tr>
-<td>飲みます</td>
-<td>のみます</td>
-<td>１</td>
-<td>喝</td>
-</tr>
-<tr>
-<td>食べます</td>
-<td>たべます</td>
+<td>お兄さん</td>
+<td>おにいさん</td>
 <td>２</td>
-<td>吃</td>
+<td>他人的哥哥</td>
 </tr>
 <tr>
-<td>します</td>
+<td>弟</td>
+<td>おとうと</td>
+<td>４</td>
+<td>自己的弟弟</td>
+</tr>
+<tr>
+<td>弟さん</td>
+<td>おとうとさん</td>
+<td>４</td>
+<td>他人的弟弟</td>
+</tr>
+<tr>
+<td>妹</td>
+<td>いもうと</td>
+<td>４</td>
+<td>自己的妹妹</td>
+</tr>
+<tr>
+<td>妹さん</td>
+<td>いもうとさん</td>
 <td></td>
-<td>０</td>
-<td>做、干</td>
+<td>他人的妹妹</td>
 </tr>
 <tr>
-<td>見ます</td>
-<td>みます</td>
-<td>１</td>
-<td>看</td>
-</tr>
-<tr>
-<td>会います</td>
-<td>あいます</td>
-<td>１</td>
-<td>见</td>
-</tr>
-<tr>
-<td>聞きます</td>
-<td>ききます</td>
-<td>０</td>
-<td>听</td>
-</tr>
-<tr>
-<td>書きます</td>
-<td>かきます</td>
-<td>１</td>
-<td>写</td>
-</tr>
-<tr>
-<td>撮ります</td>
-<td>とります</td>
-<td>１</td>
-<td>拍摄</td>
-</tr>
-<tr>
-<td>吸います</td>
-<td>すいます</td>
-<td>０</td>
-<td>吸</td>
-</tr>
-<tr>
-<td>何</td>
-<td>なに</td>
-<td>１</td>
-<td>什么</td>
-</tr>
-<tr>
-<td>パン</td>
-<td>pa n</td>
-<td>１</td>
-<td>面包</td>
-</tr>
-<tr>
-<td>卵</td>
-<td>たまご</td>
-<td>２</td>
-<td>鸡蛋</td>
-</tr>
-<tr>
-<td>[お]酒</td>
-<td>[お]さけ</td>
-<td>０</td>
-<td>酒</td>
-</tr>
-<tr>
-<td>[お]花見</td>
-<td>[お]はなみ</td>
+<td>全部で</td>
+<td>ぜんぶで</td>
 <td></td>
-<td>赏花</td>
+<td>全部</td>
 </tr>
 <tr>
-<td>果物</td>
-<td>くだもの</td>
-<td>２</td>
-<td>水果</td>
-</tr>
-<tr>
-<td>肉</td>
-<td>にく</td>
-<td>２</td>
-<td>肉</td>
-</tr>
-<tr>
-<td>野菜</td>
-<td>やさい</td>
-<td>０</td>
-<td>蔬菜</td>
-</tr>
-<tr>
-<td>サッカー</td>
-<td>sa tsu ka a</td>
+<td>両親</td>
+<td>りょうしん</td>
 <td>１</td>
-<td>足球soccer</td>
+<td>父母</td>
 </tr>
 <tr>
-<td>ビデオ</td>
-<td>bi de o</td>
-<td>１</td>
-<td>录像带、录像机video</td>
+<td>オーストラリア</td>
+<td>o - su to ra ri a</td>
+<td>５</td>
+<td>澳大利亚Australia</td>
 </tr>
 <tr>
-<td>紅茶</td>
-<td>こうちゃ</td>
-<td>０</td>
-<td>红茶</td>
-</tr>
-<tr>
-<td>店</td>
-<td>みせ</td>
-<td>２</td>
-<td>店</td>
-</tr>
-<tr>
-<td>お茶</td>
-<td>おちゃ</td>
-<td>０</td>
-<td>茶</td>
-</tr>
-<tr>
-<td>水</td>
-<td>みず</td>
-<td>０</td>
-<td>水</td>
-</tr>
-<tr>
-<td>手紙</td>
-<td>てがみ</td>
-<td>０</td>
-<td>信</td>
-</tr>
-<tr>
-<td>写真</td>
-<td>しゃしん</td>
-<td>０</td>
-<td>照片</td>
-</tr>
-<tr>
-<td>タバコ</td>
-<td>ta ba ko</td>
-<td>０</td>
-<td>香烟tabaco</td>
-</tr>
-<tr>
-<td>ジュース</td>
-<td>jyu u su</td>
-<td>１</td>
-<td>果汁juice</td>
-</tr>
-<tr>
-<td>魚</td>
-<td>さかな</td>
-<td>０</td>
-<td>鱼</td>
-</tr>
-<tr>
-<td>レポート</td>
-<td>re po o to</td>
-<td>２</td>
-<td>报告report</td>
-</tr>
-<tr>
-<td>庭</td>
-<td>にわ</td>
-<td>０</td>
-<td>庭院</td>
-</tr>
-<tr>
-<td>牛乳</td>
-<td>ぎゅうにゅう</td>
-<td>０</td>
-<td>牛奶</td>
-</tr>
-<tr>
-<td>宿題</td>
-<td>しゅくだい</td>
-<td>０</td>
-<td>作业</td>
-</tr>
-<tr>
-<td>ビール</td>
-<td>bi - ru</td>
-<td>１</td>
-<td>啤酒beer</td>
-</tr>
-<tr>
-<td>テニス</td>
-<td>te ni su</td>
-<td>１</td>
-<td>网球tennis</td>
-</tr>
-<tr>
-<td>メキシコ</td>
-<td>me ki si ko</td>
+<td>船便</td>
+<td>ふなびん</td>
 <td>０２</td>
-<td>墨西哥mexico</td>
+<td>平邮、海运</td>
 </tr>
 <tr>
-<td>朝ごはん</td>
-<td>あさごはん</td>
-<td>３</td>
-<td>早饭</td>
+<td>航空便</td>
+<td>こうくうびん</td>
+<td>０３</td>
+<td>航邮、航运</td>
 </tr>
 <tr>
-<td>昼ごはん</td>
-<td>ひるごはん</td>
-<td>３</td>
-<td>午饭</td>
-</tr>
-<tr>
-<td>晩ごはん</td>
-<td>ばんごはん</td>
-<td>３</td>
-<td>晚饭</td>
-</tr>
-<tr>
-<td>いつも</td>
-<td></td>
+<td>クラス</td>
+<td>ku ra su</td>
 <td>１</td>
-<td>经常、总是</td>
+<td>班级class</td>
 </tr>
 <tr>
-<td>時々</td>
-<td>ときどき</td>
+<td>留学生</td>
+<td>りゅうがくせい</td>
+<td>３４</td>
+<td>留学生</td>
+</tr>
+<tr>
+<td>サンドイッチ</td>
+<td>sa n do i . chi</td>
+<td>４</td>
+<td>三明治sandwich</td>
+</tr>
+<tr>
+<td>カレー</td>
+<td>ka re e</td>
+<td>４</td>
+<td>咖喱 curry</td>
+</tr>
+<tr>
+<td>アイスクリーム</td>
+<td>a i su ku ri - mu</td>
+<td>５</td>
+<td>冰淇淋 ice cream</td>
+</tr>
+<tr>
+<td>鹿児島</td>
+<td>かごしま</td>
+<td>１</td>
+<td>鹿儿岛</td>
+</tr>
+<tr>
+<td><strong>助词</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ー年</td>
+<td>ーねん</td>
+<td></td>
+<td>~年</td>
+</tr>
+<tr>
+<td>ー週間</td>
+<td>ーしゅうかん</td>
+<td></td>
+<td>~周</td>
+</tr>
+<tr>
+<td>ー回</td>
+<td>ーかい</td>
+<td></td>
+<td>~次</td>
+</tr>
+<tr>
+<td>ーヶ月</td>
+<td>ーかげつ</td>
+<td></td>
+<td>~月</td>
+</tr>
+<tr>
+<td>〜だけ</td>
+<td></td>
+<td></td>
+<td>~小时</td>
+</tr>
+<tr>
+<td>ー枚</td>
+<td>ーまい</td>
+<td></td>
+<td>~张</td>
+</tr>
+<tr>
+<td>ー人</td>
+<td>ーにん</td>
+<td></td>
+<td>~个人</td>
+</tr>
+<tr>
+<td>〜ぐらい</td>
+<td></td>
+<td></td>
+<td>~左右、大约</td>
+</tr>
+<tr>
+<td>〜だけ</td>
+<td></td>
+<td></td>
+<td>只~</td>
+</tr>
+<tr>
+<td><strong>动词</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>います</td>
+<td></td>
+<td></td>
+<td>在、有</td>
+</tr>
+<tr>
+<td>かかります</td>
+<td></td>
 <td>２</td>
-<td>有时</td>
+<td>花费~</td>
 </tr>
 <tr>
-<td>ええ</td>
-<td></td>
-<td></td>
-<td>感叹词，恩、是</td>
+<td>休みます</td>
+<td>やすみます</td>
+<td>２</td>
+<td>放假</td>
 </tr>
 <tr>
-<td>それから</td>
+<td><strong>副词</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>みんな</td>
 <td></td>
 <td>０</td>
-<td>然后</td>
+<td>全部、大家</td>
 </tr>
 <tr>
-<td>一緒に</td>
-<td>いっしょに</td>
-<td>０</td>
-<td>一起</td>
+<td><strong>短语</strong></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
-<td>ちょっと</td>
+<td>どのくらい</td>
 <td></td>
-<td>１</td>
-<td>一点儿、一会儿</td>
+<td>０１</td>
+<td>多长时间</td>
 </tr>
 <tr>
-<td>いいですね</td>
+<td>お願いします</td>
 <td></td>
 <td></td>
-<td>好啊</td>
+<td>拜托了、恳请您</td>
 </tr>
 <tr>
-<td>友達に会います</td>
+<td>いい[お]天気ですね</td>
 <td></td>
 <td></td>
-<td>跟朋友见面</td>
+<td>天气真好啊</td>
 </tr>
 <tr>
-<td>わかりました</td>
+<td>おでかけですか</td>
 <td></td>
 <td></td>
-<td>明白了</td>
+<td>出门啊？</td>
 </tr>
 <tr>
-<td>何ですか</td>
+<td>ちょっと〜まで</td>
 <td></td>
 <td></td>
-<td>什么（事儿）？</td>
+<td>到~去一下</td>
 </tr>
 <tr>
-<td>じゃ、また[あした]</td>
+<td>行ってらっしゃい</td>
+<td>いってらっしゃい</td>
+<td></td>
+<td>走好（送人出门时）</td>
+</tr>
+<tr>
+<td>行ってきます</td>
+<td>いってきます</td>
+<td></td>
+<td>我走了（自己出门时）</td>
+</tr>
+<tr>
+<td>かしこまりました</td>
 <td></td>
 <td></td>
-<td>那[明天]见</td>
+<td>明白了（服务行业人员对顾客说的话）</td>
 </tr>
 </tbody>
 </table>
@@ -3616,71 +2162,1110 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>名词を 动词（他动词）</strong></td>
-<td><strong>他动词的宾语</strong></td>
+<td><strong>数量词原则上放在名词+助词的后面，但是表示时间长短的数量词不受此限制</strong></td>
+<td></td>
 </tr>
 <tr>
-<td>ジュースを飲みます</td>
-<td>喝果汁</td>
+<td>林檎を　４つ　買いました</td>
+<td>买了4个苹果</td>
 </tr>
 <tr>
-<td><strong>名词を します</strong></td>
-<td><strong>干什么、做什么</strong></td>
+<td>外国人の学生が　二人　います</td>
+<td>有2个外国学生</td>
 </tr>
 <tr>
-<td>宿題をします</td>
-<td>做作业</td>
+<td>国で　二か月　日本語を　勉強しました</td>
+<td>在国内学了2个月日语</td>
 </tr>
 <tr>
-<td>電話をします</td>
-<td>打电话</td>
+<td><strong>询问数量的方法1：多少个</strong></td>
+<td></td>
 </tr>
 <tr>
-<td><strong>何を　しますか</strong></td>
-<td><strong>要做什么？</strong></td>
+<td>蜜柑を　いくつ　買いましたが</td>
+<td>买了多少个橘子</td>
 </tr>
 <tr>
-<td>きのう　なにを　しましたか</td>
-<td>昨天干什么了？</td>
+<td><strong>询问数量的方法2：何＋其他量词</strong></td>
+<td></td>
 </tr>
 <tr>
-<td><strong>なん</strong></td>
-<td><strong>接た、だ、な行　和量词</strong></td>
+<td>この会社に　外国人が　何人いますか</td>
+<td>这个公司有多少外国人</td>
 </tr>
 <tr>
-<td>なんで　東京へ行きましか</td>
-<td>坐什么去东京</td>
+<td>毎晩　何時間　日本語を　勉強しますか</td>
+<td>每晚学多少小时日语</td>
 </tr>
 <tr>
-<td><strong>なに</strong></td>
-<td><strong>接其他行</strong></td>
+<td><strong>どのくらい</strong></td>
+<td><strong>询问时间长短时</strong></td>
 </tr>
 <tr>
-<td><strong>名词（场所）で　动词</strong></td>
-<td><strong>场所后助词、不指方向</strong></td>
+<td>どのくらい　日本語を　勉強しましたか</td>
+<td>学了多长时间日语了？</td>
 </tr>
 <tr>
-<td>駅で　新聞を　買います</td>
-<td>在车站买报纸</td>
+<td>大阪から　東京まで　どのくらい　かかりますか</td>
+<td>大阪到东京需要多长时间？</td>
 </tr>
 <tr>
-<td><strong>动词ませんか</strong></td>
-<td><strong>表示邀请（尊重）</strong></td>
+<td><strong>〜ぐらい</strong></td>
+<td><strong>接在数量词之后表示大概数量</strong></td>
 </tr>
 <tr>
-<td>一緒に　京都へ　行きませんか</td>
-<td>一起去京都好么？</td>
+<td>学校に　先生が　３０人ぐらい　います</td>
+<td>学校里大概有30位老师</td>
 </tr>
 <tr>
-<td><strong>动词ましょう</strong></td>
-<td><strong>表示积极的邀请、提建议</strong></td>
+<td>１５ふん　ぐらい　かかります</td>
+<td>大约需要15分钟</td>
 </tr>
 <tr>
-<td>ちよっと　休みましょう</td>
-<td>休息一下吧</td>
+<td><strong>数量词に+〜回</strong></td>
+<td><strong>表示频度</strong></td>
+</tr>
+<tr>
+<td>一か月に　二回　映画を　見ます</td>
+<td>一个月看两次电影</td>
+</tr>
+<tr>
+<td><strong>数量词だけ/名词だけ</strong></td>
+<td><em>**</em></td>
+</tr>
+<tr>
+<td>バワー電気に　外国人の　社員が　一人だけ　います</td>
+<td>在动力电气公司只有一个外国员工</td>
+</tr>
+<tr>
+<td>休みは　日曜日　だけです</td>
+<td>只有星期日休息</td>
 </tr>
 </tbody>
 </table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/16/参数估计与矩阵运算基础/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/16/参数估计与矩阵运算基础/" itemprop="url">参数估计与矩阵运算基础</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-16T10:30:59+08:00">
+                2018-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Math/" itemprop="url" rel="index">
+                    <span itemprop="name">Math</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Math/Basic/" itemprop="url" rel="index">
+                    <span itemprop="name">Basic</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="期望"><a href="#期望" class="headerlink" title="期望"></a>期望</h2><p>无条件成立：<br>$$E(kX)=kE(X)$$<br>$$E(X+Y)=E(X)+E(Y)$$<br>若X和Y相互独立:<br>$$E(XY)=E(X)E(Y)$$<br><strong><em>反之不成立，只能说明X和Y不相关</em></strong><br>$$离散型：E(X)=\sum_ix_ip<em>i$$<br>$$连续型：E(X)=\int</em>{-\infty}^\infty xf(x)dx$$</p>
+<h2 id="方差"><a href="#方差" class="headerlink" title="方差"></a>方差</h2><p>$$Var(X)=E{[x-e(x)]^2}$$<br>无条件成立<br>$$Var(c)=0$$<br>$$Var(X+c)=Var(X)$$<br>$$Var(kX)=k^2Var(X)$$<br>若X和Y相互独立：<br>$$Var(X+Y)=Var(X)+Var(Y)$$</p>
+<h2 id="协方差"><a href="#协方差" class="headerlink" title="协方差"></a>协方差</h2><p>$$Cov(X,Y)=E{[X-E(X)][Y-E(Y)]}$$<br>性质：<br>$$Cov(X,Y)=Cov(Y,X)$$<br>$$Cov(aX+b,cY+d)=acCov(X,Y)$$<br>$$Cov(X_1+X_2,Y)=Cov(X_1,Y)+Cov(X_2,Y)$$<br>$$Cov(X,Y)=E(XY)-E(X)E(Y)$$</p>
+<h2 id="矩"><a href="#矩" class="headerlink" title="矩"></a>矩</h2><h3 id="k阶原点矩"><a href="#k阶原点矩" class="headerlink" title="k阶原点矩"></a>k阶原点矩</h3><p>$$E(X^k)$$</p>
+<h3 id="k阶中心距"><a href="#k阶中心距" class="headerlink" title="k阶中心距"></a>k阶中心距</h3><p>$$E{[X-E(X)]^k}$$</p>
+<ul>
+<li>期望 = 一阶原点矩</li>
+<li>方差 = 二阶中心距</li>
+<li>变异系数（Coefficient of Variation） = 标准差和期望的比值</li>
+<li>偏度SKew = 三阶</li>
+<li>峰度Kurtosis = 四阶</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/python语法小结（四）正则表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/10/python语法小结（四）正则表达式/" itemprop="url">python语法小结（四）正则表达式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-10T10:40:55+08:00">
+                2018-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Grammer/" itemprop="url" rel="index">
+                    <span itemprop="name">Grammer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><h3 id="字符规则"><a href="#字符规则" class="headerlink" title="字符规则"></a>字符规则</h3><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.</td>
+<td>匹配任意1个字符（除了\n）</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>匹配[]中列举的字符</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配数字，即0-9</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配非数字</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配空白，即空格，tab</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配非空白</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配单词字符，a-z，A-Z,0-9,-</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配非单词字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="量词规则"><a href="#量词规则" class="headerlink" title="量词规则"></a>量词规则</h3><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*</td>
+<td>匹配前一个字符出爱心纳0次或者无限次，即可有可无</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前一个字符出现1次或者无限次，即至少有1次</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配前一个字符出现1次或者0次，即要么有一次，要么没有</td>
+</tr>
+<tr>
+<td>{m}</td>
+<td>匹配前一个字符出现m次</td>
+</tr>
+<tr>
+<td>{m,}</td>
+<td>匹配前一个字符至少出现m次</td>
+</tr>
+<tr>
+<td>{m,n}</td>
+<td>匹配前一个字符出现从m到n次</td>
+</tr>
+</tbody>
+</table>
+<h3 id="边界规则"><a href="#边界规则" class="headerlink" title="边界规则"></a>边界规则</h3><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>^</td>
+<td>匹配字符串开头</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串结尾</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配一个单词的边界</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>匹配非单词边界</td>
+</tr>
+</tbody>
+</table>
+<h3 id="分组规则"><a href="#分组规则" class="headerlink" title="分组规则"></a>分组规则</h3><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>丨</td>
+<td>匹配左右任意一个表达式</td>
+</tr>
+<tr>
+<td>(ab)</td>
+<td>将括号中字符作为一个分组</td>
+</tr>
+<tr>
+<td>\num</td>
+<td>引用分组num匹配到的字符串</td>
+</tr>
+<tr>
+<td>(?P<name>)</name></td>
+<td>分组起别名</td>
+</tr>
+<tr>
+<td>(?P=name)</td>
+<td>引用别名为name的分组匹配到的字符串</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/09/python语法小结（三）进程和线程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/09/python语法小结（三）进程和线程/" itemprop="url">python语法小结（三）进程、线程和协程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-09T13:52:44+08:00">
+                2018-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Grammer/" itemprop="url" rel="index">
+                    <span itemprop="name">Grammer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><ul>
+<li>进程是程序的一次静态执行过程，占用特定的地址空间</li>
+<li>每个进程都是独立的，有3部分组成：cpu，data，code</li>
+<li>缺点：内存的浪费，cpu的负担</li>
+<li>数据区、代码区、堆、栈</li>
+</ul>
+<h3 id="fork多进程"><a href="#fork多进程" class="headerlink" title="fork多进程"></a>fork多进程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">id = os.fork()</span><br><span class="line"><span class="comment"># 以下代码两个进程都会独立执行，互不影响</span></span><br><span class="line"><span class="keyword">if</span> id &lt;<span class="number">0</span>:</span><br><span class="line">    print(<span class="string">'fork调用失败'</span>)</span><br><span class="line"><span class="keyword">elif</span> id==<span class="number">0</span>: <span class="comment"># fork执行后，子进程返回0</span></span><br><span class="line">    print(<span class="string">"我是子进程%s"</span>%os.getpid())</span><br><span class="line"><span class="keyword">else</span>: <span class="comment"># fork执行后，父进程返回子进程pid</span></span><br><span class="line">    print(<span class="string">"我是父进程%s"</span>%os.getpid())</span><br><span class="line"></span><br><span class="line">print(<span class="string">"excute something"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="通过Process类创建多进程"><a href="#通过Process类创建多进程" class="headerlink" title="通过Process类创建多进程"></a>通过Process类创建多进程</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span>  Process</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run_proc</span><span class="params">(name)</span>:</span></span><br><span class="line">    print(<span class="string">'子进程运行中，name=%s， pid=%d'</span>%(name, os.getpid()))</span><br><span class="line"></span><br><span class="line">print(<span class="string">'父进程id：%s'</span>%os.getpid())</span><br><span class="line">p = Process(target=run_proc, args=(<span class="string">'test'</span>,))</span><br><span class="line">print(<span class="string">'子进程将要执行'</span>)</span><br><span class="line">p.start() <span class="comment"># 子进程只执行函数内代码</span></span><br><span class="line">p.join() <span class="comment"># 等待子进程结束才进行下一步</span></span><br><span class="line">print(<span class="string">'子进程已结束'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="进程池"><a href="#进程池" class="headerlink" title="进程池"></a>进程池</h3><p>当需要创建的子进程数量不多时，可以直接利用multiprocessing中的Process动态生成多个进程，单如果是上百上千个目标，手动去创建进程的工作量巨大，此时就可以用到multiprocessing模块提供的Pool方法。<br>初始化Pool时，可以指定一个最大进程数，当有新的请求提交到Pool中时，如果池还没有满，那么就会创建一个新的进程用来执行该请求；单如果池中的进程数已经达到指定的最大值，那么该请求就会等待，知道池中有进程结束，才会创建新的进程来执行。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span>  Pool</span><br><span class="line"><span class="keyword">import</span> os, time, random</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker</span><span class="params">(msg)</span>:</span></span><br><span class="line">    t_start = time.time()</span><br><span class="line">    print(<span class="string">'%s开始执行，进程号为%d'</span>%(msg, os.getpid()))</span><br><span class="line">    time.sleep(random.random()*<span class="number">2</span>)</span><br><span class="line">    t_stop = time.time()</span><br><span class="line">    print(msg, <span class="string">'执行完毕，耗时%0.2f'</span>%(t_stop-t_start,))</span><br><span class="line"></span><br><span class="line">pool = Pool(<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">0</span>,<span class="number">10</span>):</span><br><span class="line">    pool.apply_async(worker,(x,))</span><br><span class="line">print(<span class="string">'-----start-----'</span>)</span><br><span class="line"><span class="comment"># 关闭进程池(不是马上关闭，只是不再接受新的任务)，马上终止使用terminate()</span></span><br><span class="line">pool.close()</span><br><span class="line"><span class="comment"># 等待进程池的结束</span></span><br><span class="line">pool.join()</span><br><span class="line">print(<span class="string">'进程池已结束'</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><ul>
+<li>线程又被成为轻量级进程</li>
+<li>一个进程可拥有多个并行的（concurrent）线程</li>
+<li>一个进程中的线程共享相同的内存单元/内存地址空间，因此线程间不需要额外的通信机制。</li>
+</ul>
+<h3 id="threading模块"><a href="#threading模块" class="headerlink" title="threading模块"></a>threading模块</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">saySorry</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'i am sorry'</span>)</span><br><span class="line">    time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">5</span>):</span><br><span class="line">    t = threading.Thread(target=saySorry)</span><br><span class="line">    t.start()</span><br></pre></td></tr></table></figure>
+<h3 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h3><p>!(./images/PYTHON/thread_status.jpeg)[]</p>
+<h3 id="线程共享全局变量"><a href="#线程共享全局变量" class="headerlink" title="线程共享全局变量"></a>线程共享全局变量</h3><p>在一个进程内的所有线程共享全局变量，但也导致线程非安全。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="comment"># 线程共享全局变量</span></span><br><span class="line">g_num = <span class="number">100</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker1</span><span class="params">(num)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, <span class="number">3</span>):</span><br><span class="line">        num += <span class="number">1</span></span><br><span class="line">        print(<span class="string">'in worker1,g_num=%d'</span> % num)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">worker2</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'in worker2,g_num=%d'</span> % g_num)</span><br><span class="line"></span><br><span class="line">print(<span class="string">'主线程，g_num=%s'</span> % g_num)</span><br><span class="line"><span class="comment"># 使用参数传递全局变量进去时，如果是值传递则全局变量不变，如果是引用传递一样会变</span></span><br><span class="line">w1 = threading.Thread(target=worker1, args=(g_num,))</span><br><span class="line">w1.start()</span><br><span class="line"></span><br><span class="line">w2 = threading.Thread(target=worker2)</span><br><span class="line">w2.start()</span><br></pre></td></tr></table></figure></p>
+<h3 id="线程同步（加锁）"><a href="#线程同步（加锁）" class="headerlink" title="线程同步（加锁）"></a>线程同步（加锁）</h3><p>使用threading模块中的lock类，同一时刻只允许一个线程写入。</p>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><ul>
+<li>比线程更小的执行单元</li>
+<li>某个函数，可以在任何地方保存当前函数的一些临时变量等信息，然后切换到另外一个函数中执行</li>
+<li>协程自己主动让出CPU，协程的切换只是单纯的操作CPU的上下文，比线程的切换更快速。</li>
+<li>1:N模式，一个线程作为一个容器里面放置多个协程</li>
+<li>IO密集型的程序和CPU密集型程序</li>
+</ul>
+<p><strong>pip install gevent, greenlet</strong></p>
+<h3 id="使用greenlet模块对协程进行封装"><a href="#使用greenlet模块对协程进行封装" class="headerlink" title="使用greenlet模块对协程进行封装"></a>使用greenlet模块对协程进行封装</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> greenlet <span class="keyword">import</span> greenlet</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test1</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        print(<span class="string">"---A---"</span>)</span><br><span class="line">        gr2.switch()</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test2</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        print(<span class="string">"---B---"</span>)</span><br><span class="line">        gr1.switch()</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">gr1 = greenlet(test1)</span><br><span class="line">gr2 = greenlet(test2)</span><br><span class="line"></span><br><span class="line">gr1.switch()</span><br></pre></td></tr></table></figure>
+<h3 id="使用gevent对协程进行封装"><a href="#使用gevent对协程进行封装" class="headerlink" title="使用gevent对协程进行封装"></a>使用gevent对协程进行封装</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        print(gevent.getcurrent(),i)</span><br><span class="line">        gevent.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">g1 = gevent.spawn(f, <span class="number">5</span>)</span><br><span class="line">g2 = gevent.spawn(f, <span class="number">5</span>)</span><br><span class="line">g3 = gevent.spawn(f, <span class="number">5</span>)</span><br><span class="line">g1.join()</span><br><span class="line">g2.join()</span><br><span class="line">g3.join()</span><br></pre></td></tr></table></figure>
+<h3 id="gevent下载器示例"><a href="#gevent下载器示例" class="headerlink" title="gevent下载器示例"></a>gevent下载器示例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> request</span><br><span class="line"></span><br><span class="line"><span class="comment"># 需要让gevent能够自动处理io事件，需要先打补丁</span></span><br><span class="line">monkey.patch_all()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">myDownload</span><span class="params">(url)</span>:</span></span><br><span class="line">    print(<span class="string">'GET:%s'</span> % url)</span><br><span class="line">    rep = request.urlopen(url)</span><br><span class="line">    data = rep.read()</span><br><span class="line">    print(<span class="string">'%d bytes received from %s'</span> % (len(data), url))</span><br><span class="line"></span><br><span class="line">gevent.joinall(</span><br><span class="line">    [</span><br><span class="line">        gevent.spawn(myDownload, <span class="string">'http://www.baidu.com/'</span>),</span><br><span class="line">        gevent.spawn(myDownload, <span class="string">'http://www.sina.com/'</span>),</span><br><span class="line">        gevent.spawn(myDownload, <span class="string">'http://www.163.com/'</span>),</span><br><span class="line">    ]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/08/python语法小结（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/08/python语法小结（二）/" itemprop="url">python语法小结（二）属性和内存管理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-08T16:47:48+08:00">
+                2018-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Grammer/" itemprop="url" rel="index">
+                    <span itemprop="name">Grammer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>动态语言：可以在运行的过程中，修改代码<br>静态语言：编译时已经确定好代码，运行过程中不能修改</p>
+<h3 id="为对象动态添加属性"><a href="#为对象动态添加属性" class="headerlink" title="为对象动态添加属性"></a>为对象动态添加属性</h3><p>类外使用点语法直接增加实例属性，类属性</p>
+<h3 id="为对象动态添加方法"><a href="#为对象动态添加方法" class="headerlink" title="为对象动态添加方法"></a>为对象动态添加方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name=None, age=None)</span>:</span></span><br><span class="line">    	self.name=name</span><br><span class="line">        self.age=age</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span><span class="params">(self, speed)</span>:</span></span><br><span class="line">	print(<span class="string">'123'</span>)</span><br><span class="line">    </span><br><span class="line">P1 = Person(<span class="string">'zs'</span>, <span class="string">'25'</span>)</span><br><span class="line"><span class="keyword">import</span> types</span><br><span class="line">P1.run = types.MethodType(run, P1)</span><br><span class="line">P1.run(<span class="number">180</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="为类添加类方法-静态方法"><a href="#为类添加类方法-静态方法" class="headerlink" title="为类添加类方法/静态方法"></a>为类添加类方法/静态方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@classmethod/@staticmethod</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun</span><span class="params">(cls)</span>:</span></span><br><span class="line">	print(<span class="string">'classmethod/staticmethod'</span>)</span><br><span class="line">Person.fun = fun</span><br></pre></td></tr></table></figure>
+<h3 id="限制修改对象的属性"><a href="#限制修改对象的属性" class="headerlink" title="限制修改对象的属性"></a>限制修改对象的属性</h3><p><strong>slots</strong>只对当前类起作用，继承的子类不受影响<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span><span class="params">(object)</span>:</span></span><br><span class="line">	__slots__ = (<span class="string">'name'</span>,<span class="string">'age'</span>)</span><br><span class="line"></span><br><span class="line">p = Person()</span><br><span class="line">p.score = <span class="number">100</span> <span class="comment">#报错，无法添加</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h3><ul>
+<li>装饰器函数其实是这样一个接口约束，它必须接受一个callable对象作为参数，然后返回一个callable对象。</li>
+<li>一般callable对象都是函数，但也有例外。只要某个对象重写了<strong>call</strong>()方法，那么这个对象就是callable的</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self)</span>:</span></span><br><span class="line">    	print(<span class="string">'call me!'</span>)</span><br><span class="line">t = Test()</span><br><span class="line">t()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, func)</span>:</span></span><br><span class="line">        print(<span class="string">'init'</span>)</span><br><span class="line">        print(<span class="string">'func name is %s'</span>%func.__name__)</span><br><span class="line">        self.__func = func</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">        print(<span class="string">'decorator'</span>)</span><br><span class="line">        self.__func()</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test #生成Test的一个对象，所以会调用__init__方法，并且把下面装饰的函数作为参数传进去</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'---test---'</span>)</span><br><span class="line"></span><br><span class="line">test() <span class="comment">#实际调用的是Test一个对象的__call__方法</span></span><br></pre></td></tr></table></figure>
+<h3 id="属性访问拦截器"><a href="#属性访问拦截器" class="headerlink" title="属性访问拦截器"></a>属性访问拦截器</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">School</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, subject1)</span>:</span></span><br><span class="line">        self.subject1 = subject1</span><br><span class="line">        self.subject2 = <span class="string">'cpp'</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getattribute__</span><span class="params">(self, item)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> item == <span class="string">'subject1'</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">'redirect python'</span> <span class="comment"># 拦截并修改返回值</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> object.__getattribute__(self, item) <span class="comment">#正常返回值</span></span><br><span class="line"></span><br><span class="line">s = School(<span class="string">'python'</span>)</span><br><span class="line">print(s.subject1)</span><br><span class="line">print(s.subject2)</span><br></pre></td></tr></table></figure>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><h3 id="对象池"><a href="#对象池" class="headerlink" title="对象池"></a>对象池</h3><p>python为了优化速度，使用对象池，即等值变量使用引用计数，不重复开辟内存空间</p>
+<h3 id="引用计数"><a href="#引用计数" class="headerlink" title="引用计数"></a>引用计数</h3><p>引用计数+1：</p>
+<ul>
+<li>对象被创建，a=24</li>
+<li>对象被引用, b=a</li>
+<li>对象呗作为参数传入到一个函数中, func(a)</li>
+<li>对象作为一个元素，存储在容器中, list = [a]</li>
+</ul>
+<p>引用计数-1：</p>
+<ul>
+<li>对象的别名被显式小会，del a</li>
+<li>对象别名被赋予新的对象，a=24</li>
+<li>对象离开作用域，函数func执行完毕</li>
+<li>对象所在容器被销毁，或从容器中删除对象</li>
+</ul>
+<p>查看引用计数<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.getrefcount(arg)</span><br></pre></td></tr></table></figure></p>
+<h3 id="垃圾回收"><a href="#垃圾回收" class="headerlink" title="垃圾回收"></a>垃圾回收</h3><p>gc模块唯一处理不了的是循环引用的类都有<strong>del</strong>方法，所以在项目中要避免定义<strong>del</strong>方法<br>触发点：</p>
+<ul>
+<li>调用gc.collect()</li>
+<li>当gc模块的技术器达到阈值的时候</li>
+<li>程序退出的时候</li>
+</ul>
+<h2 id="内建函数"><a href="#内建函数" class="headerlink" title="内建函数"></a>内建函数</h2><h3 id="高级函数"><a href="#高级函数" class="headerlink" title="高级函数"></a>高级函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">range(start, stop [, step]) <span class="comment">#默认是从0开始，左闭右开</span></span><br><span class="line">map(function, sequence[, sequence, ...])</span><br><span class="line">filter(function <span class="keyword">or</span> <span class="keyword">None</span>, sequence)</span><br><span class="line"><span class="comment"># reduce函数在python3中需要引用 from functools import reduce</span></span><br><span class="line">reduce(function, sequence[, initial])</span><br></pre></td></tr></table></figure>
+<h3 id="partial偏函数"><a href="#partial偏函数" class="headerlink" title="partial偏函数"></a>partial偏函数</h3><p>把一个函数的某些参数设置成默认值，返回一个新的函数，调用这个新函数会更简单<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">showarg</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    print(args)</span><br><span class="line">    print(kwargs)</span><br><span class="line"></span><br><span class="line">p1 = functools.partial(showarg, <span class="number">1</span>, a=<span class="string">'zs'</span>)</span><br><span class="line">p1()</span><br><span class="line">p1(<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>)</span><br></pre></td></tr></table></figure></p>
+<h3 id="wraps包装器函数"><a href="#wraps包装器函数" class="headerlink" title="wraps包装器函数"></a>wraps包装器函数</h3><p>使用装饰器是，被装饰后的函数其实已经是另外一个函数了（函数名等函数属性会发生改变），wraps的装饰器可以消除这样的副作用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">note</span><span class="params">(func)</span>:</span></span><br><span class="line">    <span class="string">"note function"</span></span><br><span class="line"><span class="meta">    @functools.wraps(func)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="string">"wrapper function"</span></span><br><span class="line">        print(<span class="string">"note something"</span>)</span><br><span class="line">        <span class="keyword">return</span> func()</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@note</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">"test function"</span></span><br><span class="line">    print(<span class="string">"i am test"</span>)</span><br><span class="line">    </span><br><span class="line">test()</span><br><span class="line">print(test.__doc__)</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/python语法小结（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/05/python语法小结（一）/" itemprop="url">python语法小结（一）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T23:27:15+08:00">
+                2018-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Grammer/" itemprop="url" rel="index">
+                    <span itemprop="name">Grammer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><h3 id="属性和方法的私有化"><a href="#属性和方法的私有化" class="headerlink" title="属性和方法的私有化"></a>属性和方法的私有化</h3><ul>
+<li>python中没有想C++中public和private这些关键字来区别共有属性和私有属性;</li>
+<li>它是以属性命名方式来区分，如果在属性名前面加2个下划线’__’，则表明该属性是私有属性，类外无法调用，否则为公有属性，方法也一样。</li>
+</ul>
+<h3 id="init-和-del"><a href="#init-和-del" class="headerlink" title="init() 和 del()"></a><strong>init</strong>() 和 <strong>del</strong>()</h3><p>python解析器会在创建对象是自动调用<strong>init</strong>(),在销毁对象是自动调用<strong>del</strong>();</p>
+<h3 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h3><ul>
+<li>多继承时属性方法继承的优先级按继承时顺序决定，使用<strong>mro</strong>()查看对象的继承优先级。</li>
+<li>父类的私有属性，子类无法继承；</li>
+<li>子类在重写父类方法时会覆盖父类方法的调用，但可以通过super().方法主动调用</li>
+</ul>
+<h3 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h3><ul>
+<li>所有实例对象都拥有的属性，在内存中只存在一个副本。</li>
+<li>类属性可以直接通过类访问，也可以通过类的对象访问。</li>
+<li>类属性的修改只能通过类来修改，通过对象本质上并没有修改类属性，而是定义了一个同名的对象属性。</li>
+</ul>
+<h3 id="类方法和静态方法"><a href="#类方法和静态方法" class="headerlink" title="类方法和静态方法"></a>类方法和静态方法</h3><ul>
+<li>类方法定义使用@classmethod装饰器，第一个参数必须是类对象，也可以被实例访问。</li>
+<li>静态方法是一种特殊的类方法，定义使用@staticmethod装饰器，没有默认传递的参数，访问类属性时直接使用类名访问。</li>
+</ul>
+<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><h3 id="new-和init-方法"><a href="#new-和init-方法" class="headerlink" title="new()和init()方法"></a><strong>new</strong>()和<strong>init</strong>()方法</h3><ul>
+<li><strong>new</strong>(cls)是静态方法，当对象构建的时候有python解释器自动调用，需要带参数cls。该方法必须返回当前类的对象，return object.<strong>new</strong>(cls),之后会自动调用<strong>init</strong>()方法，对对象进行初始化，无返回则不调用<strong>init</strong>()。</li>
+</ul>
+<h3 id="通过new-实现单例模式"><a href="#通过new-实现单例模式" class="headerlink" title="通过new()实现单例模式"></a>通过<strong>new</strong>()实现单例模式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">()</span>:</span></span><br><span class="line">    __instance = <span class="keyword">None</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> cls.__instance:</span><br><span class="line">            cls.__instance = object.__new_(cls)</span><br><span class="line">            <span class="keyword">return</span> cls.__instance</span><br></pre></td></tr></table></figure>
+<h3 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h3><ul>
+<li>多个异常捕捉时，按顺序捕捉</li>
+<li>最后通过finally执行需要的代码（无论是否捕捉到异常）<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordException</span><span class="params">(Exception)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, pw, min_length)</span>:</span></span><br><span class="line">        self.password = pw</span><br><span class="line">        self.min_length = min_length</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'密码错误，最小长度为%s'</span>%(self.min_length)</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reg</span><span class="params">(password)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(password)&lt;<span class="number">6</span>:</span><br><span class="line">        <span class="keyword">raise</span> PasswordException(password, <span class="number">6</span>)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    reg(<span class="string">'123'</span>)</span><br><span class="line"><span class="keyword">except</span> PasswordExceptin <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">print</span> e</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">print</span> e</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'done'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><h3 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h3><ul>
+<li>g = (x for x in range(5));next(g)</li>
+<li>yield(python3)</li>
+</ul>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>locals -&gt; enclosing function -&gt; globals -&gt; builtins</p>
+<ul>
+<li>查看局部变量：locals()</li>
+<li>查看全局变量：globals()</li>
+<li>查看内建模块：dir(<strong>builtin</strong>)</li>
+</ul>
+<h3 id="闭包-1"><a href="#闭包-1" class="headerlink" title="闭包"></a>闭包</h3><p>内部函数对外部函数作用域里的变量的引用（非全局变量），则称内部函数为闭包。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outter</span><span class="params">(num)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(num_in)</span>:</span></span><br><span class="line">        print(<span class="string">"num_in is %d"</span>%num_in)</span><br><span class="line">        <span class="keyword">return</span> num+num_in</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"><span class="comment">#调用</span></span><br><span class="line">outter(<span class="number">10</span>)(<span class="number">20</span>)</span><br><span class="line"><span class="comment">#或者</span></span><br><span class="line">fun=outter(<span class="number">10</span>)</span><br><span class="line">fun(<span class="number">20</span>)</span><br></pre></td></tr></table></figure></p>
+<p>应用于两次变量传递的应用</p>
+<h3 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h3><p>装饰器其实就是一个闭包，把一个函数当做参数，然后返回一个替代版的函数<br>2个特性：</p>
+<ul>
+<li>可以把被装饰的函数替换成其他函数</li>
+<li>可以在加载模块时立即执行<br>功能：</li>
+<li>引入日志</li>
+<li>函数执行时间统计</li>
+<li>执行函数前预备处理</li>
+<li>执行函数后清理功能</li>
+<li>权限校验</li>
+<li>缓存</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outter</span><span class="params">(func)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">    	<span class="comment">#处理</span></span><br><span class="line">        func()</span><br><span class="line">    <span class="keyword">return</span> inner()</span><br><span class="line">    </span><br><span class="line"><span class="meta">@outter</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun2</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">print</span> <span class="string">'123'</span></span><br></pre></td></tr></table></figure>
+<h3 id="通用装饰器-不定长参数"><a href="#通用装饰器-不定长参数" class="headerlink" title="通用装饰器(不定长参数)"></a>通用装饰器(不定长参数)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normal_decorator</span><span class="params">(func)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">proxy</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    	<span class="comment">#处理</span></span><br><span class="line">       result = func(*args, **kwargs)</span><br><span class="line">       <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> proxy</span><br></pre></td></tr></table></figure>
 
           
         
@@ -3720,7 +3305,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -3770,7 +3355,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">67</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -3781,7 +3366,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -3792,7 +3377,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

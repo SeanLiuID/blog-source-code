@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,Grammer," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="面向对象属性和方法的私有化 python中没有想C++中public和private这些关键字来区别共有属性和私有属性; 它是以属性命名方式来区分，如果在属性名前面加2个下划线’__’，则表明该属性是私有属性，类外无法调用，否则为公有属性，方法也一样。  init() 和 del()python解析器会在创建对象是自动调用init(),在销毁对象是自动调用del(); 多继承 多继承时属性方法继承">
+<meta name="keywords" content="Python,Grammer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python语法小结（一）">
+<meta property="og:url" content="http://yoursite.com/2018/05/05/python语法小结（一）/index.html">
+<meta property="og:site_name" content="Sean&#39;s Notes">
+<meta property="og:description" content="面向对象属性和方法的私有化 python中没有想C++中public和private这些关键字来区别共有属性和私有属性; 它是以属性命名方式来区分，如果在属性名前面加2个下划线’__’，则表明该属性是私有属性，类外无法调用，否则为公有属性，方法也一样。  init() 和 del()python解析器会在创建对象是自动调用init(),在销毁对象是自动调用del(); 多继承 多继承时属性方法继承">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-08T08:46:43.113Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python语法小结（一）">
+<meta name="twitter:description" content="面向对象属性和方法的私有化 python中没有想C++中public和private这些关键字来区别共有属性和私有属性; 它是以属性命名方式来区分，如果在属性名前面加2个下划线’__’，则表明该属性是私有属性，类外无法调用，否则为公有属性，方法也一样。  init() 和 del()python解析器会在创建对象是自动调用init(),在销毁对象是自动调用del(); 多继承 多继承时属性方法继承">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/05/python语法小结（一）/"/>
+
+
+
+
+
+  <title>python语法小结（一） | Sean's Notes</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sean's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/python语法小结（一）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sean Liu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python语法小结（一）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-05T23:27:15+08:00">
+                2018-05-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Grammer/" itemprop="url" rel="index">
+                    <span itemprop="name">Grammer</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h2><h3 id="属性和方法的私有化"><a href="#属性和方法的私有化" class="headerlink" title="属性和方法的私有化"></a>属性和方法的私有化</h3><ul>
+<li>python中没有想C++中public和private这些关键字来区别共有属性和私有属性;</li>
+<li>它是以属性命名方式来区分，如果在属性名前面加2个下划线’__’，则表明该属性是私有属性，类外无法调用，否则为公有属性，方法也一样。</li>
+</ul>
+<h3 id="init-和-del"><a href="#init-和-del" class="headerlink" title="init() 和 del()"></a><strong>init</strong>() 和 <strong>del</strong>()</h3><p>python解析器会在创建对象是自动调用<strong>init</strong>(),在销毁对象是自动调用<strong>del</strong>();</p>
+<h3 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h3><ul>
+<li>多继承时属性方法继承的优先级按继承时顺序决定，使用<strong>mro</strong>()查看对象的继承优先级。</li>
+<li>父类的私有属性，子类无法继承；</li>
+<li>子类在重写父类方法时会覆盖父类方法的调用，但可以通过super().方法主动调用</li>
+</ul>
+<h3 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h3><ul>
+<li>所有实例对象都拥有的属性，在内存中只存在一个副本。</li>
+<li>类属性可以直接通过类访问，也可以通过类的对象访问。</li>
+<li>类属性的修改只能通过类来修改，通过对象本质上并没有修改类属性，而是定义了一个同名的对象属性。</li>
+</ul>
+<h3 id="类方法和静态方法"><a href="#类方法和静态方法" class="headerlink" title="类方法和静态方法"></a>类方法和静态方法</h3><ul>
+<li>类方法定义使用@classmethod装饰器，第一个参数必须是类对象，也可以被实例访问。</li>
+<li>静态方法是一种特殊的类方法，定义使用@staticmethod装饰器，没有默认传递的参数，访问类属性时直接使用类名访问。</li>
+</ul>
+<h2 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h2><h3 id="new-和init-方法"><a href="#new-和init-方法" class="headerlink" title="new()和init()方法"></a><strong>new</strong>()和<strong>init</strong>()方法</h3><ul>
+<li><strong>new</strong>(cls)是静态方法，当对象构建的时候有python解释器自动调用，需要带参数cls。该方法必须返回当前类的对象，return object.<strong>new</strong>(cls),之后会自动调用<strong>init</strong>()方法，对对象进行初始化，无返回则不调用<strong>init</strong>()。</li>
+</ul>
+<h3 id="通过new-实现单例模式"><a href="#通过new-实现单例模式" class="headerlink" title="通过new()实现单例模式"></a>通过<strong>new</strong>()实现单例模式</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">()</span>:</span></span><br><span class="line">    __instance = <span class="keyword">None</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span><span class="params">(cls)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> cls.__instance:</span><br><span class="line">            cls.__instance = object.__new_(cls)</span><br><span class="line">            <span class="keyword">return</span> cls.__instance</span><br></pre></td></tr></table></figure>
+<h3 id="自定义异常"><a href="#自定义异常" class="headerlink" title="自定义异常"></a>自定义异常</h3><ul>
+<li>多个异常捕捉时，按顺序捕捉</li>
+<li>最后通过finally执行需要的代码（无论是否捕捉到异常）<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PasswordException</span><span class="params">(Exception)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, pw, min_length)</span>:</span></span><br><span class="line">        self.password = pw</span><br><span class="line">        self.min_length = min_length</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'密码错误，最小长度为%s'</span>%(self.min_length)</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reg</span><span class="params">(password)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(password)&lt;<span class="number">6</span>:</span><br><span class="line">        <span class="keyword">raise</span> PasswordException(password, <span class="number">6</span>)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    reg(<span class="string">'123'</span>)</span><br><span class="line"><span class="keyword">except</span> PasswordExceptin <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">print</span> e</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">print</span> e</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">'done'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><h3 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h3><ul>
+<li>g = (x for x in range(5));next(g)</li>
+<li>yield(python3)</li>
+</ul>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>locals -&gt; enclosing function -&gt; globals -&gt; builtins</p>
+<ul>
+<li>查看局部变量：locals()</li>
+<li>查看全局变量：globals()</li>
+<li>查看内建模块：dir(<strong>builtin</strong>)</li>
+</ul>
+<h3 id="闭包-1"><a href="#闭包-1" class="headerlink" title="闭包"></a>闭包</h3><p>内部函数对外部函数作用域里的变量的引用（非全局变量），则称内部函数为闭包。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outter</span><span class="params">(num)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">(num_in)</span>:</span></span><br><span class="line">        print(<span class="string">"num_in is %d"</span>%num_in)</span><br><span class="line">        <span class="keyword">return</span> num+num_in</span><br><span class="line">    <span class="keyword">return</span> inner</span><br><span class="line"><span class="comment">#调用</span></span><br><span class="line">outter(<span class="number">10</span>)(<span class="number">20</span>)</span><br><span class="line"><span class="comment">#或者</span></span><br><span class="line">fun=outter(<span class="number">10</span>)</span><br><span class="line">fun(<span class="number">20</span>)</span><br></pre></td></tr></table></figure></p>
+<p>应用于两次变量传递的应用</p>
+<h3 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h3><p>装饰器其实就是一个闭包，把一个函数当做参数，然后返回一个替代版的函数<br>2个特性：</p>
+<ul>
+<li>可以把被装饰的函数替换成其他函数</li>
+<li>可以在加载模块时立即执行<br>功能：</li>
+<li>引入日志</li>
+<li>函数执行时间统计</li>
+<li>执行函数前预备处理</li>
+<li>执行函数后清理功能</li>
+<li>权限校验</li>
+<li>缓存</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">outter</span><span class="params">(func)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">inner</span><span class="params">()</span>:</span></span><br><span class="line">    	<span class="comment">#处理</span></span><br><span class="line">        func()</span><br><span class="line">    <span class="keyword">return</span> inner()</span><br><span class="line">    </span><br><span class="line"><span class="meta">@outter</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun2</span><span class="params">()</span>:</span></span><br><span class="line">	<span class="keyword">print</span> <span class="string">'123'</span></span><br></pre></td></tr></table></figure>
+<h3 id="通用装饰器-不定长参数"><a href="#通用装饰器-不定长参数" class="headerlink" title="通用装饰器(不定长参数)"></a>通用装饰器(不定长参数)</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normal_decorator</span><span class="params">(func)</span>:</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">proxy</span><span class="params">(*args, **kwargs)</span>:</span></span><br><span class="line">    	<span class="comment">#处理</span></span><br><span class="line">       result = func(*args, **kwargs)</span><br><span class="line">       <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> proxy</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Grammer/" rel="tag"># Grammer</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/27/支持向量机SVM/" rel="next" title="支持向量机SVM">
+                <i class="fa fa-chevron-left"></i> 支持向量机SVM
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/08/python语法小结（二）/" rel="prev" title="python语法小结（二）属性和内存管理">
+                python语法小结（二）属性和内存管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Sean Liu" />
+            
+              <p class="site-author-name" itemprop="name">Sean Liu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#面向对象"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x9762;&#x5411;&#x5BF9;&#x8C61;" class="headerlink" title="&#x9762;&#x5411;&#x5BF9;&#x8C61;"></a>&#x9762;&#x5411;&#x5BF9;&#x8C61;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性和方法的私有化"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#x7684;&#x79C1;&#x6709;&#x5316;" class="headerlink" title="&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#x7684;&#x79C1;&#x6709;&#x5316;"></a>&#x5C5E;&#x6027;&#x548C;&#x65B9;&#x6CD5;&#x7684;&#x79C1;&#x6709;&#x5316;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#init-和-del"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#init-&#x548C;-del" class="headerlink" title="init() &#x548C; del()"></a><strong>init</strong>() &#x548C; <strong>del</strong>()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多继承"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x591A;&#x7EE7;&#x627F;" class="headerlink" title="&#x591A;&#x7EE7;&#x627F;"></a>&#x591A;&#x7EE7;&#x627F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类属性"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x7C7B;&#x5C5E;&#x6027;" class="headerlink" title="&#x7C7B;&#x5C5E;&#x6027;"></a>&#x7C7B;&#x5C5E;&#x6027;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类方法和静态方法"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x7C7B;&#x65B9;&#x6CD5;&#x548C;&#x9759;&#x6001;&#x65B9;&#x6CD5;" class="headerlink" title="&#x7C7B;&#x65B9;&#x6CD5;&#x548C;&#x9759;&#x6001;&#x65B9;&#x6CD5;"></a>&#x7C7B;&#x65B9;&#x6CD5;&#x548C;&#x9759;&#x6001;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;" class="headerlink" title="&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;"></a>&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#new-和init-方法"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#new-&#x548C;init-&#x65B9;&#x6CD5;" class="headerlink" title="new()&#x548C;init()&#x65B9;&#x6CD5;"></a><strong>new</strong>()&#x548C;<strong>init</strong>()&#x65B9;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过new-实现单例模式"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x901A;&#x8FC7;new-&#x5B9E;&#x73B0;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;" class="headerlink" title="&#x901A;&#x8FC7;new()&#x5B9E;&#x73B0;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;"></a>&#x901A;&#x8FC7;<strong>new</strong>()&#x5B9E;&#x73B0;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义异常"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x81EA;&#x5B9A;&#x4E49;&#x5F02;&#x5E38;" class="headerlink" title="&#x81EA;&#x5B9A;&#x4E49;&#x5F02;&#x5E38;"></a>&#x81EA;&#x5B9A;&#x4E49;&#x5F02;&#x5E38;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闭包"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x95ED;&#x5305;" class="headerlink" title="&#x95ED;&#x5305;"></a>&#x95ED;&#x5305;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#生成器"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x751F;&#x6210;&#x5668;" class="headerlink" title="&#x751F;&#x6210;&#x5668;"></a>&#x751F;&#x6210;&#x5668;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x4F5C;&#x7528;&#x57DF;" class="headerlink" title="&#x4F5C;&#x7528;&#x57DF;"></a>&#x4F5C;&#x7528;&#x57DF;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包-1"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#x95ED;&#x5305;-1" class="headerlink" title="&#x95ED;&#x5305;"></a>&#x95ED;&#x5305;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰器"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#&#x88C5;&#x9970;&#x5668;" class="headerlink" title="&#x88C5;&#x9970;&#x5668;"></a>&#x88C5;&#x9970;&#x5668;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通用装饰器-不定长参数"><span class="nav-number">3.5.</span> <span class="nav-text"><a href="#&#x901A;&#x7528;&#x88C5;&#x9970;&#x5668;-&#x4E0D;&#x5B9A;&#x957F;&#x53C2;&#x6570;" class="headerlink" title="&#x901A;&#x7528;&#x88C5;&#x9970;&#x5668;(&#x4E0D;&#x5B9A;&#x957F;&#x53C2;&#x6570;)"></a>&#x901A;&#x7528;&#x88C5;&#x9970;&#x5668;(&#x4E0D;&#x5B9A;&#x957F;&#x53C2;&#x6570;)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean Liu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
